@@ -7,6 +7,7 @@ function Map.create()
     setmetatable(self,Map)
     
     self.shots = {}
+    self.mobs = {}
     
     return self
 end
@@ -20,9 +21,22 @@ function Map:update(dt)
             table.remove(self.shots,i)
         end
     end
+
+    for i,m in ipairs(self.mobs) do
+        m:update(dt)
+        
+        if m.state == Mob.States.DIE then
+            table.remove(self.mobs,i)
+        end
+    end
+
 end
 
 function Map:draw()
+    for i,m in ipairs(self.mobs) do
+        m:draw()
+    end
+
     for i,s in ipairs(self.shots) do
         s:draw()
     end    
@@ -38,6 +52,12 @@ function Map:createShot( defstr, x, y, phi, v, flyfn )
     local newShot = Shot.create( defstr, x, y, dx, dy, v, flyfn )
         
     table.insert(self.shots, newShot)
+end
+
+function Map:createMob( defstr, x, y, dy )
+    local newMob = Ship.create( defstr, x, y, dy )
+
+    table.insert(self.mobs, newMob)
 end
 
 return Map

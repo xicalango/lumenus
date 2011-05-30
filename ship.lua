@@ -84,4 +84,8 @@ function Ship:shoot(dt,phi)
     end
 end
 
+function Ship:collides(x,y)
+    return x > self.x - self.graphics.offset[1] and x < self.x + self.graphics.offset[1] and y > self.y - self.graphics.offset[2] and y < self.y + self.graphics.offest[2]
+end
+
 return Ship
