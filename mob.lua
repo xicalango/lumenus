@@ -1,5 +1,5 @@
 
-local mobs = require('def/mobs.lua')
+local mobs = require('defs/mobs.lua')
 
 local Mob = {}
 Mob.__index = Mob
@@ -23,6 +23,7 @@ function Mob.create(defstr ,x, y, dy)
     self.flyfn = self.def.flyfn or util.move
 
     self.ship = Ship.create(self.def.tint)
+    print("a",self.def.tint)
 
     for pos,weapon in pairs(self.def.weapons) do
         self.ship:mountWeapon( pos, weapon )

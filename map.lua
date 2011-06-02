@@ -9,6 +9,8 @@ function Map.create()
     self.shots = {}
     self.mobs = {}
     
+    self:createMob( "small", 100, -10, 1)
+
     return self
 end
 
@@ -55,7 +57,7 @@ function Map:createShot( defstr, x, y, phi, v, flyfn )
 end
 
 function Map:createMob( defstr, x, y, dy )
-    local newMob = Ship.create( defstr, x, y, dy )
+    local newMob = Mob.create( defstr, x, y, dy )
 
     table.insert(self.mobs, newMob)
 end

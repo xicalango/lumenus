@@ -9,7 +9,7 @@ Shot.States = {
     DIE = 1
 }
 
-Shot.Owners = {
+Shot.Owner = {
     PLAYER = 0,
     MOB = 1
 }
