@@ -66,8 +66,18 @@ function Mob:update(dt)
     self.ship:update(dt,self.def.flyfn)
     --self.x, self.y = self.flyfn( dt, self.x, self.y, self.dx, self.dy, self.def.speed )
 
+    if math.random(self.def.shotChance) == 1 then
+        self.ship:shoot(dt, 180)
+    end
+    
+    if player.ship:collides( self.ship.x, self.ship.y ) then
+        player:destroy()
+        self.state = Mob.States.DIE
+    end
+    
     if self.ship.y > 600 then
         self.state = Mob.States.DIE
+        player.score = player.score - self.def.score
     end
 end
 

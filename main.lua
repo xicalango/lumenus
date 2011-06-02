@@ -28,7 +28,7 @@ keyConfig = {
 
 borders = {
     left = 0,
-    right = 400
+    right = 500
 }
 
 owner = {

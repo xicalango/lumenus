@@ -8,8 +8,8 @@ local graphics = {
         offset = {16,12},
         tint = {0,0,255},
         weaponOffset = {
-            left = {-16,-12},
-            right = {16,-12},
+            left = {-16,-2},
+            right = {16,-2},
             center = {0,-12}
         }
     }
@@ -20,19 +20,30 @@ function Player.create()
     
     self.ship = Ship.create( graphics, owner.player )
 
-    --self.ship:mountWeapon("left","big")
-    self.ship:mountWeapon("center","big")
-    --self.ship:mountWeapon("right","big")
+    self.ship:mountWeapon("left","followMob")
+    self.ship:mountWeapon("center","small")
+    self.ship:mountWeapon("right","followMob")
     
     self.fireTrigger = false
     
     self.score = 0
     
+    self.lives = 3
+    
+    self.invincible = true
+    self.invincibleTimer = 1
+    
     return self
 end
 
 function Player:draw()
-    self.ship:draw()
+    if self. invincible then
+        if framecounter % 2 ~= 0 then
+            self.ship:draw()
+        end
+    else
+        self.ship:draw()
+    end
 end
 
 function Player:keypressed(key)
@@ -71,10 +82,37 @@ function Player:update(dt)
         self.ship:shoot(dt, 0)
     end
     
+    if self.invincible then
+        self.invincibleTimer = self.invincibleTimer - dt
+        if self.invincibleTimer <= 0 then
+            self.invincible = false
+        end
+    end
+    
 end
 
 function Player:damage(dmg)
+    if self.invincible then 
+        return
+    end
+
+    self:destroy()
+end
+
+function Player:destroy()
+    if self.invincible then 
+        return
+    end
+
+    self.lives = self.lives - 1
+    self.invincible = true
+    self.invincibleTimer = 3
     
+    self.score = self.score - 500
+    
+    if self.lives <= 0 then
+        love.event.push("q")
+    end
 end
 
 return Player

@@ -39,7 +39,7 @@ function Map:update(dt)
     if self.createMobTimer <= 0 then
         self.createMobTimer = math.random()*2
         
-        self:createMob( "medium" , math.random(borders.left, borders.right), -10, 1)
+        self:createMob( "hard" , math.random(borders.left, borders.right), -10, 1)
     end
     
 end
@@ -70,6 +70,10 @@ function Map:createMob( defstr, x, y, dy )
     local newMob = Mob.create( defstr, x, y, dy )
 
     table.insert(self.mobs, newMob)
+end
+
+function Map:getFirstMob()
+    return self.mobs[1]
 end
 
 return Map

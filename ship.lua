@@ -70,7 +70,7 @@ end
 function Ship:shoot(dt,phi)
     for k,w in pairs(self.weapons) do
         if w.weapon then
-            w.weapon:shoot(dt,self.x + w.offset[1] ,self.y + w.offset[2],phi)
+            w.weapon:shoot(dt,self.x + w.offset[1] ,self.y + w.offset[2],phi, (self.dy * self.speed))
         end
     end
 end
