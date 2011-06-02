@@ -28,7 +28,12 @@ keyConfig = {
 
 borders = {
     left = 0,
-    right = 600
+    right = 400
+}
+
+owner = {
+    player = 0,
+    enemy = 1
 }
 
 function loadDefs()

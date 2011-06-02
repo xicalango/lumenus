@@ -1,5 +1,7 @@
 -- (C) 2011 by Alexander Weld <alex.weld@gmx.net>
 
+Gui = require("gui.lua")
+
 local InGame = {}
 InGame.__index = InGame
 
@@ -9,6 +11,8 @@ function InGame.load()
     player.ship.x = (borders.right-borders.left)/2
     
     currentmap = Map.create()
+    
+    InGame.gui = Gui.create(borders.right+1,0)
     
 end
 
@@ -23,12 +27,16 @@ end
 function InGame.update(dt)
     player:update(dt)
     currentmap:update(dt)
+    
+    InGame.gui:update(dt)
 end
 
 function InGame.draw()
     player:draw()
     currentmap:draw()
 
+    InGame.gui:draw()
+    
     love.graphics.line(borders.left,0,borders.left,600)
     love.graphics.line(borders.right,0,borders.right,600)
 

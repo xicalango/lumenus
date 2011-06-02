@@ -48,6 +48,7 @@ function Weapon:fireWeapon(dt, x,y,phi)
             x, y, 
             _phi, 
             self.def.shotSpeed, 
+            self.owner,
             self.def.flyfn )
     end
 end

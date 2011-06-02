@@ -9,7 +9,9 @@ function Map.create()
     self.shots = {}
     self.mobs = {}
     
-    self:createMob( "small", 100, -10, 1)
+    self.createMobTimer = math.random()*2
+    
+    --self:createMob( "small", 100, -10, 1)
 
     return self
 end
@@ -32,6 +34,14 @@ function Map:update(dt)
         end
     end
 
+    self.createMobTimer = self.createMobTimer - dt
+    
+    if self.createMobTimer <= 0 then
+        self.createMobTimer = math.random()*2
+        
+        self:createMob( "medium" , math.random(borders.left, borders.right), -10, 1)
+    end
+    
 end
 
 function Map:draw()
@@ -44,14 +54,14 @@ function Map:draw()
     end    
 end
 
-function Map:createShot( defstr, x, y, phi, v, flyfn )
+function Map:createShot( defstr, x, y, phi, v, owner, flyfn )
     
     phi = math.rad(phi-90)
     
     dx = math.cos(phi)
     dy = math.sin(phi)
     
-    local newShot = Shot.create( defstr, x, y, dx, dy, v, flyfn )
+    local newShot = Shot.create( defstr, x, y, dx, dy, v, owner, flyfn )
         
     table.insert(self.shots, newShot)
 end

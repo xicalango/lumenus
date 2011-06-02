@@ -2,6 +2,13 @@
 local weapons = {
     small = {
         shot = "small",
+        shotCount = 1,
+        shotSpeed = 100,
+        repeatTime = 100
+    },
+
+    beamer = {
+        shot = "small",
         shotCount = 2,
         shotSpeed = 500,
         repeatTime = 10,

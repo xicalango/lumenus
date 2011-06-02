@@ -3,20 +3,11 @@
 local Ship = {}
 Ship.__index = Ship
 
-local graphics = {
-        image = love.graphics.newImage( "media/ship.png"),
-        offset = {16,12}
-        }
-
-function Ship.create(tint)
+function Ship.create(graphics,owner)
     local self = {}
     setmetatable(self,Ship)
     
-    self.graphics = {
-        image = graphics.image,
-        offset = graphics.offset,
-        tint = tint
-        }
+    self.graphics = graphics
     
     self.x = 0
     self.y = 0
@@ -28,32 +19,35 @@ function Ship.create(tint)
     
     self.weapons = {
         left = {
-            offset = {-self.graphics.offset[1],-self.graphics.offset[2]},
+            offset = self.graphics.weaponOffset.left or {-self.graphics.offset[1],0},
             weapon = nil
             },
         right = {
-            offset = {self.graphics.offset[1],-self.graphics.offset[2]},
+            offset = self.graphics.weaponOffset.right or {self.graphics.offset[1],0},
             weapon = nil
             },
         center = {
-            offset = {0,-self.graphics.offset[2]},
+            offset = self.graphics.weaponOffset.center or {0,0},
             weapon = nil
             }
     }
+    
+    self.owner = owner
     
     return self
 end
 
 function Ship:mountWeapon(pos,defstr)
-    self.weapons[pos].weapon = Weapon.create(defstr)
+    self.weapons[pos].weapon = Weapon.create(defstr, self.owner)
 end
 
 function Ship:draw()
     util.drawGraphic(self.graphics, self.x, self.y)
 end
 
-function Ship:update(dt)
-    self.x, self.y = util.move( dt, self.x, self.y, self.dx, self.dy, self.speed )
+function Ship:update(dt,flyfn)
+    flyfn = flyfn or util.move
+    self.x, self.y = flyfn( dt, self.x, self.y, self.dx, self.dy, self.speed )
     
     if self.x-self.graphics.offset[1] < borders.left then
         self.x = borders.left + self.graphics.offset[1]
@@ -62,10 +56,7 @@ function Ship:update(dt)
     if self.x+self.graphics.offset[1] > borders.right then
         self.x = borders.right - self.graphics.offset[1]
     end
-    
-    if self.y + self.graphics.offset[2] > 600 then
-        self.y = 600 - self.graphics.offset[2]
-    end
+
 
     
     for k,w in pairs(self.weapons) do
@@ -85,7 +76,11 @@ function Ship:shoot(dt,phi)
 end
 
 function Ship:collides(x,y)
-    return x > self.x - self.graphics.offset[1] and x < self.x + self.graphics.offset[1] and y > self.y - self.graphics.offset[2] and y < self.y + self.graphics.offest[2]
+    return 
+        x > self.x - self.graphics.offset[1] and 
+        x < self.x + self.graphics.offset[1] and 
+        y > self.y - self.graphics.offset[2] and 
+        y < self.y + self.graphics.offset[2]
 end
 
 return Ship
