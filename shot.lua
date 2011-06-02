@@ -9,7 +9,12 @@ Shot.States = {
     DIE = 1
 }
 
-function Shot.create(defstr,x,y,dx,dy,speed,flyfn)
+Shot.Owner = {
+    PLAYER = 0,
+    MOB = 1
+}
+
+function Shot.create(defstr,x,y,dx,dy,speed,owner,flyfn)
     local self = {}
     setmetatable(self,Shot)
     
@@ -29,6 +34,8 @@ function Shot.create(defstr,x,y,dx,dy,speed,flyfn)
     self.state = Shot.States.FLY
     
     self.lifetime = 0
+
+    self.owner = owner
     
     return self
 end
@@ -58,6 +65,23 @@ function Shot:update(dt)
                 self.state = Shot.States.DIE
             end
         end
+
+        if self.owner == Shot.Owner.PLAYER then
+
+            for i,m in ipairs(currentmap.mobs) do
+                if m.ship:collides(self.x,self.y) then
+                    m:damage(self.def.damage)
+                    self.state = Shot.States.DIE
+                end
+            end
+
+        elseif self.owner == Shot.Owner.MOB then
+            if player.ship:collides(self.x,self.y) then
+                player:damage(self.def.damage)
+                self.state = Shot.States.DIE
+            end
+        end
+
 end
 
 return Shot

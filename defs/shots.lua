@@ -6,7 +6,7 @@ local shots = {
             offset = {2,2},
             tint={0,0,255}
         },
-        damage = 1
+        damage = 1,
     },
     
     big = {

@@ -9,9 +9,9 @@ function Player.create()
     
     self.ship = Ship.create( {0,0,255} )
 
-    --self.ship:mountWeapon("left","big")
+    self.ship:mountWeapon("left","big")
     self.ship:mountWeapon("center","small")
-    --self.ship:mountWeapon("right","big")
+    self.ship:mountWeapon("right","big")
     
     self.fireTrigger = false
     
