@@ -16,10 +16,6 @@ function InGame.load()
     
 end
 
-function InGame.onStateChange(oldstate)
-    return true
-end
-
 function InGame.onActivation()
     love.mouse.setVisible(false)
 end
@@ -50,10 +46,5 @@ function InGame.keyreleased(key)
     player:keyreleased(key)
 end
 
-function InGame.mousepressed(x, y, button)
-end
-
-function InGame.mousereleased(x, y, button)
-end
 
 return InGame

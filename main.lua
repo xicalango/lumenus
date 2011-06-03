@@ -13,8 +13,8 @@ Player = require("player.lua")
 
 Mob = require("mob.lua")
 
-goo = require("goo/goo.lua")
-anim = require("anim/anim.lua")
+--goo = require("goo/goo.lua")
+--anim = require("anim/anim.lua")
 
 keyConfig = {
     left = {"a","left"},
