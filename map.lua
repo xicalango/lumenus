@@ -77,14 +77,14 @@ function Map:draw()
     end    
 end
 
-function Map:createShot( defstr, x, y, phi, v, owner, flyfn )
+function Map:createShot( defstr, x, y, phi, v, owner, rspeed, flyfn )
     
-    phi = math.rad(phi-90)
+    local _phi = math.rad(phi-90)
     
-    dx = math.cos(phi)
-    dy = math.sin(phi)
+    local dx = math.cos(_phi)
+    local dy = math.sin(_phi)
     
-    local newShot = Shot.create( defstr, x, y, dx, dy, v, owner, flyfn )
+    local newShot = Shot.create( defstr, x, y, dx, dy, v, owner, rspeed, math.rad(phi),flyfn )
         
     table.insert(self.shots, newShot)
 end

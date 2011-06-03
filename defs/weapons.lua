@@ -5,43 +5,70 @@ local weapons = {
         name = "Small",
         shot = "small",
         shotCount = 1,
-        shotSpeed = 100,
+        shotSpeed = 200,
         repeatTime = 150,
         
-        price = 1000
+        price = 1000,
+        
+        energy = 5
+    },
+    
+    smallfast = {
+        id = "smallfast",
+        name = "Small Fast",
+        shot = "lineb",
+        shotCount = 1,
+        shotSpeed = 300,
+        repeatTime = 150,
+        
+        price = 1500,
+        
+        energy = 7
     },
     
     spread2 = {
         id = "spread2",
         name = "Spread 2",
-        shot = "small",
+        shot = "line",
         shotCount = 2,
-        shotSpeed = 100,
+        shotSpeed = 200,
         repeatTime = 150,
         
-        phifn = function(dt,_phi,phi,i,imax)
-            return ((2*i-3)*45)
+        phifn = function(dt,_phi,phi,i,imax,x,y,modifier)
+            if modifier then
+                return ((2*i-3)*5)
+            else
+                return ((2*i-3)*30)
+            end
             --return phi + (i-2)*20
         end,
         
-        price = 4000
+        price = 4000,
+        energy = 10
     },
     
     spread3 = {
         id = "spread3",
         name = "Spread 3",
-        shot = "small",
+        shot = "line",
         shotCount = 3,
-        shotSpeed = 100,
+        shotSpeed = 200,
         repeatTime = 150,
         
-        phifn = function(dt,_phi,phi,i,imax)
-            return ((i-2)*45)
+        phifn = function(dt,_phi,phi,i,imax,x,y,modifier)
+            if modifier then
+                return ((i-2)*5)
+            else
+                return ((i-2)*30)
+            end
             --return phi + (i-2)*20
         end,
         
         
-        price = 8000
+        price = 8000,
+        
+        energy = 15
+
     },
 
     beamer = {
@@ -52,65 +79,25 @@ local weapons = {
         shotSpeed = 500,
         repeatTime = 10,
                 
-        phifn = function(dt,_phi,phi,i,imax)
-            return ((2*i-3)*90) * math.sin(2*math.pi*0.01*framecounter)
+        phifn = function(dt,_phi,phi,i,imax,x,y,modifier)
+            if modifier then
+                return ((2*i-3)*35) * math.sin(2*math.pi*0.01*framecounter)
+            else
+                return ((2*i-3)*80) * math.sin(2*math.pi*0.01*framecounter)
+            end
             --return phi + (i-2)*20
         end,
         
-        price = 10000
+        price = 10000,
+        energy = 20
 
     },
     
-    goLeft = {
-        id = "goLeft",
-        name = "Go Left",
-        shot = "small",
-        shotCount = 2,
-        shotSpeed = 500,
-        repeatTime = 10,
-        
-        flyfn = function(dt,x,y,dx,dy,speed)
-            dx,dy = util.sign(borders.left+10-x), util.sign(-y)
-        
-            return util.move(dt,x,y,dx,dy,speed)
-            --xx = xx + math.sin(2*math.pi*(1/speed)*y + math.pi/1.5)*5 
-            
-            --xx = xx + 10-(math.random()*20)
-            
-        end, 
-        
-        price = 2000
-
-        
-    },
-    
-    goRight = {
-        id = "goRight",
-        name = "Go Right",
-        shot = "small",
-        shotCount = 2,
-        shotSpeed = 500,
-        repeatTime = 10,
-        
-        flyfn = function(dt,x,y,dx,dy,speed)
-            dx,dy = util.sign(borders.right-10-x), util.sign(-y)
-        
-            return util.move(dt,x,y,dx,dy,speed)
-            --xx = xx + math.sin(2*math.pi*(1/speed)*y + math.pi/1.5)*5 
-            
-            --xx = xx + 10-(math.random()*20)
-            
-        end, 
-        
-        price = 2000
-
-        
-    },
-    
+   
     followMob = {
         id = "followMob",
         name = "Follow",
-        shot = "small",
+        shot = "lineb",
         shotCount = 1,
         shotSpeed = 300,
         repeatTime = 100,
@@ -125,7 +112,8 @@ local weapons = {
             return math.deg(math.atan2(y-mob.ship.y-50, x-mob.ship.x))-90
         end,
         
-        price = 8000
+        price = 8000,
+        energy = 10
     },
     
     big = {
@@ -136,12 +124,20 @@ local weapons = {
         shotSpeed = 500,
         repeatTime = 10,
         
-        phifn = function(dt,_phi,phi,i,imax,x,y)
-            return ((i-5)*5) * math.sin(2*math.pi*0.01*framecounter)
+        phifn = function(dt,_phi,phi,i,imax,x,y,modifier)
+            if modifier then
+                return ((i-5)*2.5) * math.sin(2*math.pi*0.05*framecounter)
+            else
+                return ((i-5)*5) * math.sin(2*math.pi*0.01*framecounter)
+            end
+        
             --return phi + (i-2)*20
         end,
         
-        price = 100000
+        price = 100000,
+        
+        rspeed = 100,
+        energy = 30
 
     }
 }

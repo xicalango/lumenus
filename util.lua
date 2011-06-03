@@ -44,9 +44,11 @@ function util.moveDir( x, y, phi, speed, dt )
     return x + dx * dt, y + dy * dt
 end
 
-function util.drawGraphic( graphics, x, y, viewX, viewY )
+function util.drawGraphic( graphics, x, y, viewX, viewY, phi )
     local viewX = viewX or x
     local viewY = viewY or y-1
+    
+    phi = phi or math.atan2(viewY - y, viewX - x) + math.rad(90)
     
     local offset = graphics.offset or {0,0}
     
@@ -59,7 +61,7 @@ function util.drawGraphic( graphics, x, y, viewX, viewY )
     love.graphics.draw( 
         graphics.image, 
         x, y, 
-        math.atan2(viewY - y, viewX - x) + math.rad(90) , 
+        phi , 
         graphics.scaleX or 1, 
         graphics.scaleY or graphics.scaleX, 
         offset[1], offset[2] )

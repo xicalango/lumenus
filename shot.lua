@@ -9,7 +9,7 @@ Shot.States = {
     DIE = 1
 }
 
-function Shot.create(defstr,x,y,dx,dy,speed,owner,flyfn)
+function Shot.create(defstr,x,y,dx,dy,speed,owner,rspeed,phi,flyfn)
     local self = {}
     setmetatable(self,Shot)
     
@@ -21,6 +21,12 @@ function Shot.create(defstr,x,y,dx,dy,speed,owner,flyfn)
     
     self.dx = dx or 0
     self.dy = dy or 0
+
+    self.phi = phi
+
+    if rspeed then
+        self.rspeed = rspeed
+    end
     
     self.speed = speed or 100
     
@@ -36,11 +42,15 @@ function Shot.create(defstr,x,y,dx,dy,speed,owner,flyfn)
 end
 
 function Shot:draw()
-    util.drawGraphic(self.def.graphics,self.x,self.y)
+    util.drawGraphic(self.def.graphics,self.x,self.y,nil,nil,self.phi)
 end
 
 function Shot:update(dt)
         self.x, self.y = self.flyfn(dt,self.x,self.y,self.dx,self.dy,self.speed)
+        
+        if self.rspeed then
+            self.phi = self.phi + self.rspeed
+        end
         
         self.lifetime = self.lifetime + dt
         
@@ -65,7 +75,7 @@ function Shot:update(dt)
 
             for i,m in ipairs(currentmap.mobs) do
                 if m.ship:collides(self.x,self.y) then
-                    m:damage(self.def.damage)
+                    m:damage(self.def.damage,self.x,self.y)
                     self.state = Shot.States.DIE
                 end
             end

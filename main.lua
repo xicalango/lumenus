@@ -27,7 +27,8 @@ keyConfig = {
     next = "+",
     prev = "-",
     select = "return",
-    abort = "escape"
+    abort = "escape",
+    modifier = {"lshift","rshift"}
 }
 
 borders = {
@@ -89,7 +90,9 @@ function love.keypressed(key)
     elseif key == "f10" then
         currentmap.playtime = 0
     elseif key =="f11" then
-        player:changeScore(1000)
+        player:changeScore(100000)
+    elseif key == "f5" then
+        love.graphics.toggleFullscreen()
 	end
     
     gamestate:keypressed(key)

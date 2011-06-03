@@ -26,21 +26,21 @@ function Weapon.create(defStr,owner)
     return self
 end
 
-function Weapon:shoot(dt,x, y, phi,dy)
+function Weapon:shoot(dt,x, y, phi,dy,modifier)
     if self.state == Weapon.states.READY then
-        self:fireWeapon( dt, x, y, phi,dy )
+        self:fireWeapon( dt, x, y, phi,dy,modifier )
         self.state = Weapon.states.COOLDOWN
         self.timer = 0
     end 
 end
 
-function Weapon:fireWeapon(dt, x,y,phi,dy)
+function Weapon:fireWeapon(dt, x,y,phi,dy,modifier)
     local _phi = phi
 
     for i=1,self.def.shotCount do       
     
         if self.def.phifn then
-            _phi = self.def.phifn(dt,_phi,phi,i,self.def.shotCount,x,y)
+            _phi = self.def.phifn(dt,_phi,phi,i,self.def.shotCount,x,y,modifier)
         end
         
         currentmap:createShot( 
@@ -49,6 +49,7 @@ function Weapon:fireWeapon(dt, x,y,phi,dy)
             _phi, 
             self.def.shotSpeed + (dy or 0), 
             self.owner,
+            self.def.rspeed,
             self.def.flyfn )
     end
 end

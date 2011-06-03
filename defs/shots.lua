@@ -17,6 +17,25 @@ local shots = {
         },
         damage = 5,
         bouncy = true
+    },
+    
+    line = {
+        graphics = {
+            image = love.graphics.newImage("media/l8x24.png"),
+            offset = {4,12},
+            tint={255,0,0}
+        },
+        damage = 1,
+        bouncy = false
+    },
+    lineb = {
+        graphics = {
+            image = love.graphics.newImage("media/l8x24.png"),
+            offset = {4,12},
+            tint={0,0,255}
+        },
+        damage = 1,
+        bouncy = false
     }
 }
 

@@ -23,6 +23,7 @@ function Player.create()
     self.ship:mountWeapon("center","small")
     
     self.fireTrigger = false
+    self.fireBlock = false
     
     self.score = 0
     
@@ -30,6 +31,10 @@ function Player.create()
     
     self.invincible = true
     self.invincibleTimer = 3
+    
+    self.maxEnergy = 3000
+    self.energy = self.maxEnergy
+    
     
     return self
 end
@@ -44,6 +49,22 @@ function Player:draw()
     end
 end
 
+function Player:reset()
+    self.ship.y = 500
+    self.ship.x = (borders.right-borders.left)/2
+    
+    self.ship.dx = 0
+    self.ship.dy = 0
+    self.fireTrigger = false
+    self.fireBlock = false
+    self.energy = self.maxEnergy
+    
+    self:setModifier(false)
+    
+    self.invincible = true
+    self.invincibleTimer = 3
+end
+
 function Player:keypressed(key)
     if util.keycheck(key,keyConfig.left) then
         self.ship.dx = -1
@@ -55,6 +76,8 @@ function Player:keypressed(key)
         self.ship.dy = 1
     elseif util.keycheck(key,keyConfig.shoot) then
         self.fireTrigger = true
+    elseif util.keycheck(key,keyConfig.modifier) then
+        self:setModifier(true)
     end
 end
 
@@ -65,6 +88,17 @@ function Player:keyreleased(key)
         self.ship.dy = 0
     elseif util.keycheck(key,keyConfig.shoot) then
         self.fireTrigger = false
+    elseif util.keycheck(key,keyConfig.modifier) then
+        self:setModifier(false)
+    end
+end
+
+function Player:setModifier(value)
+    self.mod = value
+    if self.mod then
+        self.ship.handicap = 100
+    else
+        self.ship.handicap = nil
     end
 end
 
@@ -76,8 +110,28 @@ function Player:update(dt)
         self.ship.y = 600 - self.ship.graphics.offset[2]
     end
     
-    if self.fireTrigger then
-        self.ship:shoot(dt, 0)
+    if not self.fireBlock and self.fireTrigger then
+        local energy = self.ship:shoot(dt, 0,self.mod,self.energy)
+        
+        if self.energy == energy then
+            self.fireBlock = true
+        end
+        
+        self.energy = energy
+        
+        
+    end
+    
+    if self.energy < self.maxEnergy then
+        self.energy = self.energy + dt * 500
+        
+        if self.fireBlock and self.energy > 0.25 * self.maxEnergy then
+            self.fireBlock = false
+        end
+        
+        if self.energy > self.maxEnergy then
+            self.energy = self.maxEnergy
+        end
     end
     
     if self.invincible then
@@ -109,6 +163,11 @@ function Player:destroy()
     currentmap:onPlayerDeath()
     
     self:changeScore(-500)
+    
+    explosionPS:setColor( self.ship.graphics.tint[1], self.ship.graphics.tint[2], self.ship.graphics.tint[3], 255, 255, 0, 0, 0 )
+    explosionPS:setPosition(self.ship.x, self.ship.y)
+    explosionPS:setSize(1, 1)
+    explosionPS:start()
     
     if self.lives <= 0 then
         love.event.push("q")

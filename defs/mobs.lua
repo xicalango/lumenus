@@ -44,7 +44,7 @@ local mobs = {
             }
         },
         
-        health = 2,
+        health = 5,
         
         score = 100,
         
@@ -56,9 +56,9 @@ local mobs = {
     
     hard = {
         weapons = {
-            left = "small",
-            center = "small",
-            right = "small"
+            left = "smallfast",
+            center = "smallfast",
+            right = "smallfast"
         },
         speed = 200,
         
@@ -74,22 +74,22 @@ local mobs = {
             }
         },
         
-        health = 5,
+        health = 10,
         
         score = 300,
         
         morphTo = "medium",
         
-        shotChance = 20
+        shotChance = 40
         
         
     },
     
     vhard = {
         weapons = {
-            left = "small",
-            center = "small",
-            right = "small"
+            left = "smallfast",
+            center = "smallfast",
+            right = "smallfast"
         },
         speed = 200,
         

@@ -47,7 +47,7 @@ end
 
 function Ship:update(dt,flyfn)
     flyfn = flyfn or util.move
-    self.x, self.y = flyfn( dt, self.x, self.y, self.dx, self.dy, self.speed )
+    self.x, self.y = flyfn( dt, self.x, self.y, self.dx, self.dy, self.speed - (self.handicap or 0) )
     
     if self.x-self.graphics.offset[1] < borders.left then
         self.x = borders.left + self.graphics.offset[1]
@@ -67,12 +67,17 @@ function Ship:update(dt,flyfn)
     
 end
 
-function Ship:shoot(dt,phi)
+function Ship:shoot(dt,phi,modifier,energy)
     for k,w in pairs(self.weapons) do
         if w.weapon then
-            w.weapon:shoot(dt,self.x + w.offset[1] ,self.y + w.offset[2],phi, (math.abs(self.dy) * self.speed))
+            if not energy or energy >= w.weapon.def.energy then
+                w.weapon:shoot(dt,self.x + w.offset[1] ,self.y + w.offset[2],phi,0,modifier)
+                if energy then energy = energy - w.weapon.def.energy end
+            end
         end
     end
+    
+    return energy
 end
 
 function Ship:collides(x,y)

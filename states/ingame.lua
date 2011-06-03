@@ -15,6 +15,31 @@ function InGame.load()
     currentmap = Map.create()
     
     InGame.gui = Gui.create(borders.right+1,0)
+    
+    explosionPS = love.graphics.newParticleSystem(love.graphics.newImage("media/ep.png"), 1000)
+    explosionPS:setEmissionRate(100)
+	explosionPS:setSpeed(200, 200)
+	explosionPS:setGravity(0)
+	explosionPS:setSize(1, 1)
+	explosionPS:setColor(255, 0, 0, 255, 58, 0, 0, 0)
+	explosionPS:setLifetime(0.1)
+	explosionPS:setParticleLife(1)
+	explosionPS:setDirection(0)
+	explosionPS:setSpread(360)
+	explosionPS:stop()
+    
+    damagePS = love.graphics.newParticleSystem(love.graphics.newImage("media/ep.png"), 1000)
+    damagePS:setEmissionRate(100)
+	damagePS:setSpeed(200, 200)
+	damagePS:setGravity(0)
+	damagePS:setSize(0.5, 0.5)
+	damagePS:setColor(0, 0, 0, 255, 58, 0, 0, 0)
+	damagePS:setLifetime(0.1)
+	damagePS:setParticleLife(0.5)
+	damagePS:setDirection(0)
+	damagePS:setSpread(1)
+	damagePS:stop()
+    
 end
 
 function InGame.onStateChange(oldstate)
@@ -43,17 +68,14 @@ end
 function InGame.onActivation()
     love.mouse.setVisible(false)
     
-    player.invincible = true
-    player.invincibleTimer = 3
+
 
     currentmap:reset()
 
-    player.ship.y = 500
-    player.ship.x = (borders.right-borders.left)/2
+    player:reset()
+
     
-    player.ship.dx = 0
-    player.ship.dy = 0
-    player.fireTrigger = false
+    InGame.gui.showScore = player.score
 end
 
 function InGame.update(dt)
@@ -61,6 +83,9 @@ function InGame.update(dt)
     currentmap:update(dt)
     
     InGame.gui:update(dt)
+    
+    explosionPS:update(dt)
+    damagePS:update(dt)
 end
 
 function InGame.draw()
@@ -68,6 +93,9 @@ function InGame.draw()
     currentmap:draw()
 
     InGame.gui:draw()
+    
+    love.graphics.draw(explosionPS,0,0)
+    love.graphics.draw(damagePS,0,0)
     
     love.graphics.line(borders.left,0,borders.left,600)
     love.graphics.line(borders.right,0,borders.right,600)

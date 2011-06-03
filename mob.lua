@@ -94,17 +94,30 @@ function Mob:draw()
     
 end
 
-function Mob:damage(dmg)
+function Mob:damage(dmg,sx,sy)
     self.health = self.health - dmg
+    
+    damagePS:setDirection(-math.pi/2)
+    damagePS:setPosition(sx,sy)
+    damagePS:setColor( self.ship.graphics.tint[1], self.ship.graphics.tint[2], self.ship.graphics.tint[3], 255, self.ship.graphics.tint[1], self.ship.graphics.tint[2], self.ship.graphics.tint[3], 0 )
+    damagePS:start()
+        
+    player:changeScore(dmg)
+    
     if self.health <= 0 then
         player:changeScore(self.def.score)
 
+        explosionPS:setColor( self.ship.graphics.tint[1], self.ship.graphics.tint[2], self.ship.graphics.tint[3], 255, 255, 0, 0, 0 )
+        explosionPS:setPosition(self.ship.x, self.ship.y)
+        explosionPS:start()
+        
         if self.def.morphTo then
             self:morph(self.def.morphTo)
         else
             self.state = Mob.States.DIE
         end
     end
+    
 end
 
 return Mob
