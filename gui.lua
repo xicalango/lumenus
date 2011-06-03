@@ -36,6 +36,15 @@ function Gui:draw()
     linecounter = Gui.print( linecounter, "Score: " .. self.showScore, 10, 10)
     linecounter = Gui.print( linecounter, "Lives: " .. player.lives, 10, 10)
     linecounter = Gui.print( linecounter, "Energy: " .. math.floor(player.energy*100/player.maxEnergy) .. "%", 10, 10)
+    
+    local regain = player.energyRegain
+    
+    if player.mod then
+        regain = regain * 1.1
+    end
+    
+    linecounter = Gui.print( linecounter, "Rate: " .. math.floor((regain-player.energyConsume)*10/player.maxEnergy), 10, 10)
+    
     linecounter = Gui.print( linecounter, "Level Duration: " .. math.ceil(currentmap.playtime), 10, 10)
     
     linecounter = Gui.print( linecounter, "Left Weapon: " .. tostring(player.ship.weapons.left.weapon or ""), 10, 10 )

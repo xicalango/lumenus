@@ -23,11 +23,13 @@ local mobs = {
         
         shotChance = 70,
         
+--[[
         flyfn = function(dt,x,y,dx,dy,speed)
             local xx,yy = util.move(dt,x,y,dx,dy,speed)
             
             return xx + math.sin(2*math.pi*0.01*y)*2, yy
         end
+]]
         
     },
 
@@ -55,6 +57,7 @@ local mobs = {
         
         shotChance = 50,
         
+--[[
         flyfn = function(dt,x,y,dx,dy,speed)
             local xx,yy = util.move(dt,x,y,dx,dy,speed)
             
@@ -62,6 +65,7 @@ local mobs = {
             
             return xx + px, yy
         end
+]]
         
     },
     

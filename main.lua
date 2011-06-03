@@ -93,6 +93,13 @@ function love.keypressed(key)
         player:changeScore(100000)
     elseif key == "f5" then
         love.graphics.toggleFullscreen()
+    elseif key == "0" then
+        player.energyRegain = player.energyRegain * 2
+    elseif key == "9" then
+        player.energyRegain = player.energyRegain / 2
+        if player.energyRegain <= 0 then
+            player.energyRegain = 1
+        end
 	end
     
     gamestate:keypressed(key)

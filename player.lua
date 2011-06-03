@@ -35,6 +35,9 @@ function Player.create()
     self.maxEnergy = 3000
     self.energy = self.maxEnergy
     
+    self.energyRegain = 500
+    
+    self.energyConsume = 0
     
     return self
 end
@@ -88,6 +91,7 @@ function Player:keyreleased(key)
         self.ship.dy = 0
     elseif util.keycheck(key,keyConfig.shoot) then
         self.fireTrigger = false
+        self.energyConsume = 0
     elseif util.keycheck(key,keyConfig.modifier) then
         self:setModifier(false)
     end
@@ -116,21 +120,22 @@ function Player:update(dt)
         if self.energy == energy then
             self.fireBlock = true
         end
+
+        self.energyConsume = (self.energy - energy)/dt
         
         self.energy = energy
-        
         
     end
     
     if self.energy < self.maxEnergy then
         if self.mod then
-            self.energy = self.energy + dt * 600
+            self.energy = self.energy + dt * self.energyRegain * 1.1
         else
-            self.energy = self.energy + dt * 500
+            self.energy = self.energy + dt * self.energyRegain
         end
     
         
-        if self.fireBlock and self.energy > 0.25 * self.maxEnergy then
+        if self.fireBlock and self.energy > 0.1 * self.maxEnergy then
             self.fireBlock = false
         end
         
