@@ -26,6 +26,25 @@ local weapons = {
         energy = 7
     },
     
+    sinus = {
+        id = "sinus",
+        name = "Sinus",
+        shot = "line",
+        shotCount = 1,
+        shotSpeed = 300,
+        repeatTime = 50,
+        
+        price = 3000,
+        
+        energy = 10,
+        
+        flyfn = function(dt,x,y,dx,dy,speed)
+            local xx,yy = util.move(dt,x,y,dx,dy,speed)
+            
+            return xx + math.sin(2*math.pi*0.005*y)*2, yy
+        end
+    },
+    
     spread2 = {
         id = "spread2",
         name = "Spread 2",

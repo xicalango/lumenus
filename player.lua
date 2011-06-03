@@ -123,7 +123,12 @@ function Player:update(dt)
     end
     
     if self.energy < self.maxEnergy then
-        self.energy = self.energy + dt * 500
+        if self.mod then
+            self.energy = self.energy + dt * 600
+        else
+            self.energy = self.energy + dt * 500
+        end
+    
         
         if self.fireBlock and self.energy > 0.25 * self.maxEnergy then
             self.fireBlock = false

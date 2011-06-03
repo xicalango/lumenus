@@ -47,14 +47,12 @@ function InGame.onStateChange(oldstate)
         level = level + 1
         
         if level == 3 then
+            table.insert(currentmap.enemyTypes, "small")
+        elseif level == 6 then
             table.insert(currentmap.enemyTypes, "medium")
-        end
-
-        if level == 6 then
+        elseif level == 12 then
             table.insert(currentmap.enemyTypes, "hard")
-        end
-        
-        if level == 12 then
+        elseif level == 15 then
             table.insert(currentmap.enemyTypes, "vhard")
         end
 

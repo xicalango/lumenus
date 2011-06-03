@@ -13,7 +13,7 @@ function Map.create()
     
     self.playtime = 60
     
-    self.enemyTypes = {"small"}
+    self.enemyTypes = {"vsmall"}
     
     --self:createMob( "small", 100, -10, 1)
 
@@ -96,7 +96,7 @@ function Map:createMob( defstr, x, y, dy )
 end
 
 function Map:getFirstMob()
-    return self.mobs[1]
+    return self.mobs[#self.mobs]
 end
 
 return Map
