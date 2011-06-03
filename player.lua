@@ -20,9 +20,7 @@ function Player.create()
     
     self.ship = Ship.create( graphics, owner.player )
 
-    self.ship:mountWeapon("left","followMob")
     self.ship:mountWeapon("center","small")
-    self.ship:mountWeapon("right","followMob")
     
     self.fireTrigger = false
     
@@ -31,7 +29,7 @@ function Player.create()
     self.lives = 3
     
     self.invincible = true
-    self.invincibleTimer = 1
+    self.invincibleTimer = 3
     
     return self
 end
@@ -108,10 +106,17 @@ function Player:destroy()
     self.invincible = true
     self.invincibleTimer = 3
     
-    self.score = self.score - 500
+    self:changeScore(-500)
     
     if self.lives <= 0 then
         love.event.push("q")
+    end
+end
+
+function Player:changeScore(dScore)
+    self.score = self.score + dScore
+    if self.score < 0 then
+        self.score = 0
     end
 end
 

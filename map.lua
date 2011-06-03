@@ -11,9 +11,19 @@ function Map.create()
     
     self.createMobTimer = math.random()*2
     
+    self.playtime = 60
+    
+    self.enemyTypes = {"small"}
+    
     --self:createMob( "small", 100, -10, 1)
 
     return self
+end
+
+function Map:reset()
+    self.shots = {}
+    self.mobs = {}
+    self.playtime = 60
 end
 
 
@@ -39,7 +49,14 @@ function Map:update(dt)
     if self.createMobTimer <= 0 then
         self.createMobTimer = math.random()*2
         
-        self:createMob( "hard" , math.random(borders.left, borders.right), -10, 1)
+        self:createMob( util.takeRandom(self.enemyTypes) , math.random(borders.left, borders.right), -10, 1)
+    end
+    
+    self.playtime = self.playtime - dt
+    
+    if self.playtime < 0 then
+        gamestate:change("Shop")
+
     end
     
 end

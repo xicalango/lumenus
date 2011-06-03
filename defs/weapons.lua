@@ -1,14 +1,62 @@
 
 local weapons = {
     small = {
+        id = "small",
         name = "Small",
         shot = "small",
         shotCount = 1,
         shotSpeed = 100,
-        repeatTime = 150
+        repeatTime = 150,
+        
+        price = 1000
+    },
+    
+        small2 = {
+        id = "small",
+        name = "Small",
+        shot = "small",
+        shotCount = 1,
+        shotSpeed = 100,
+        repeatTime = 150,
+        
+        price = 1000
+    },
+    
+        small3 = {
+        id = "small",
+        name = "Small",
+        shot = "small",
+        shotCount = 1,
+        shotSpeed = 100,
+        repeatTime = 150,
+        
+        price = 1000
+    },
+    
+        small4 = {
+        id = "small",
+        name = "Small",
+        shot = "small",
+        shotCount = 1,
+        shotSpeed = 100,
+        repeatTime = 150,
+        
+        price = 1000
+    },
+    
+        small5 = {
+        id = "small",
+        name = "Small",
+        shot = "small",
+        shotCount = 1,
+        shotSpeed = 100,
+        repeatTime = 150,
+        
+        price = 1000
     },
 
     beamer = {
+        id = "beamer",
         name = "Beamer",
         shot = "small",
         shotCount = 2,
@@ -18,10 +66,14 @@ local weapons = {
         phifn = function(dt,_phi,phi,i,imax)
             return ((2*i-3)*90) * math.sin(2*math.pi*0.01*framecounter)
             --return phi + (i-2)*20
-        end
+        end,
+        
+        price = 10000
+
     },
     
     goLeft = {
+        id = "goLeft",
         name = "Go Left",
         shot = "small",
         shotCount = 2,
@@ -38,9 +90,13 @@ local weapons = {
             
         end, 
         
+        price = 2000
+
+        
     },
     
     goRight = {
+        id = "goRight",
         name = "Go Right",
         shot = "small",
         shotCount = 2,
@@ -57,9 +113,13 @@ local weapons = {
             
         end, 
         
+        price = 2000
+
+        
     },
     
     followMob = {
+        id = "followMob",
         name = "Follow",
         shot = "small",
         shotCount = 1,
@@ -74,10 +134,13 @@ local weapons = {
             end
             
             return math.deg(math.atan2(y-mob.ship.y-50, x-mob.ship.x))-90
-        end
+        end,
+        
+        price = 8000
     },
     
     big = {
+        id = "big",
         name = "BIG",
         shot = "big",
         shotCount = 10,
@@ -87,7 +150,10 @@ local weapons = {
         phifn = function(dt,_phi,phi,i,imax,x,y)
             return ((i-5)*5) * math.sin(2*math.pi*0.01*framecounter)
             --return phi + (i-2)*20
-        end
+        end,
+        
+        price = 100000
+
     }
 }
 

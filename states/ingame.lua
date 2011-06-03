@@ -10,14 +10,50 @@ function InGame.load()
     player.ship.y = 500
     player.ship.x = (borders.right-borders.left)/2
     
+    level = 1
+    
     currentmap = Map.create()
     
     InGame.gui = Gui.create(borders.right+1,0)
+end
+
+function InGame.onStateChange(oldstate)
+    if oldstate == "Shop" then
+        level = level + 1
+        
+        if level == 3 then
+            table.insert(currentmap.enemyTypes, "medium")
+        end
+
+        if level == 6 then
+            table.insert(currentmap.enemyTypes, "hard")
+        end
+        
+        if level == 12 then
+            table.insert(currentmap.enemyTypes, "vhard")
+        end
+
+        return true
+        
+    end
     
+    return true
 end
 
 function InGame.onActivation()
     love.mouse.setVisible(false)
+    
+    player.invincible = true
+    player.invincibleTimer = 3
+
+    currentmap:reset()
+
+    player.ship.y = 500
+    player.ship.x = (borders.right-borders.left)/2
+    
+    player.ship.dx = 0
+    player.ship.dy = 0
+    player.fireTrigger = false
 end
 
 function InGame.update(dt)

@@ -21,7 +21,7 @@ local mobs = {
         
         score = 100,
         
-        shotChance = 20
+        shotChance = 50
         
     },
     
@@ -81,6 +81,7 @@ local mobs = {
         morphTo = "medium",
         
         shotChance = 20
+        
         
     },
     

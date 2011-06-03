@@ -77,7 +77,11 @@ function Mob:update(dt)
     
     if self.ship.y > 600 then
         self.state = Mob.States.DIE
-        player.score = player.score - self.def.score
+        --player:changeScore(-self.def.score)
+    end
+    
+    if self.def.onAfterUpdate then
+        self.def.onAfterUpdate(self)
     end
 end
 
@@ -93,7 +97,7 @@ end
 function Mob:damage(dmg)
     self.health = self.health - dmg
     if self.health <= 0 then
-        player.score = player.score + self.def.score
+        player:changeScore(self.def.score)
 
         if self.def.morphTo then
             self:morph(self.def.morphTo)

@@ -2,6 +2,8 @@
 
 require("util.lua")
 
+Menu = require("menu.lua")
+
 Shot = require("shot.lua")
 Weapon = require("weapon.lua")
 
@@ -23,7 +25,9 @@ keyConfig = {
     down = {"s","down"},
     shoot = " ",
     next = "+",
-    prev = "-"
+    prev = "-",
+    select = "return",
+    abort = "escape"
 }
 
 borders = {
@@ -82,6 +86,8 @@ function love.keypressed(key)
     if key == "f12" then
 		love.event.push("q")
         return
+    elseif key =="f11" then
+        player:changeScore(1000)
 	end
     
     gamestate:keypressed(key)

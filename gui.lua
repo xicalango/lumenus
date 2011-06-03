@@ -32,8 +32,10 @@ function Gui:draw()
     
     local linecounter = 0
     
+    linecounter = Gui.print( linecounter, "Level: " .. level, 10, 10)
     linecounter = Gui.print( linecounter, "Score: " .. self.showScore, 10, 10)
     linecounter = Gui.print( linecounter, "Lives: " .. player.lives, 10, 10)
+    linecounter = Gui.print( linecounter, "Map Duration: " .. math.ceil(currentmap.playtime), 10, 10)
     
     linecounter = Gui.print( linecounter, "Left Weapon: " .. tostring(player.ship.weapons.left.weapon or ""), 10, 10 )
     linecounter = Gui.print( linecounter, "Center Weapon: " .. tostring(player.ship.weapons.center.weapon or ""), 10, 10 )

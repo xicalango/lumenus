@@ -3,6 +3,10 @@
 util = {}
 util.__index = util
 
+function util.takeRandom(tbl)
+    return tbl[math.random(1,#tbl)]
+end
+
 function util.keycheck(needle,haystack) --only for small haystacks
 
     if type(haystack) == "table" then
