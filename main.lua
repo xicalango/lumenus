@@ -86,6 +86,8 @@ function love.keypressed(key)
     if key == "f12" then
 		love.event.push("q")
         return
+    elseif key == "f10" then
+        currentmap.playtime = 0
     elseif key =="f11" then
         player:changeScore(1000)
 	end

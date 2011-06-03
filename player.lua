@@ -106,6 +106,8 @@ function Player:destroy()
     self.invincible = true
     self.invincibleTimer = 3
     
+    currentmap:onPlayerDeath()
+    
     self:changeScore(-500)
     
     if self.lives <= 0 then

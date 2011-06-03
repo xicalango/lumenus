@@ -20,6 +20,12 @@ function Map.create()
     return self
 end
 
+function Map:onPlayerDeath()
+    self.shots = {}
+    self.mobs = {}
+    self.playtime = self.playtime + 10
+end
+
 function Map:reset()
     self.shots = {}
     self.mobs = {}

@@ -11,48 +11,37 @@ local weapons = {
         price = 1000
     },
     
-        small2 = {
-        id = "small",
-        name = "Small",
+    spread2 = {
+        id = "spread2",
+        name = "Spread 2",
         shot = "small",
-        shotCount = 1,
+        shotCount = 2,
         shotSpeed = 100,
         repeatTime = 150,
         
-        price = 1000
+        phifn = function(dt,_phi,phi,i,imax)
+            return ((2*i-3)*45)
+            --return phi + (i-2)*20
+        end,
+        
+        price = 4000
     },
     
-        small3 = {
-        id = "small",
-        name = "Small",
+    spread3 = {
+        id = "spread3",
+        name = "Spread 3",
         shot = "small",
-        shotCount = 1,
+        shotCount = 3,
         shotSpeed = 100,
         repeatTime = 150,
         
-        price = 1000
-    },
-    
-        small4 = {
-        id = "small",
-        name = "Small",
-        shot = "small",
-        shotCount = 1,
-        shotSpeed = 100,
-        repeatTime = 150,
+        phifn = function(dt,_phi,phi,i,imax)
+            return ((i-2)*45)
+            --return phi + (i-2)*20
+        end,
         
-        price = 1000
-    },
-    
-        small5 = {
-        id = "small",
-        name = "Small",
-        shot = "small",
-        shotCount = 1,
-        shotSpeed = 100,
-        repeatTime = 150,
         
-        price = 1000
+        price = 8000
     },
 
     beamer = {
