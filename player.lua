@@ -42,6 +42,13 @@ function Player.create()
     
     self.collectRad = 50
     
+    self.flyDir = {
+        left = false,
+        right = false,
+        up = false,
+        down = false
+        }
+    
     self:setModifier(false)
     
     return self
@@ -61,8 +68,12 @@ function Player:reset()
     self.ship.y = 500
     self.ship.x = (borders.right-borders.left)/2
     
-    self.ship.dx = 0
-    self.ship.dy = 0
+    self.flyDir = {
+        left = false,
+        right = false,
+        up = false,
+        down = false
+        }
     self.fireTrigger = false
     self.fireBlock = false
     self.energy = self.maxEnergy
@@ -75,13 +86,13 @@ end
 
 function Player:keypressed(key)
     if util.keycheck(key,keyConfig.left) then
-        self.ship.dx = -1
+        self.flyDir.left = true
     elseif util.keycheck(key,keyConfig.right) then
-        self.ship.dx = 1
+        self.flyDir.right = true
     elseif util.keycheck(key,keyConfig.up) then
-        self.ship.dy = -1
+        self.flyDir.up = true
     elseif util.keycheck(key,keyConfig.down) then
-        self.ship.dy = 1
+        self.flyDir.down = true
     elseif util.keycheck(key,keyConfig.shoot) then
         self.fireTrigger = true
     elseif util.keycheck(key,keyConfig.modifier) then
@@ -90,10 +101,14 @@ function Player:keypressed(key)
 end
 
 function Player:keyreleased(key)
-    if util.keycheck(key,keyConfig.left) or util.keycheck(key,keyConfig.right) then
-        self.ship.dx = 0
-    elseif util.keycheck(key,keyConfig.up) or util.keycheck(key,keyConfig.down) then
-        self.ship.dy = 0
+    if util.keycheck(key,keyConfig.left) then
+        self.flyDir.left = false
+    elseif util.keycheck(key,keyConfig.right) then
+        self.flyDir.right = false
+    elseif util.keycheck(key,keyConfig.up) then
+        self.flyDir.up = false
+    elseif util.keycheck(key,keyConfig.down) then
+        self.flyDir.down = false
     elseif util.keycheck(key,keyConfig.shoot) then
         self.fireTrigger = false
         self.energyConsume = 0
@@ -112,6 +127,24 @@ function Player:setModifier(value)
 end
 
 function Player:update(dt)
+    if self.flyDir.left then
+        self.ship.dx = -1
+    elseif self.flyDir.right then
+        self.ship.dx = 1
+    else
+        self.ship.dx = 0
+    end
+    
+    if self.flyDir.up then
+        self.ship.dy = -1
+    elseif self.flyDir.down then
+        self.ship.dy = 1
+    else
+        self.ship.dy = 0
+    end
+    
+    
+
     self.ship:update(dt)
         
     if self.ship.y + self.ship.graphics.offset[2] > 600 then

@@ -4,7 +4,7 @@ local shots = {
         graphics = {
             image = love.graphics.newImage("media/p4x4.png"),
             offset = {2,2},
-            tint={0,0,255}
+            tint={100,100,255}
         },
         damage = 1,
     },
