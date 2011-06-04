@@ -90,7 +90,7 @@ local mobs = {
         
         health = 5,
         
-        score = 100,
+        score = 500,
         
         morphTo = "small",
         
@@ -120,7 +120,7 @@ local mobs = {
         
         health = 10,
         
-        score = 300,
+        score = 1000,
         
         morphTo = "medium",
         

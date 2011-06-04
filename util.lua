@@ -44,7 +44,7 @@ function util.moveDir( x, y, phi, speed, dt )
     return x + dx * dt, y + dy * dt
 end
 
-function util.drawGraphic( graphics, x, y, viewX, viewY, phi )
+function util.drawGraphic( graphics, x, y, viewX, viewY, phi, tintOverride )
     local viewX = viewX or x
     local viewY = viewY or y-1
     
@@ -54,7 +54,9 @@ function util.drawGraphic( graphics, x, y, viewX, viewY, phi )
     
     local _r,_g,_b,_a = love.graphics.getColor()
     
-    if graphics.tint then
+    if tintOverride then
+        love.graphics.setColor(tintOverride)
+    elseif graphics.tint then
         love.graphics.setColor(graphics.tint)
     end
     

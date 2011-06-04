@@ -1,6 +1,7 @@
 -- (C) 2011 by Alexander Weld <alex.weld@gmx.net>
 
 Gui = require("gui.lua")
+ScoreIndicator = require("scoreindicator.lua")
 
 local InGame = {}
 InGame.__index = InGame
@@ -40,6 +41,8 @@ function InGame.load()
 	damagePS:setSpread(1)
 	damagePS:stop()
     
+    si = ScoreIndicator.create()
+    
 end
 
 function InGame.onStateChange(oldstate)
@@ -57,7 +60,17 @@ function InGame.onStateChange(oldstate)
         end
 
         return true
+    elseif oldstate == "GameOver" then
+        player = Player.create()
+        player.ship.y = 500
+        player.ship.x = (borders.right-borders.left)/2
         
+        level = 1
+        
+        currentmap = Map.create()
+        
+        explosionPS:stop()
+        damagePS:stop()
     end
     
     return true
@@ -65,13 +78,10 @@ end
 
 function InGame.onActivation()
     love.mouse.setVisible(false)
-    
-
 
     currentmap:reset()
 
     player:reset()
-
     
     InGame.gui.showScore = player.score
 end
@@ -84,9 +94,13 @@ function InGame.update(dt)
     
     explosionPS:update(dt)
     damagePS:update(dt)
+    
+    si:update(dt)
 end
 
 function InGame.draw()
+    si:draw()
+
     player:draw()
     currentmap:draw()
 
@@ -97,6 +111,12 @@ function InGame.draw()
     
     love.graphics.line(borders.left,0,borders.left,600)
     love.graphics.line(borders.right,0,borders.right,600)
+    
+    if player.mod then
+        love.graphics.setColor( 0,255,255, 32 )
+        love.graphics.line(borders.left,borders.itemGet, borders.right,borders.itemGet)
+        love.graphics.setColor( 255,255,255 )
+    end
 
 end
 

@@ -44,9 +44,15 @@ function Menu:addItem( title, tag )
         })
 end
 
-function Menu:addAll( items )
+function Menu:addAll( items, sortTable )
     for i,v in ipairs(items) do
         self:addItem( v.title or v[1], v.tag or v[2] )
+    end
+    
+    if sortTable then
+        table.sort(self.items, function (a, b) 
+            return string.lower(a.title) < string.lower(b.title)
+        end)
     end
 end
 
@@ -70,8 +76,8 @@ function Menu.makeMenuitemsAssoc( items, tagfn, titlefn )
     
     for k,item in pairs(items) do
         table.insert(result, {
-            title = titlefn(item),
-            tag = tagfn(item)
+            title = titlefn(item,k),
+            tag = tagfn(item,k)
         })
     end
     

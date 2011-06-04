@@ -8,6 +8,7 @@ function Map.create()
     
     self.shots = {}
     self.mobs = {}
+    self.drops = {}
     
     self.createMobTimer = math.random()*2
     
@@ -29,6 +30,7 @@ end
 function Map:reset()
     self.shots = {}
     self.mobs = {}
+    self.drops = {}
     self.playtime = 60
 end
 
@@ -47,6 +49,15 @@ function Map:update(dt)
         
         if m.state == Mob.States.DIE then
             table.remove(self.mobs,i)
+        end
+    end
+    
+    
+    for i,d in ipairs(self.drops) do
+        d:update(dt)
+        
+        if d.state == Drop.States.DIE then
+            table.remove(self.drops,i)
         end
     end
 
@@ -68,13 +79,17 @@ function Map:update(dt)
 end
 
 function Map:draw()
+    for i,d in ipairs(self.drops) do
+        d:draw()
+    end    
+
     for i,m in ipairs(self.mobs) do
         m:draw()
     end
 
     for i,s in ipairs(self.shots) do
         s:draw()
-    end    
+    end
 end
 
 function Map:createShot( defstr, x, y, phi, v, owner, rspeed, flyfn )
@@ -93,6 +108,12 @@ function Map:createMob( defstr, x, y, dy )
     local newMob = Mob.create( defstr, x, y, dy )
 
     table.insert(self.mobs, newMob)
+end
+
+function Map:createDrop( defstr, x, y, dx, dy, speed, amount, tint, speedx )
+    local newDrop = Drop.create(defstr, x, y, dx, dy, speed, amount, tint, speedx )
+
+    table.insert(self.drops, newDrop)
 end
 
 function Map:getFirstMob()

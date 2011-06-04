@@ -68,16 +68,18 @@ function Ship:update(dt,flyfn)
 end
 
 function Ship:shoot(dt,phi,modifier,energy)
+    local de = 0
+
     for k,w in pairs(self.weapons) do
         if w.weapon then
             if not energy or energy >= w.weapon.def.energy then
                 w.weapon:shoot(dt,self.x + w.offset[1] ,self.y + w.offset[2],phi,0,modifier)
-                if energy then energy = energy - w.weapon.def.energy end
+                de = de + w.weapon.def.energy
             end
         end
     end
     
-    return energy
+    return de
 end
 
 function Ship:collides(x,y)

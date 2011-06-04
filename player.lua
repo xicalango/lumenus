@@ -14,6 +14,7 @@ local graphics = {
         }
     }
 
+    
 function Player.create()
     local self = {}
     setmetatable(self, Player)
@@ -39,11 +40,15 @@ function Player.create()
     
     self.energyConsume = 0
     
+    self.collectRad = 50
+    
+    self:setModifier(false)
+    
     return self
 end
 
 function Player:draw()
-    if self. invincible then
+    if self.invincible then
         if framecounter % 2 ~= 0 then
             self.ship:draw()
         end
@@ -108,23 +113,23 @@ end
 
 function Player:update(dt)
     self.ship:update(dt)
-    
         
     if self.ship.y + self.ship.graphics.offset[2] > 600 then
         self.ship.y = 600 - self.ship.graphics.offset[2]
     end
     
     if not self.fireBlock and self.fireTrigger then
-        local energy = self.ship:shoot(dt, 0,self.mod,self.energy)
+        local de = self.ship:shoot(dt, 0, self.mod, self.energy)
         
-        if self.energy == energy then
+        self.energyConsume = de/dt
+        
+        self.energy = self.energy - de
+        
+        if self.energy <= 0 then
+            self.energy = 0
             self.fireBlock = true
         end
 
-        self.energyConsume = (self.energy - energy)/dt
-        
-        self.energy = energy
-        
     end
     
     if self.energy < self.maxEnergy then
@@ -172,22 +177,37 @@ function Player:destroy()
     
     currentmap:onPlayerDeath()
     
-    self:changeScore(-500)
+    self:changeScore(-500,self.ship.x,self.ship.y)
     
     explosionPS:setColor( self.ship.graphics.tint[1], self.ship.graphics.tint[2], self.ship.graphics.tint[3], 255, 255, 0, 0, 0 )
     explosionPS:setPosition(self.ship.x, self.ship.y)
     explosionPS:setSize(1, 1)
     explosionPS:start()
     
+    for i = 1,4 do
+        currentmap:createDrop("junk" .. tostring(i), self.ship.x, self.ship.y-20, math.random()-0.5, -1, math.random(50,200), 100 , graphics.tint, math.random(50,100) )
+    end
+    
     if self.lives <= 0 then
-        love.event.push("q")
+        gamestate:change("GameOver")
     end
 end
 
-function Player:changeScore(dScore)
+function Player:changeScore(dScore,x,y)
     self.score = self.score + dScore
     if self.score < 0 then
         self.score = 0
+    end
+    
+    if x and y then
+        si:add(dScore,x,y)
+    end
+end
+
+function Player:changeEnergy(dEnergy)
+    self.energy = self.energy + (dEnergy/100 * self.maxEnergy)
+    if self.energy > self.maxEnergy then
+        self.energy = self.maxEnergy
     end
 end
 

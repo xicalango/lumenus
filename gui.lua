@@ -35,7 +35,7 @@ function Gui:draw()
     linecounter = Gui.print( linecounter, "Level: " .. level, 10, 10)
     linecounter = Gui.print( linecounter, "Score: " .. self.showScore, 10, 10)
     linecounter = Gui.print( linecounter, "Lives: " .. player.lives, 10, 10)
-    linecounter = Gui.print( linecounter, "Energy: " .. math.floor(player.energy*100/player.maxEnergy) .. "%", 10, 10)
+    linecounter = Gui.print( linecounter, "Energy:", 10, 10)
     
     local regain = player.energyRegain
     
@@ -43,7 +43,15 @@ function Gui:draw()
         regain = regain * 1.1
     end
     
-    linecounter = Gui.print( linecounter, "Rate: " .. math.floor((regain-player.energyConsume)*10/player.maxEnergy), 10, 10)
+    local y = (linecounter * self.font:getHeight())+self.font:getHeight()*2/3
+    
+    love.graphics.setColor( 255 - (player.energy/player.maxEnergy) * 255, (player.energy/player.maxEnergy) * 255, 0 )
+    
+    love.graphics.rectangle( "fill", 10, y, (player.energy/player.maxEnergy) * 200, self.font:getHeight()/2 )
+    
+    linecounter = Gui.print( linecounter, "", 10, 10)
+    
+    love.graphics.setColor( 255, 255, 255 )
     
     linecounter = Gui.print( linecounter, "Level Duration: " .. math.ceil(currentmap.playtime), 10, 10)
     

@@ -1,7 +1,6 @@
 
 local weapons = {
     small = {
-        id = "small",
         name = "Small",
         shot = "small",
         shotCount = 1,
@@ -14,7 +13,6 @@ local weapons = {
     },
     
     smallfast = {
-        id = "smallfast",
         name = "Small Fast",
         shot = "lineb",
         shotCount = 1,
@@ -27,7 +25,6 @@ local weapons = {
     },
     
     sinus = {
-        id = "sinus",
         name = "Sinus",
         shot = "line",
         shotCount = 1,
@@ -45,8 +42,25 @@ local weapons = {
         end
     },
     
+    sinus2 = {
+        name = "Sinus 2",
+        shot = "line",
+        shotCount = 1,
+        shotSpeed = 300,
+        repeatTime = 50,
+        
+        price = 3000,
+        
+        energy = 10,
+        
+        flyfn = function(dt,x,y,dx,dy,speed)
+            local xx,yy = util.move(dt,x,y,dx,dy,speed)
+            
+            return xx + math.sin(2*math.pi*0.01*framecounter)*2, yy
+        end
+    },
+    
     spread2 = {
-        id = "spread2",
         name = "Spread 2",
         shot = "line",
         shotCount = 2,
@@ -67,7 +81,6 @@ local weapons = {
     },
     
     spread3 = {
-        id = "spread3",
         name = "Spread 3",
         shot = "line",
         shotCount = 3,
@@ -91,7 +104,6 @@ local weapons = {
     },
 
     beamer = {
-        id = "beamer",
         name = "Beamer",
         shot = "small",
         shotCount = 2,
@@ -114,7 +126,6 @@ local weapons = {
     
    
     followMob = {
-        id = "followMob",
         name = "Follow",
         shot = "lineb",
         shotCount = 1,
@@ -136,7 +147,6 @@ local weapons = {
     },
     
     big = {
-        id = "big",
         name = "BIG",
         shot = "big",
         shotCount = 10,

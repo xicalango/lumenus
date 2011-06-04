@@ -14,6 +14,7 @@ Ship = require("ship.lua")
 Player = require("player.lua")
 
 Mob = require("mob.lua")
+Drop = require("drop.lua")
 
 --goo = require("goo/goo.lua")
 --anim = require("anim/anim.lua")
@@ -33,7 +34,8 @@ keyConfig = {
 
 borders = {
     left = 0,
-    right = 500
+    right = 500,
+    itemGet = 150
 }
 
 owner = {
@@ -90,7 +92,7 @@ function love.keypressed(key)
     elseif key == "f10" then
         currentmap.playtime = 0
     elseif key =="f11" then
-        player:changeScore(100000)
+        player:changeScore(100000,player.ship.x,player.ship.y)
     elseif key == "f5" then
         love.graphics.toggleFullscreen()
     elseif key == "0" then

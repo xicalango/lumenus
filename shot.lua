@@ -49,7 +49,7 @@ function Shot:update(dt)
         self.x, self.y = self.flyfn(dt,self.x,self.y,self.dx,self.dy,self.speed)
         
         if self.rspeed then
-            self.phi = self.phi + self.rspeed
+            self.phi = self.phi + self.rspeed * dt
         end
         
         self.lifetime = self.lifetime + dt

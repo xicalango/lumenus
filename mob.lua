@@ -105,16 +105,28 @@ function Mob:damage(dmg,sx,sy)
     player:changeScore(dmg)
     
     if self.health <= 0 then
-        player:changeScore(self.def.score)
+        player:changeScore(self.def.score,sx,sy)
 
         explosionPS:setColor( self.ship.graphics.tint[1], self.ship.graphics.tint[2], self.ship.graphics.tint[3], 255, 255, 0, 0, 0 )
         explosionPS:setPosition(self.ship.x, self.ship.y)
         explosionPS:start()
         
+        for i = 1,4 do
+                currentmap:createDrop("junk" .. tostring(i), self.ship.x, self.ship.y, math.random()-0.5, 1, math.random(50,200), self.def.score/10 , self.def.graphics.tint, math.random(50,100) )
+        end
+        
         if self.def.morphTo then
             self:morph(self.def.morphTo)
         else
             self.state = Mob.States.DIE
+            
+            local drop = math.random(1000)
+            
+            if drop < 50 then
+                currentmap:createDrop("battery", self.ship.x, self.ship.y, math.random()-0.5, 1, 50, self.def.score/10 )
+            elseif drop > 995 then
+                currentmap:createDrop("life", self.ship.x, self.ship.y, math.random()-0.5, 1, 50, self.def.score/10 )
+            end
         end
     end
     

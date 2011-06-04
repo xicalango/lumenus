@@ -11,8 +11,8 @@ Shop.mainMenuItems = {
 
 Shop.weaponSlotItems = {
     {"Mount left","left"},
+    {"Mount center","center"},
     {"Mount right","right"},
-    {"Mount center","center"}
 }
 
 local weapons = require('defs/weapons.lua')
@@ -27,14 +27,14 @@ function Shop.load()
     
     local weaponMenuItems = Menu.makeMenuitemsAssoc( 
         weapons, 
-        function(weapon) return weapon end, 
+        function(weapon,key) return key end, 
         function(weapon) 
             return weapon.name 
         end )
     
     Shop.weaponMenu = Menu.create( 200, 180, "Weapons", false, 100, 100 )
     Shop.weaponMenu.onSelect = Shop.weaponSelect
-    Shop.weaponMenu:addAll( weaponMenuItems )
+    Shop.weaponMenu:addAll( weaponMenuItems, true )
     
     Shop.weaponSlotMenu = Menu.create( 200,180, "Slots", false, 100, 100 )
     Shop.weaponSlotMenu:addAll( Shop.weaponSlotItems )
@@ -76,7 +76,7 @@ function Shop.drawGui()
     love.graphics.print( "Right Weapon: " .. tostring(player.ship.weapons.right.weapon or ""), 400, 65 )
     
     if Shop.currentMenu == Shop.weaponMenu and Shop.selectedWeapon then
-        local weapon = Shop.selectedWeapon
+        local weapon = weapons[Shop.selectedWeapon]
         love.graphics.print( "Name: " .. weapon.name, 50, 300)
         
         if player.score < weapon.price then
@@ -101,7 +101,9 @@ function Shop.keypressed(key)
     
     if result then
         if result == "abort" then
-            if Shop.currentMenu ~= Shop.mainMenu then
+            if Shop.currentMenu == Shop.weaponSlotMenu then
+                Shop.currentMenu = Shop.weaponMenu
+            elseif Shop.currentMenu ~= Shop.mainMenu then
                 Shop.currentMenu = Shop.mainMenu
             else
                 gamestate:change("InGame")
@@ -119,8 +121,8 @@ function Shop.keypressed(key)
                 end
                 
             elseif Shop.currentMenu == Shop.weaponMenu then
-                local weapon = result.item.tag
-                Shop.selectedWeapon = weapon
+                local weapon = weapons[result.item.tag]
+                Shop.selectedWeapon = result.item.tag
                 if player.score >= weapon.price then
                     Shop.currentMenu = Shop.weaponSlotMenu
                 else
@@ -129,9 +131,9 @@ function Shop.keypressed(key)
             
             elseif Shop.currentMenu == Shop.weaponSlotMenu then
             
-                player:changeScore(-Shop.selectedWeapon.price)
+                player:changeScore(-weapons[Shop.selectedWeapon].price)
                 
-                player.ship:mountWeapon( result.item.tag, Shop.selectedWeapon.id )
+                player.ship:mountWeapon( result.item.tag, Shop.selectedWeapon )
                 
                 Shop.selectedWeapon = nil
                 Shop.currentMenu = Shop.weaponMenu
@@ -142,12 +144,6 @@ function Shop.keypressed(key)
     end
 end
 
-function Shop.keyreleased(key)
-    --Shop.mainMenu:keyreleased(key)
-end
 
-function Shop.mousepressed(x,y,button)
-    print(x,y)
-end
 
 return Shop
