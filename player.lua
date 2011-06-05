@@ -40,13 +40,14 @@ function Player.create()
     
     self.energyConsume = 0
     
-    self.collectRad = 50
+    --self.collectRad = 50
     
     self.scoreMultiplier = {
         mult = 0,
-        duration = 2,
-        changed = false
+        duration = 2
     }
+    
+    --self.focus = false
     
     self.flyDir = {
         left = false,
@@ -54,16 +55,34 @@ function Player.create()
         up = false,
         down = false
         }
+        
+    self.extras = {
+        focus = {
+            level = 0,
+            maxLevel = 3
+        },
+        
+        speed = {
+            level = 1,
+            maxLevel = 5
+        }
+        
+    }
     
     self:setModifier(false)
     
     return self
 end
 
-function Player:incMultiplier()
+function Player:getCollectRad()
+    return 50 + (self.extras.focus.level-1) * 15
+end
+
+function Player:incMultiplier(x,y)
     self.scoreMultiplier.mult = self.scoreMultiplier.mult + 1
     self.scoreMultiplier.duration = 2
-    self.scoreMultiplier.changed = true
+    
+    si:setMultiplier(x,y)
 end
 
 function Player:draw()
@@ -137,11 +156,15 @@ function Player:keyreleased(key)
 end
 
 function Player:setModifier(value)
-    self.mod = value
-    if self.mod then
-        self.ship.handicap = 100
+    if self.extras.focus.level > 0 then
+        self.mod = value
+        if self.mod then
+            self.ship.handicap = 100 - 10 *(self.extras.focus.level-1)
+        else
+            self.ship.handicap = nil
+        end
     else
-        self.ship.handicap = nil
+        self.mod = false
     end
 end
 
@@ -256,7 +279,7 @@ function Player:destroy()
 end
 
 function Player:changeScore(dScore,x,y)
-    if self.scoreMultiplier.mult > 1 then
+    if dScore > 0 and self.scoreMultiplier.mult > 1 then
         dScore = dScore * self.scoreMultiplier.mult
     end
 

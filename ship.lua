@@ -73,8 +73,9 @@ function Ship:shoot(dt,phi,modifier,energy)
     for k,w in pairs(self.weapons) do
         if w.weapon then
             if not energy or energy >= w.weapon.def.energy then
-                w.weapon:shoot(dt,self.x + w.offset[1] ,self.y + w.offset[2],phi,0,modifier)
-                de = de + w.weapon.def.energy
+                if w.weapon:shoot(dt,self.x + w.offset[1] ,self.y + w.offset[2],phi,0,modifier) then
+                    de = de + w.weapon.def.energy
+                end
             end
         end
     end

@@ -42,7 +42,7 @@ function GameOver.keypressed(key)
     if key == "return" then
         gamestate:change("InGame")
     elseif key == "escape" then
-        love.event.push("q")
+        gamestate:change("MainMenu")
         return
     end
 end

@@ -15,6 +15,8 @@ function Weapon.create(defStr,owner)
     local self = {}
     setmetatable(self,Weapon)
     
+    self.id = defStr
+    
     self.def = weapons[defStr]
         
     self.timer = 0
@@ -31,7 +33,10 @@ function Weapon:shoot(dt,x, y, phi,dy,modifier)
         self:fireWeapon( dt, x, y, phi,dy,modifier )
         self.state = Weapon.states.COOLDOWN
         self.timer = 0
+        return true
     end 
+    
+    return false
 end
 
 function Weapon:fireWeapon(dt, x,y,phi,dy,modifier)

@@ -52,7 +52,7 @@ function love.load()
     
     gamestate = GameState.create(states)
     
-    gamestate:change("InGame")
+    gamestate:change("MainMenu")
     
     oldmousex = love.mouse.getX()
     oldmousey = love.mouse.getY()

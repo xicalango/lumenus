@@ -106,7 +106,7 @@ function Menu:draw()
         love.graphics.setColor( {0,0,0} )
     end
     
-    love.graphics.rectangle( "fill", 0, 0, self.w, self.h )
+    --love.graphics.rectangle( "fill", 0, 0, self.w, self.h )
     
     for i = 1, math.min(self.maxItems,#self.items) do
         local iMenuitem = i + self.scroll

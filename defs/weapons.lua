@@ -9,7 +9,7 @@ local weapons = {
         
         price = 1000,
         
-        energy = 5
+        energy = 50
     },
     
     smallfast = {
@@ -21,7 +21,19 @@ local weapons = {
         
         price = 1500,
         
-        energy = 7
+        energy = 70
+    },
+    
+    smallfastplus = {
+        name = "Small Fast +",
+        shot = "line",
+        shotCount = 1,
+        shotSpeed = 300,
+        repeatTime = 150,
+        
+        price = 4500,
+        
+        energy = 100
     },
     
     vulcan = {
@@ -38,7 +50,7 @@ local weapons = {
     
     sinus = {
         name = "Sinus",
-        shot = "line",
+        shot = "lineb",
         shotCount = 1,
         shotSpeed = 300,
         repeatTime = 50,
@@ -56,7 +68,7 @@ local weapons = {
     
     sinus2 = {
         name = "Sinus 2",
-        shot = "line",
+        shot = "lineb",
         shotCount = 1,
         shotSpeed = 300,
         repeatTime = 50,
@@ -74,7 +86,7 @@ local weapons = {
     
     spread2 = {
         name = "Spread 2",
-        shot = "line",
+        shot = "lineb",
         shotCount = 2,
         shotSpeed = 200,
         repeatTime = 150,
@@ -89,12 +101,12 @@ local weapons = {
         end,
         
         price = 4000,
-        energy = 10
+        energy = 50
     },
     
     spread3 = {
         name = "Spread 3",
-        shot = "line",
+        shot = "lineb",
         shotCount = 3,
         shotSpeed = 200,
         repeatTime = 150,
@@ -111,7 +123,50 @@ local weapons = {
         
         price = 8000,
         
-        energy = 15
+        energy = 50
+
+    },
+    
+    spread2plus = {
+        name = "Spread 2 +",
+        shot = "line",
+        shotCount = 2,
+        shotSpeed = 200,
+        repeatTime = 150,
+        
+        phifn = function(dt,_phi,phi,i,imax,x,y,modifier)
+            if modifier then
+                return ((2*i-3)*5)
+            else
+                return ((2*i-3)*30)
+            end
+            --return phi + (i-2)*20
+        end,
+        
+        price = 12000,
+        energy = 100
+    },
+    
+    spread3plus = {
+        name = "Spread 3 +",
+        shot = "line",
+        shotCount = 3,
+        shotSpeed = 200,
+        repeatTime = 150,
+        
+        phifn = function(dt,_phi,phi,i,imax,x,y,modifier)
+            if modifier then
+                return ((i-2)*5)
+            else
+                return ((i-2)*30)
+            end
+            --return phi + (i-2)*20
+        end,
+        
+        
+        price = 16000,
+        
+        energy = 100
 
     },
 
@@ -204,6 +259,18 @@ local weapons = {
         rspeed = 100,
         energy = 30
 
+    },
+    
+    wumm = {
+        name = "Wumm",
+        shot = "vbig",
+        shotCount = 1,
+        shotSpeed = 200,
+        repeatTime = 500,
+        
+        price = 8000,
+        
+        energy = 500
     }
 }
 

@@ -25,7 +25,7 @@ local shots = {
             offset = {4,12},
             tint={255,0,0}
         },
-        damage = 1,
+        damage = 3,
         bouncy = false
     },
     lineb = {
@@ -45,6 +45,17 @@ local shots = {
         },
         
         damage = 1,
+        bounce = false
+    },
+    
+    vbig = {
+        graphics = {
+            image = love.graphics.newImage("media/bigshot.png"),
+            offset = {8,12},
+            tint = {255,0,255}
+        },
+        
+        damage = 10,
         bounce = false
     }
 }

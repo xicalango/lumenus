@@ -12,13 +12,7 @@ function Gui.create(x,y)
     self.showScore = 0
     
     self.font = love.graphics.newFont(20)
-    
-    self.multiplier = {
-        font = love.graphics.newFont(48),
-        framebuffer = love.graphics.newFramebuffer( 100, 50 ),
-        lifetime = 0
-    }
-    
+       
     return self
 end
 
@@ -70,10 +64,7 @@ function Gui:draw()
     love.graphics.setColor(_r,_g,_b,_a)
     love.graphics.pop()
     
-    if player.scoreMultiplier.mult > 1 then
-    
-        love.graphics.draw(self.multiplier.framebuffer, love.graphics.getWidth()/2 - 100, 0, 0,        player.scoreMultiplier.duration/2, nil, 50, 0)
-    end
+
 end
 
 function Gui:update(dt)
@@ -89,21 +80,7 @@ function Gui:update(dt)
             self.showScore = player.score
         end
     end
-    
-    if player.scoreMultiplier.changed then
-        player.scoreMultiplier.changed = false
-        
-        if player.scoreMultiplier.mult > 1 then
-        
-            self.multiplier.framebuffer:renderTo(function()
-                local font = love.graphics.getFont()
-                love.graphics.setFont(self.multiplier.font)
-                love.graphics.print( player.scoreMultiplier.mult .. "X", 0, 0 )
-                love.graphics.setFont(font)
-            end)
-        
-        end
-    end
+
 end
 
 return Gui

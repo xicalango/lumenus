@@ -75,7 +75,7 @@ function Mob:update(dt)
         self.state = Mob.States.DIE
     end
     
-    if self.ship.y > 600 then
+    if self.ship.y > 610 then
         self.state = Mob.States.DIE
         --player:changeScore(-self.def.score)
     end
@@ -109,17 +109,29 @@ function Mob:damage(dmg,sx,sy)
     player:changeScore(dmg)
     
     if self.health <= 0 then
+        player:incMultiplier(self.ship.x,self.ship.y)
         player:changeScore(self.def.score,sx,sy)
 
-        explosionPS:setColor( self.ship.graphics.tint[1], self.ship.graphics.tint[2], self.ship.graphics.tint[3], 255, 255, 0, 0, 0 )
+        explosionPS:setColor( 
+            self.ship.graphics.tint[1], self.ship.graphics.tint[2], self.ship.graphics.tint[3], 
+            255, 255, 0, 0, 0 
+            )
         explosionPS:setPosition(self.ship.x, self.ship.y)
         explosionPS:start()
         
         for i = 1,4 do
-                currentmap:createDrop("junk" .. tostring(i), self.ship.x, self.ship.y, math.random()-0.5, 1, math.random(50,200), self.def.score/10 , self.def.graphics.tint, math.random(50,100) )
+                currentmap:createDrop(
+                    self.def.junktile .. tostring(i), 
+                    self.ship.x, self.ship.y, 
+                    math.random()-0.5, 1, 
+                    math.random(50,200), 
+                    self.def.score/10 , 
+                    self.def.graphics.tint, 
+                    math.random(50,100) 
+                )
         end
         
-        player:incMultiplier()
+
         
         if self.def.morphTo then
             self:morph(self.def.morphTo)

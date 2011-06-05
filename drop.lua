@@ -41,7 +41,8 @@ end
 function Drop:update(dt)
     if not self.followPlayer then
         --print(util.dstsq( self.x, self.y, player.ship.x, player.ship.y))
-        if player.ship.y < borders.itemGet or (player.mod and util.dstsq( self.x, self.y, player.ship.x, player.ship.y) <= player.collectRad*player.collectRad) then
+        local collectRad = player:getCollectRad()
+        if player.ship.y < borders.itemGet or (player.mod and util.dstsq( self.x, self.y, player.ship.x, player.ship.y) <= collectRad*collectRad) then
             self.followPlayer = true
             self.speed = 200
             self.speedx = 200

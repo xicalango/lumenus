@@ -52,15 +52,17 @@ function InGame.onStateChange(oldstate)
         if level == 3 then
             table.insert(currentmap.enemyTypes, "small")
         elseif level == 6 then
-            table.insert(currentmap.enemyTypes, "hard")
-        elseif level == 12 then
             table.insert(currentmap.enemyTypes, "medium")
+        elseif level == 9 then
+            table.insert(currentmap.enemyTypes, "vsmallsin")
+        elseif level == 15 then
+            table.insert(currentmap.enemyTypes, "hard")
         elseif level == 20 then
             table.insert(currentmap.enemyTypes, "vhard")
         end
 
         return true
-    elseif oldstate == "GameOver" then
+    elseif oldstate == "GameOver" or oldstate == "MainMenu" then
         player = Player.create()
         player.ship.y = 500
         player.ship.x = (borders.right-borders.left)/2
@@ -71,6 +73,8 @@ function InGame.onStateChange(oldstate)
         
         explosionPS:stop()
         damagePS:stop()
+        
+        si:reset()
     end
     
     return true
