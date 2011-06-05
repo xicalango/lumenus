@@ -151,7 +151,7 @@ function Shop.drawGui()
                 Shop.printPrice( math.floor(player.maxEnergy * Shop.settings.energyFactor)*Shop.settings.prices.energy, 50, 380 )
             end
         elseif Shop.selectedExtra == "Life" then
-            Shop.printPrice( Shop.settings.prices.life, 50, 300 )
+            Shop.printPrice( math.floor(player.score/4) + Shop.settings.prices.life, 50, 300 )
         end
     
     end
@@ -247,8 +247,8 @@ function Shop.keypressed(key)
                         end
                     end
                 elseif result.item.title == "Life" then
-                    if Shop.priceCheck(Shop.settings.prices.life, "Life") then
-                        player:changeScore(-Shop.settings.prices.life)
+                    if Shop.priceCheck(math.floor(player.score/4) + Shop.settings.prices.life, "Life") then
+                        player:changeScore(-(math.floor(player.score/4) + Shop.settings.prices.life))
                         player.lives = player.lives + 1
                     end
                 end

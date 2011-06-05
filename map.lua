@@ -25,6 +25,7 @@ function Map:onPlayerDeath()
     self.shots = {}
     self.mobs = {}
     self.playtime = self.playtime + 10
+    self.createMobTimer = 1 + math.random()
 end
 
 function Map:reset()

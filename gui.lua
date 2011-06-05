@@ -71,7 +71,7 @@ function Gui:update(dt)
     if self.showScore ~= player.score then
         local ds = player.score - self.showScore
         if ds > 0 then
-            self.showScore = self.showScore + (ds/10)+1
+            self.showScore = self.showScore + (ds/50)+1
             
             if self.showScore > player.score then
                 self.showScore = player.score

@@ -125,6 +125,10 @@ function InGame.draw()
 end
 
 function InGame.keypressed(key)
+    if key == "escape" then
+        gamestate:change("GameOver")
+    end
+
     player:keypressed(key)
 end
 

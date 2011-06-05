@@ -7,7 +7,7 @@ local weapons = {
         shotSpeed = 200,
         repeatTime = 150,
         
-        price = 1000,
+        price = 2000,
         
         energy = 50
     },
@@ -19,7 +19,7 @@ local weapons = {
         shotSpeed = 300,
         repeatTime = 150,
         
-        price = 1500,
+        price = 5000,
         
         energy = 70
     },
@@ -31,7 +31,7 @@ local weapons = {
         shotSpeed = 300,
         repeatTime = 150,
         
-        price = 4500,
+        price = 8000,
         
         energy = 100
     },
@@ -43,7 +43,7 @@ local weapons = {
         shotSpeed = 500,
         repeatTime = 10,
         
-        price = 5000,
+        price = 50000,
         
         energy = 30
     },
@@ -55,7 +55,7 @@ local weapons = {
         shotSpeed = 300,
         repeatTime = 50,
         
-        price = 3000,
+        price = 9000,
         
         energy = 10,
         
@@ -73,7 +73,7 @@ local weapons = {
         shotSpeed = 300,
         repeatTime = 50,
         
-        price = 3000,
+        price = 9000,
         
         energy = 10,
         
@@ -100,7 +100,7 @@ local weapons = {
             --return phi + (i-2)*20
         end,
         
-        price = 4000,
+        price = 8000,
         energy = 50
     },
     
@@ -121,7 +121,7 @@ local weapons = {
         end,
         
         
-        price = 8000,
+        price = 16000,
         
         energy = 50
 
@@ -143,7 +143,7 @@ local weapons = {
             --return phi + (i-2)*20
         end,
         
-        price = 12000,
+        price = 20000,
         energy = 100
     },
     
@@ -164,7 +164,7 @@ local weapons = {
         end,
         
         
-        price = 16000,
+        price = 40000,
         
         energy = 100
 
@@ -186,7 +186,7 @@ local weapons = {
             --return phi + (i-2)*20
         end,
         
-        price = 10000,
+        price = 50000,
         energy = 20
 
     },
@@ -230,7 +230,7 @@ local weapons = {
             --return phi + (i-2)*20
         end,
         
-        price = 100000,
+        price = 500000,
         
         rspeed = 100,
         energy = 30
