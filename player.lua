@@ -42,6 +42,12 @@ function Player.create()
     
     self.collectRad = 50
     
+    self.scoreMultiplier = {
+        mult = 0,
+        duration = 2,
+        changed = false
+    }
+    
     self.flyDir = {
         left = false,
         right = false,
@@ -52,6 +58,12 @@ function Player.create()
     self:setModifier(false)
     
     return self
+end
+
+function Player:incMultiplier()
+    self.scoreMultiplier.mult = self.scoreMultiplier.mult + 1
+    self.scoreMultiplier.duration = 2
+    self.scoreMultiplier.changed = true
 end
 
 function Player:draw()
@@ -74,6 +86,13 @@ function Player:reset()
         up = false,
         down = false
         }
+    
+    self.scoreMultiplier = {
+        mult = 0,
+        duration = 1,
+        changed = false
+    }
+        
     self.fireTrigger = false
     self.fireBlock = false
     self.energy = self.maxEnergy
@@ -142,8 +161,6 @@ function Player:update(dt)
     else
         self.ship.dy = 0
     end
-    
-    
 
     self.ship:update(dt)
         
@@ -189,6 +206,15 @@ function Player:update(dt)
         end
     end
     
+        
+    if self.scoreMultiplier.mult > 0 then
+        self.scoreMultiplier.duration = self.scoreMultiplier.duration - dt
+        
+        if self.scoreMultiplier.duration <= 0 then
+            self.scoreMultiplier.mult = 0
+        end
+    end
+    
 end
 
 function Player:damage(dmg)
@@ -205,10 +231,7 @@ function Player:destroy()
     end
 
     self.lives = self.lives - 1
-    self.invincible = true
-    self.invincibleTimer = 3
     
-    currentmap:onPlayerDeath()
     
     self:changeScore(-500,self.ship.x,self.ship.y)
     
@@ -216,6 +239,8 @@ function Player:destroy()
     explosionPS:setPosition(self.ship.x, self.ship.y)
     explosionPS:setSize(1, 1)
     explosionPS:start()
+
+    self:reset()
     
     for i = 1,4 do
         currentmap:createDrop("junk" .. tostring(i), self.ship.x, self.ship.y-20, math.random()-0.5, -1, math.random(50,200), 100 , graphics.tint, math.random(50,100) )
@@ -224,9 +249,17 @@ function Player:destroy()
     if self.lives <= 0 then
         gamestate:change("GameOver")
     end
+
+    
+    currentmap:onPlayerDeath()
+
 end
 
 function Player:changeScore(dScore,x,y)
+    if self.scoreMultiplier.mult > 1 then
+        dScore = dScore * self.scoreMultiplier.mult
+    end
+
     self.score = self.score + dScore
     if self.score < 0 then
         self.score = 0

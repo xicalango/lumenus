@@ -36,6 +36,16 @@ local shots = {
         },
         damage = 1,
         bouncy = false
+    },
+    
+    vulcan = {
+        graphics = {
+            image = love.graphics.newImage("media/p1x1.png"),
+            offset = {0,0}
+        },
+        
+        damage = 1,
+        bounce = false
     }
 }
 

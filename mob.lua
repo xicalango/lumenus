@@ -95,6 +95,10 @@ function Mob:draw()
 end
 
 function Mob:damage(dmg,sx,sy)
+    if self.state == Mob.States.DIE then
+        return
+    end
+
     self.health = self.health - dmg
     
     damagePS:setDirection(-math.pi/2)
@@ -114,6 +118,8 @@ function Mob:damage(dmg,sx,sy)
         for i = 1,4 do
                 currentmap:createDrop("junk" .. tostring(i), self.ship.x, self.ship.y, math.random()-0.5, 1, math.random(50,200), self.def.score/10 , self.def.graphics.tint, math.random(50,100) )
         end
+        
+        player:incMultiplier()
         
         if self.def.morphTo then
             self:morph(self.def.morphTo)

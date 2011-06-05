@@ -13,6 +13,12 @@ function Gui.create(x,y)
     
     self.font = love.graphics.newFont(20)
     
+    self.multiplier = {
+        font = love.graphics.newFont(48),
+        framebuffer = love.graphics.newFramebuffer( 100, 50 ),
+        lifetime = 0
+    }
+    
     return self
 end
 
@@ -33,8 +39,9 @@ function Gui:draw()
     local linecounter = 0
     
     linecounter = Gui.print( linecounter, "Level: " .. level, 10, 10)
-    linecounter = Gui.print( linecounter, "Score: " .. self.showScore, 10, 10)
+    linecounter = Gui.print( linecounter, "Score: " .. math.floor(self.showScore), 10, 10)
     linecounter = Gui.print( linecounter, "Lives: " .. player.lives, 10, 10)
+
     linecounter = Gui.print( linecounter, "Energy:", 10, 10)
     
     local regain = player.energyRegain
@@ -62,14 +69,39 @@ function Gui:draw()
     love.graphics.setFont(font)
     love.graphics.setColor(_r,_g,_b,_a)
     love.graphics.pop()
+    
+    if player.scoreMultiplier.mult > 1 then
+    
+        love.graphics.draw(self.multiplier.framebuffer, love.graphics.getWidth()/2 - 100, 0, 0,        player.scoreMultiplier.duration/2, nil, 50, 0)
+    end
 end
 
 function Gui:update(dt)
     if self.showScore ~= player.score then
-        self.showScore = self.showScore + 5
-        
-        if self.showScore > player.score then
+        local ds = player.score - self.showScore
+        if ds > 0 then
+            self.showScore = self.showScore + (ds/10)+1
+            
+            if self.showScore > player.score then
+                self.showScore = player.score
+            end
+        else
             self.showScore = player.score
+        end
+    end
+    
+    if player.scoreMultiplier.changed then
+        player.scoreMultiplier.changed = false
+        
+        if player.scoreMultiplier.mult > 1 then
+        
+            self.multiplier.framebuffer:renderTo(function()
+                local font = love.graphics.getFont()
+                love.graphics.setFont(self.multiplier.font)
+                love.graphics.print( player.scoreMultiplier.mult .. "X", 0, 0 )
+                love.graphics.setFont(font)
+            end)
+        
         end
     end
 end

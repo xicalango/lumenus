@@ -24,6 +24,18 @@ local weapons = {
         energy = 7
     },
     
+    vulcan = {
+        name = "Vulcan",
+        shot = "vulcan",
+        shotCount = 1,
+        shotSpeed = 500,
+        repeatTime = 10,
+        
+        price = 5000,
+        
+        energy = 30
+    },
+    
     sinus = {
         name = "Sinus",
         shot = "line",
@@ -158,6 +170,30 @@ local weapons = {
                 return ((i-5)*2.5) * math.sin(2*math.pi*0.05*framecounter)
             else
                 return ((i-5)*5) * math.sin(2*math.pi*0.01*framecounter)
+            end
+        
+            --return phi + (i-2)*20
+        end,
+        
+        price = 100000,
+        
+        rspeed = 100,
+        energy = 30
+
+    },
+    
+    circle = {
+        name = "Circle",
+        shot = "big",
+        shotCount = 10,
+        shotSpeed = 500,
+        repeatTime = 10,
+        
+        phifn = function(dt,_phi,phi,i,imax,x,y,modifier)
+            if modifier then
+                return ((i-5)*2.5)
+            else
+                return ((i-5)*5)
             end
         
             --return phi + (i-2)*20

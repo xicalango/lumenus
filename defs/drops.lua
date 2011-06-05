@@ -1,4 +1,9 @@
 
+local junkCollide = function(self)
+    player:changeScore(self.amount,self.x,self.y)
+    player:changeEnergy(1)
+end
+
 local drops = {
     battery = {
         graphics = {
@@ -29,9 +34,7 @@ local drops = {
             offset = {8,6}
         },
         
-        onCollide = function(self)
-            player:changeScore(self.amount,self.x,self.y)
-        end
+        onCollide = junkCollide
     },
     
     junk2 = {
@@ -40,9 +43,7 @@ local drops = {
             offset = {8,6}
         },
         
-        onCollide = function(self)
-            player:changeScore(self.amount,self.x,self.y)
-        end
+        onCollide = junkCollide
     },
     
     junk3 = {
@@ -51,9 +52,7 @@ local drops = {
             offset = {8,6}
         },
         
-        onCollide = function(self)
-            player:changeScore(self.amount,self.x,self.y)
-        end
+        onCollide = junkCollide
     },
     
     junk4 = {
@@ -62,9 +61,7 @@ local drops = {
             offset = {8,6}
         },
         
-        onCollide = function(self)
-            player:changeScore(self.amount,self.x,self.y)
-        end
+        onCollide = junkCollide
     },
 }
 
