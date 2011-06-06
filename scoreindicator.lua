@@ -1,4 +1,73 @@
 
+local FBMultiplierDisplay = {}
+FBMultiplierDisplay.__index = FBMultiplierDisplay
+
+function FBMultiplierDisplay.create()
+    local self = {}
+    setmetatable(self, FBMultiplierDisplay)
+
+    self.font = love.graphics.newFont(48)
+    self.framebuffer = love.graphics.newFramebuffer( 100, 100 )
+    self.x = 0
+    self.y = 0
+
+    return self
+end
+
+function FBMultiplierDisplay:draw()
+    if player.scoreMultiplier.mult > 1 then
+        love.graphics.setColor( 0,255,255 )    
+        love.graphics.draw(self.framebuffer, self.x, self.y, 0, player.scoreMultiplier.duration/2, nil, 50, 50)
+        love.graphics.setColor( 255, 255, 255 )
+    end
+end
+
+function FBMultiplierDisplay:set(x,y)
+        self.framebuffer:renderTo(function()
+            local font = love.graphics.getFont()
+            love.graphics.setFont(self.font)
+            love.graphics.print( player.scoreMultiplier.mult .. "X", 10, 10 )
+            love.graphics.setFont(font)
+        end)
+        
+        self.x = x
+        self.y = y
+end
+
+local AlphaMultiplierDisplay = {}
+AlphaMultiplierDisplay.__index = AlphaMultiplierDisplay
+
+function AlphaMultiplierDisplay.create()
+    local self = {}
+    setmetatable(self, AlphaMultiplierDisplay)
+
+    self.font = love.graphics.newFont(48)
+    self.x = 0
+    self.y = 0
+
+    return self
+end
+
+function AlphaMultiplierDisplay:draw()
+    if player.scoreMultiplier.mult > 1 then
+        local alpha = 255 * (player.scoreMultiplier.duration/2)
+        local font = love.graphics.getFont()
+
+        love.graphics.setFont(self.font)
+        love.graphics.setColor( 0, 255, 255, alpha )
+
+        love.graphics.print( player.scoreMultiplier.mult .. "X", self.x, self.y )
+
+        love.graphics.setColor( 255, 255, 255 )
+        love.graphics.setFont(font)
+    end
+end
+
+function AlphaMultiplierDisplay:set(x,y)
+    self.x = x
+    self.y = y
+end
+
 local ScoreIndicator = {}
 ScoreIndicator.__index = ScoreIndicator
 
@@ -7,15 +76,15 @@ function ScoreIndicator.create()
     setmetatable(self,ScoreIndicator)
     
     self.scores = {}
-    
-    self.multiplier = {
-        font = love.graphics.newFont(48),
-        framebuffer = love.graphics.newFramebuffer( 100, 50 ),
-        lifetime = 0,
-        x = 0,
-        y = 0
-    }
-    
+
+    local status, result = pcall(FBMultiplierDisplay.create)
+
+    if status then
+        self.multiplier = result
+    else
+        self.multiplier = AlphaMultiplierDisplay.create()
+    end
+
     return self
 end
 
@@ -33,16 +102,8 @@ end
 
 function ScoreIndicator:setMultiplier(x, y)
     if player.scoreMultiplier.mult > 1 then
-    
-        self.multiplier.framebuffer:renderTo(function()
-            local font = love.graphics.getFont()
-            love.graphics.setFont(self.multiplier.font)
-            love.graphics.print( player.scoreMultiplier.mult .. "X", 10, 10 )
-            love.graphics.setFont(font)
-        end)
-        
-        self.multiplier.x = x
-        self.multiplier.y = y
+   
+        self.multiplier:set(x,y)
     
     end
 end
@@ -73,9 +134,7 @@ function ScoreIndicator:draw()
     end
     
     if player.scoreMultiplier.mult > 1 then
-        love.graphics.setColor( 0,255,255 )    
-        love.graphics.draw(self.multiplier.framebuffer, self.multiplier.x, self.multiplier.y, 0,        player.scoreMultiplier.duration/2, nil, 50, 25)
-        love.graphics.setColor( 255, 255, 255 )
+        self.multiplier:draw()
     end
 end
 
