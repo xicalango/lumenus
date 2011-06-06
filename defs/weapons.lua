@@ -24,6 +24,34 @@ local weapons = {
         energy = 70
     },
     
+    gravity = {
+    	name = "Gravity Gun",
+    	shot = "small",
+    	shotCount = 1,
+    	shotSpeed = 700,
+    	repeatTime = 150,
+    	
+    	price = 5000,
+    	
+    	energy = 70,
+    	
+	flyfn = function(dt,x,y,dx,dy,speed,dummy,self)
+	    self.dy = self.dy + dt
+            local xx,yy = util.move(dt,x,y,dx,dy,speed)
+            
+            return xx, yy
+        end,
+        phifn = function(dt,_phi,phi,i,imax,x,y,modifier)
+            if modifier then
+                return 10 * math.sin(2*math.pi*0.01*framecounter)
+            else
+                return 20 * math.sin(2*math.pi*0.01*framecounter)
+            end
+            --return phi + (i-2)*20
+        end,
+ 
+    },
+    
     smallfastplus = {
         name = "Small Fast +",
         shot = "line",
