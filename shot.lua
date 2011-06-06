@@ -46,7 +46,7 @@ function Shot:draw()
 end
 
 function Shot:update(dt)
-        self.x, self.y = self.flyfn(dt,self.x,self.y,self.dx,self.dy,self.speed)
+        self.x, self.y = self.flyfn(dt,self.x,self.y,self.dx,self.dy,self.speed,nil,self)
         
         if self.rspeed then
             self.phi = self.phi + self.rspeed * dt
@@ -54,7 +54,7 @@ function Shot:update(dt)
         
         self.lifetime = self.lifetime + dt
         
-        if self.y < 0 or self.lifetime > 15 then
+        if self.y < 0 or self.y > 620 or self.lifetime > 15 then
             self.state = Shot.States.DIE
         end
         
