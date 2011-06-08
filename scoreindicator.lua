@@ -21,14 +21,6 @@ end
 
 function ScoreIndicator:reset()
     self.scores = {}
-    
-    self.multiplier = {
-        font = love.graphics.newFont(48),
-        framebuffer = love.graphics.newFramebuffer( 100, 50 ),
-        lifetime = 0,
-        x = 0,
-        y = 0
-    }
 end
 
 function ScoreIndicator:add(score, x, y)
@@ -45,7 +37,7 @@ function ScoreIndicator:setMultiplier(x, y)
         self.multiplier.framebuffer:renderTo(function()
             local font = love.graphics.getFont()
             love.graphics.setFont(self.multiplier.font)
-            love.graphics.print( player.scoreMultiplier.mult .. "X", 0, 0 )
+            love.graphics.print( player.scoreMultiplier.mult .. "X", 10, 10 )
             love.graphics.setFont(font)
         end)
         
