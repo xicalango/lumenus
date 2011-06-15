@@ -24,6 +24,28 @@ local weapons = {
         energy = 70
     },
     
+    random = {
+    	name = "Random Gun",
+    	shot = "small",
+    	shotCount = 1,
+    	shotSpeed = 400,
+    	repeatTime = 150,
+    	
+    	price = 5000,
+    	
+    	energy = 70,
+    	
+        phifn = function(dt,_phi,phi,i,imax,x,y,modifier)
+            if modifier then
+                return 20 * (math.random()-0.5)
+            else
+                return 60 * (math.random()-0.5)
+            end
+            --return phi + (i-2)*20
+        end,
+ 
+    },
+    
     gravity = {
     	name = "Gravity Gun",
     	shot = "small",
