@@ -2,7 +2,7 @@
 local junkCollide = function(self)
     player:changeScore(self.amount,self.x,self.y)
     player:changeEnergy(1)
-    player.scoreMultiplier.duration = player.scoreMultiplier.duration + self.amount/100
+    player.scoreMultiplier.duration = player.scoreMultiplier.duration + 0.1
     if player.scoreMultiplier.duration > 1 then player.scoreMultiplier.duration = 1 end
 end
 
