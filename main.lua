@@ -68,7 +68,7 @@ end
 
 function love.draw()
     love.graphics.clear( )
-    love.graphics.scale(.8, .8)
+    --love.graphics.scale(.8, .8)
     
     gamestate:draw()
 end
