@@ -29,6 +29,28 @@ local weapons = {
         upgrade = "smallfastplus"
     },
     
+    random = {
+    	name = "Random Gun",
+    	shot = "small",
+    	shotCount = 1,
+    	shotSpeed = 400,
+    	repeatTime = 150,
+    	
+    	price = 5000,
+    	
+    	energy = 70,
+    	
+        phifn = function(dt,_phi,phi,i,imax,x,y,modifier)
+            if modifier then
+                return 20 * (math.random()-0.5)
+            else
+                return 60 * (math.random()-0.5)
+            end
+            --return phi + (i-2)*20
+        end,
+ 
+    },
+    
     gravity = {
     	name = "Gravity Gun",
     	shot = "small",
@@ -56,6 +78,42 @@ local weapons = {
         end,
  
     },
+
+    gravitySplit = {
+    	name = "Gravity Split Gun",
+    	shot = "small",
+    	shotCount = 1,
+    	shotSpeed = 300,
+    	repeatTime = 150,
+    	
+    	price = 5000,
+    	
+    	energy = 70,
+    	
+	flyfn = function(dt,x,y,dx,dy,speed,dummy,self)
+
+	    self.dy = self.dy + dt
+            local xx,yy = util.move(dt,x,y,dx,dy,speed)
+            
+            if self.dy >= 0 then
+            	self.state = 1 -- DIE
+            	currentmap:createShot( "small", x, y, -30, speed, self.owner )
+            	currentmap:createShot( "small", x, y,  30, speed, self.owner )
+            end
+            
+            return xx, yy
+        end,
+        phifn = function(dt,_phi,phi,i,imax,x,y,modifier)
+            if modifier then
+                return 10 * math.sin(2*math.pi*0.01*framecounter)
+            else
+                return 20 * math.sin(2*math.pi*0.01*framecounter)
+            end
+            --return phi + (i-2)*20
+        end,
+ 
+    },
+
     
     smallfastplus = {
         name = "Small Fast +",
