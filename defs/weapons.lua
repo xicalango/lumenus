@@ -204,6 +204,30 @@ local weapons = {
             return xx + math.sin(2*math.pi*0.005*y)*2, yy
         end
     },
+     
+    sinusPlus = {
+        name = "Sinus Plus",
+        shot = "lineb",
+        shotCount = 2,
+        shotSpeed = 300,
+        repeatTime = 50,
+        
+        price = 9000,
+        
+        energy = 10,
+        
+        flyfn = function(dt,x,y,dx,dy,speed, speedy, self)
+            local xx,yy = util.move(dt,x,y,dx,dy,speed)
+            
+            local fn = math.sin
+            
+            if self.i == 2 then
+            	fn = math.cos
+            end
+            
+            return xx + fn(2*math.pi*0.005*y)*3, yy
+        end
+    },
     
     sinus2 = {
         name = "Sinus 2",
@@ -220,6 +244,31 @@ local weapons = {
             local xx,yy = util.move(dt,x,y,dx,dy,speed)
             
             return xx + math.sin(2*math.pi*0.01*framecounter)*2, yy
+        end
+    },
+    
+    sinus2Plus = {
+        name = "Sinus 2 Plus",
+        shot = "lineb",
+        shotCount = 2,
+        shotSpeed = 300,
+        repeatTime = 50,
+        
+        price = 9000,
+
+        
+        energy = 10,
+        
+        flyfn = function(dt,x,y,dx,dy,speed,speedy,self)
+            local xx,yy = util.move(dt,x,y,dx,dy,speed)
+            
+            local fn = math.sin
+            
+            if self.i == 2 then
+            	fn = math.cos
+            end
+            
+            return xx + fn(2*math.pi*0.01*framecounter)*3, yy
         end
     },
     

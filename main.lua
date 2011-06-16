@@ -16,6 +16,8 @@ Player = require("player.lua")
 Mob = require("mob.lua")
 Drop = require("drop.lua")
 
+scaled = false
+
 --goo = require("goo/goo.lua")
 --anim = require("anim/anim.lua")
 
@@ -67,8 +69,11 @@ function love.load()
 end
 
 function love.draw()
-    love.graphics.clear( )
-    --love.graphics.scale(.8, .8)
+    love.graphics.clear()
+    
+    if scaled then
+    	love.graphics.scale(.8, .8)
+    end
     
     gamestate:draw()
 end

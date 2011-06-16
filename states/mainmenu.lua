@@ -4,10 +4,11 @@ local MainMenu = {}
 MainMenu.__index = MainMenu
 
 MainMenu.mainMenuItems = {
-    {"Start"},
-    {"Load"},
-    {"Fullscreen"},
-    {"Exit"}
+    {"Start","start"},
+    {"Load","load"},
+    {"Fullscreen","fullscreen"},
+    {"Toggle 640x480","640x480"},
+    {"Exit","exit"}
 }
 
 function MainMenu.load()
@@ -81,14 +82,20 @@ function MainMenu.keypressed(key)
     
     if result then
         if result ~= "abort" then
-            if result.item.title == "Start" then
+            if result.item.tag == "start" then
                 gamestate:change("InGame")
-            elseif result.item.title == "Load" then
-            elseif result.item.title == "Fullscreen" then
+            elseif result.item.tag == "load" then
+            elseif result.item.tag == "fullscreen" then
                 love.graphics.toggleFullscreen()
-            elseif result.item.title == "Exit" then
+            elseif result.item.tag == "exit" then
                 love.event.push("q")
                 return
+            elseif result.item.tag == "640x480" then
+            	if scaled then
+            		scaled = not love.graphics.setMode(800,600)
+            	else
+            		scaled = love.graphics.setMode(640,480)
+            	end
             end
         end
     end

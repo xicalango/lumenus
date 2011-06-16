@@ -9,7 +9,7 @@ Shot.States = {
     DIE = 1
 }
 
-function Shot.create(defstr,x,y,dx,dy,speed,owner,rspeed,phi,flyfn)
+function Shot.create(defstr,x,y,dx,dy,speed,owner,rspeed,phi,flyfn,i)
     local self = {}
     setmetatable(self,Shot)
     
@@ -37,6 +37,8 @@ function Shot.create(defstr,x,y,dx,dy,speed,owner,rspeed,phi,flyfn)
     self.lifetime = 0
 
     self.owner = owner
+    
+    self.i = i
     
     return self
 end
