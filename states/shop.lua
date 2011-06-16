@@ -3,10 +3,11 @@ local Shop = {}
 Shop.__index = Shop
 
 Shop.mainMenuItems = {
-    {"Weapons"},
-    {"Extras"},
-    {"Save"},
-    {"Exit"}
+    {"Weapons", "weapons"},
+    {"Upgrade Weapons", "upgrade"},
+    {"Extras", "extras"},
+    {"Save", "save"},
+    {"Exit", "exit"}
 }
 
 Shop.weaponSlotItems = {
@@ -16,10 +17,10 @@ Shop.weaponSlotItems = {
 }
 
 Shop.extrasMenuItems = {
-    {"Focus"},
-    {"Energy"},
-    {"Speed"},
-    {"Life"},
+    {"Focus", "focus"},
+    {"Energy", "energy"},
+    {"Speed", "speed"},
+    {"Life", "life"},
 }
 
 Shop.settings = {
@@ -46,11 +47,16 @@ function Shop.load()
     Shop.mainMenu:addAll( Shop.mainMenuItems )
     
     local weaponMenuItems = Menu.makeMenuitemsAssoc( 
-        weapons, 
+        util.filter(weapons, 
+            function(w) 
+                return not w.notInShop
+            end
+        ), 
         function(weapon,key) return key end, 
         function(weapon) 
             return weapon.name 
-        end )
+        end 
+    )
     
     Shop.weaponMenu = Menu.create( 200, 180, "Weapons", false, 100, 100 )
     Shop.weaponMenu.onSelect = Shop.weaponSelect
@@ -66,12 +72,16 @@ function Shop.load()
     Shop.selectedWeapon = nil
 end
 
+function Shop.upgradeSelect(item)
+    Shop.selectedUpgrade = item.tag
+end
+
 function Shop.weaponSelect(item)
     Shop.selectedWeapon = item.tag
 end
 
 function Shop.extraSelect(item)
-    Shop.selectedExtra = item.title
+    Shop.selectedExtra = item.tag
 end
 
 function Shop.onActivation()
@@ -97,6 +107,51 @@ function Shop.printPrice( price, x, y )
     love.graphics.setColor(255,255,255)
 end
 
+function Shop.drawWeaponInfo()
+    local weapon = weapons[Shop.selectedWeapon]
+    love.graphics.print( "Name: " .. weapon.name, 50, 300)
+    
+    Shop.printPrice( weapon.price, 50, 320 )
+    
+    love.graphics.print( "Description: " , 50, 340)
+    love.graphics.printf( weapon.desc or "No description available...", 50, 360, 750)
+end
+
+function Shop.drawExtraInfo()
+    if Shop.selectedExtra == "focus" then
+        love.graphics.print( "Level: " .. player.extras.focus.level .. "/" .. player.extras.focus.maxLevel, 50, 300 )
+        
+        if player.extras.focus.level < player.extras.focus.maxLevel then
+            Shop.printPrice( (player.extras.focus.level+1)*Shop.settings.prices.focus, 50, 320 )
+        end
+        
+        love.graphics.print( "Description: " , 50, 340)
+        love.graphics.printf( "No description available...", 50, 360, 750)
+    elseif Shop.selectedExtra == "speed" then
+        love.graphics.print( "Level: " .. player.extras.speed.level .. "/" .. player.extras.speed.maxLevel, 50, 300 )
+        
+        if player.extras.speed.level < player.extras.speed.maxLevel then
+            Shop.printPrice( (player.extras.speed.level+1)*Shop.settings.prices.speed, 50, 320 )
+        end
+        
+        love.graphics.print( "Description: " , 50, 340)
+        love.graphics.printf( "No description available...", 50, 360, 750)
+    elseif Shop.selectedExtra == "energy" then
+        love.graphics.print( "Current max Energy: " .. math.floor(player.maxEnergy), 50, 300)    
+        love.graphics.print( "Current Energy regain: " .. math.floor(player.energyRegain) .. "/second", 50, 320) 
+        
+        if player.maxEnergy < Shop.settings.maxEnergy then
+        
+            love.graphics.print( "Next level max Energy: " .. math.floor(player.maxEnergy * Shop.settings.energyFactor), 50, 340) 
+            love.graphics.print( "Next level Energy regain: " .. math.floor(player.energyRegain * Shop.settings.energyFactor) .. "/second", 50, 360) 
+            
+            Shop.printPrice( math.floor(player.maxEnergy * Shop.settings.energyFactor)*Shop.settings.prices.energy, 50, 380 )
+        end
+    elseif Shop.selectedExtra == "life" then
+        Shop.printPrice( math.floor(player.score/4) + Shop.settings.prices.life, 50, 300 )
+    end
+end
+
 function Shop.drawGui()
     love.graphics.print( "Score/Money: " .. player.score, 50, 25)
     love.graphics.print( "Lives: " .. player.lives, 50, 45)
@@ -112,51 +167,29 @@ function Shop.drawGui()
     love.graphics.print( "Right Weapon: " .. tostring(player.ship.weapons.right.weapon or ""), 400, 65 )
     
     if Shop.currentMenu == Shop.weaponMenu and Shop.selectedWeapon then
-        local weapon = weapons[Shop.selectedWeapon]
-        love.graphics.print( "Name: " .. weapon.name, 50, 300)
-        
-        Shop.printPrice( weapon.price, 50, 320 )
+        Shop.drawWeaponInfo()
+    elseif Shop.currentMenu == Shop.extrasMenu and Shop.selectedExtra then
+        Shop.drawExtraInfo()
+    elseif Shop.currentMenu == Shop.upgradeMenu and Shop.selectedUpgrade then
+        Shop.drawUpgradeInfo()
+    end
+end
+
+function Shop.drawUpgradeInfo()
+    local weapon = player.ship.weapons[Shop.selectedUpgrade].weapon
+    local weaponDef = weapons[weapon.id]
+    
+    if weaponDef.upgrade then
+        local upgradeDef = weapons[weaponDef.upgrade]
+        love.graphics.print( "Upgrade to: " .. upgradeDef.name, 50, 300)
+    
+        Shop.printPrice( upgradeDef.price, 50, 320 )
         
         love.graphics.print( "Description: " , 50, 340)
-        love.graphics.printf( weapon.desc or "No description available...", 50, 360, 750)
-    
-    elseif Shop.currentMenu == Shop.extrasMenu and Shop.selectedExtra then
-        if Shop.selectedExtra == "Focus" then
-            love.graphics.print( "Level: " .. player.extras.focus.level .. "/" .. player.extras.focus.maxLevel, 50, 300 )
-            
-            if player.extras.focus.level < player.extras.focus.maxLevel then
-                Shop.printPrice( (player.extras.focus.level+1)*Shop.settings.prices.focus, 50, 320 )
-            end
-            
-            love.graphics.print( "Description: " , 50, 340)
-            love.graphics.printf( "No description available...", 50, 360, 750)
-        elseif Shop.selectedExtra == "Speed" then
-            love.graphics.print( "Level: " .. player.extras.speed.level .. "/" .. player.extras.speed.maxLevel, 50, 300 )
-            
-            if player.extras.speed.level < player.extras.speed.maxLevel then
-                Shop.printPrice( (player.extras.speed.level+1)*Shop.settings.prices.speed, 50, 320 )
-            end
-            
-            love.graphics.print( "Description: " , 50, 340)
-            love.graphics.printf( "No description available...", 50, 360, 750)
-        elseif Shop.selectedExtra == "Energy" then
-            love.graphics.print( "Current max Energy: " .. math.floor(player.maxEnergy), 50, 300)    
-            love.graphics.print( "Current Energy regain: " .. math.floor(player.energyRegain) .. "/second", 50, 320) 
-            
-            if player.maxEnergy < Shop.settings.maxEnergy then
-            
-                love.graphics.print( "Next level max Energy: " .. math.floor(player.maxEnergy * Shop.settings.energyFactor), 50, 340) 
-                love.graphics.print( "Next level Energy regain: " .. math.floor(player.energyRegain * Shop.settings.energyFactor) .. "/second", 50, 360) 
-                
-                Shop.printPrice( math.floor(player.maxEnergy * Shop.settings.energyFactor)*Shop.settings.prices.energy, 50, 380 )
-            end
-        elseif Shop.selectedExtra == "Life" then
-            Shop.printPrice( math.floor(player.score/4) + Shop.settings.prices.life, 50, 300 )
-        end
-    
+        love.graphics.printf( upgradeDef.desc or "No description available...", 50, 360, 750)
+    else
+        love.graphics.print( "No upgrades available", 50, 300)
     end
-    
-    
 end
 
 function Shop.keypressed(key)
@@ -178,13 +211,17 @@ function Shop.keypressed(key)
             if Shop.currentMenu == Shop.mainMenu then
             
             
-                if result.item.title == "Weapons" then
+                if result.item.tag == "weapons" then
                     Shop.currentMenu = Shop.weaponMenu
                     Shop.currentMenu:moveSelect(0)
-                elseif result.item.title == "Extras" then
+                elseif result.item.tag == "upgrade" then
+                    Shop.upgradeMenu = Shop.createUpgradeMenu()
+                    Shop.currentMenu = Shop.upgradeMenu
+                    Shop.currentMenu:moveSelect(0)
+                elseif result.item.tag == "extras" then
                     Shop.currentMenu = Shop.extrasMenu
                     Shop.currentMenu:moveSelect(0)                    
-                elseif result.item.title == "Exit" then
+                elseif result.item.tag == "exit" then
                     gamestate:change("InGame")
                 end
                 
@@ -211,9 +248,29 @@ function Shop.keypressed(key)
                     Shop.currentMenu:moveSelect(0)
 
                 end
-            
+            elseif Shop.currentMenu == Shop.upgradeMenu then
+                    local weapon = player.ship.weapons[result.item.tag].weapon
+                    local weaponDef = weapons[weapon.id]
+                    
+                    if weaponDef.upgrade then
+                        local upgradeDef = weapons[weaponDef.upgrade]
+                        if Shop.priceCheck(upgradeDef.price, upgradeDef.name) then
+                            player:changeScore(-upgradeDef.price)
+                            
+                            player.ship:mountWeapon( result.item.tag, weaponDef.upgrade )
+                            
+                            Shop.upgradeMenu = Shop.createUpgradeMenu()
+                            Shop.currentMenu = Shop.upgradeMenu
+                            Shop.currentMenu:moveSelect(0)
+                        end
+                    else
+                        Shop.message = { color = {255,0,0}, msg = "No upgrade available!" }
+                    end
+                    
+                    
+
             elseif Shop.currentMenu == Shop.extrasMenu then
-                if result.item.title == "Focus" then
+                if result.item.tag == "focus" then
                     if Shop.priceCheck((player.extras.focus.level+1)*Shop.settings.prices.focus, "Focus") then
                         if player.extras.focus.level == player.extras.focus.maxLevel then
                             Shop.message = { color = {255,0,0}, msg = "Focus already on max level!" }
@@ -222,7 +279,7 @@ function Shop.keypressed(key)
                             player.extras.focus.level = player.extras.focus.level + 1
                         end
                     end
-                elseif result.item.title == "Speed" then
+                elseif result.item.tag == "speed" then
                     if Shop.priceCheck((player.extras.speed.level+1)*Shop.settings.prices.speed, "Speed") then
                         if player.extras.speed.level == player.extras.speed.maxLevel then
                             Shop.message = { color = {255,0,0}, msg = "Speed already on max level!" }
@@ -232,7 +289,7 @@ function Shop.keypressed(key)
                             player.ship.speed = 200 + (player.extras.speed.level-1)*25
                         end
                     end
-                elseif result.item.title == "Energy" then
+                elseif result.item.tag == "energy" then
                     if Shop.priceCheck(math.floor(player.maxEnergy * Shop.settings.energyFactor)*Shop.settings.prices.energy, "Energy") then
                         if player.maxEnergy == Shop.settings.maxEnergy then
                             Shop.message = { color = {255,0,0}, msg = "Max Energy reached!" }
@@ -246,7 +303,7 @@ function Shop.keypressed(key)
                             end
                         end
                     end
-                elseif result.item.title == "Life" then
+                elseif result.item.tag == "life" then
                     if Shop.priceCheck(math.floor(player.score/4) + Shop.settings.prices.life, "Life") then
                         player:changeScore(-(math.floor(player.score/4) + Shop.settings.prices.life))
                         player.lives = player.lives + 1
@@ -260,6 +317,38 @@ function Shop.keypressed(key)
             end
         end
     end
+end
+
+function Shop.createUpgradeMenu()
+    local menuItems = {}
+    
+    for k,v in pairs(player.ship.weapons) do
+        if v.weapon then
+            table.insert(menuItems, 
+                {util.capitalize(k) .. " Weapon: " .. tostring(v.weapon),k}
+                )
+        end
+    end
+    
+    local menu = Menu.create( 200, 180, "Upgrade", false, 100, 100 )
+    menu.onSelect = Shop.upgradeSelect
+    menu:addAll( menuItems, true )
+    
+    return menu
+end
+
+function Shop.updateUpgradeMenu()
+    local menuItems = {}
+    
+    for k,v in pairs(player.ship.weapons) do
+        if v.weapon then
+            table.insert(menuItems, 
+                {util.capitalize(k) .. " Weapon: " .. tostring(v.weapon),k}
+                )
+        end
+    end
+    
+    Shop.upgradeMenu:rebuild(menuItems)
 end
 
 function Shop.priceCheck(price, object)

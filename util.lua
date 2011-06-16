@@ -7,6 +7,26 @@ function util.takeRandom(tbl)
     return tbl[math.random(1,#tbl)]
 end
 
+function util.capitalize(word)
+    return string.gsub(word, "(.)(.*)",
+        function(head, tail)
+                return string.upper(head) .. string.lower(tail)
+        end
+        )
+end
+
+function util.filter(tbl, filter)
+    local result = {}
+    
+    for k, v in pairs(tbl) do
+        if filter(v,k) then
+            result[k] = v
+        end
+    end
+
+    return result
+end
+
 function util.keycheck(needle,haystack) --only for small haystacks
 
     if type(haystack) == "table" then

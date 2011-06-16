@@ -9,7 +9,9 @@ local weapons = {
         
         price = 2000,
         
-        energy = 50
+        energy = 50,
+        
+        upgrade = "smallfast"
     },
     
     smallfast = {
@@ -21,7 +23,10 @@ local weapons = {
         
         price = 5000,
         
-        energy = 70
+        energy = 70,
+        
+        notInShop = true,
+        upgrade = "smallfastplus"
     },
     
     gravity = {
@@ -61,7 +66,9 @@ local weapons = {
         
         price = 8000,
         
-        energy = 100
+        energy = 100,
+        
+        notInShop = true
     },
     
     vulcan = {
@@ -129,7 +136,9 @@ local weapons = {
         end,
         
         price = 8000,
-        energy = 50
+        energy = 50,
+        
+        upgrade = "spread2plus"
     },
     
     spread3 = {
@@ -151,7 +160,9 @@ local weapons = {
         
         price = 16000,
         
-        energy = 50
+        energy = 50,
+        
+        upgrade = "spread3plus"
 
     },
     
@@ -172,7 +183,9 @@ local weapons = {
         end,
         
         price = 20000,
-        energy = 100
+        energy = 100,
+        
+        notInShop = true,
     },
     
     spread3plus = {
@@ -194,7 +207,9 @@ local weapons = {
         
         price = 40000,
         
-        energy = 100
+        energy = 100,
+        
+        notInShop = true
 
     },
 
