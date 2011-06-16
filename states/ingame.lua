@@ -60,6 +60,12 @@ function InGame.onStateChange(oldstate)
         elseif level == 20 then
             table.insert(currentmap.enemyTypes, "vhard")
         end
+        
+        currentmap:reset()
+
+        player:reset()
+        
+        InGame.gui.showScore = player.score
 
         return true
     elseif oldstate == "GameOver" or oldstate == "MainMenu" then
@@ -73,6 +79,8 @@ function InGame.onStateChange(oldstate)
         
         explosionPS:stop()
         damagePS:stop()
+
+        InGame.gui.showScore = player.score
         
         si:reset()
     end
@@ -83,11 +91,7 @@ end
 function InGame.onActivation()
     love.mouse.setVisible(false)
 
-    currentmap:reset()
-
-    player:reset()
-    
-    InGame.gui.showScore = player.score
+    player:stop()
 end
 
 function InGame.update(dt)
@@ -126,7 +130,7 @@ end
 
 function InGame.keypressed(key)
     if key == "escape" then
-        gamestate:change("GameOver")
+        gamestate:change("Pause")
     end
 
     player:keypressed(key)

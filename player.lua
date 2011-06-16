@@ -95,6 +95,18 @@ function Player:draw()
     end
 end
 
+function Player:stop()
+    self.flyDir = {
+        left = false,
+        right = false,
+        up = false,
+        down = false
+        }
+        
+    self.fireTrigger = false
+    self.fireBlock = false
+end
+
 function Player:reset()
     self.ship.y = 500
     self.ship.x = (borders.right-borders.left)/2

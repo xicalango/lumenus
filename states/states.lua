@@ -5,6 +5,7 @@ local states = {
     Shop = require("states/shop.lua"),
     GameOver = require("states/gameover.lua"),
     MainMenu = require("states/mainmenu.lua"),
+    Pause = require("states/pause.lua"),
 }
 
 return states
