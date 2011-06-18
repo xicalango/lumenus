@@ -109,6 +109,8 @@ function Mob:damage(dmg,sx,sy)
     player:changeScore(dmg)
     
     if self.health <= 0 then
+        TEsound.play(wavetable["explosion"])
+    
         player:incMultiplier(self.ship.x,self.ship.y)
         player:changeScore(self.def.score,sx,sy)
 

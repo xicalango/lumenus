@@ -43,6 +43,17 @@ function InGame.load()
     
     si = ScoreIndicator.create()
     
+    InGame.music = util.map(
+        util.filter(love.filesystem.enumerate("media/music"),
+            function(v)
+                return not string.match(v, "^_.*")
+            end),
+            
+        function(v)
+            return "media/music/" .. v
+        end)
+    
+    
 end
 
 function InGame.onStateChange(oldstate)
@@ -82,6 +93,9 @@ function InGame.onStateChange(oldstate)
 
         InGame.gui.showScore = player.score
         
+        TEsound.stop("music")
+        InGame.musicChannel = nil
+        
         si:reset()
     end
     
@@ -89,9 +103,21 @@ function InGame.onStateChange(oldstate)
 end
 
 function InGame.onActivation()
+    TEsound.cleanup()
     love.mouse.setVisible(false)
 
     player:stop()
+    
+    if InGame.musicChannel == nil then
+        TEsound.playLooping(InGame.music,"music")
+        InGame.musicChannel = true
+    else
+        TEsound.resume("music")
+    end
+end
+
+function InGame.onDeactivation()
+    TEsound.pause("music")
 end
 
 function InGame.update(dt)
@@ -131,6 +157,8 @@ end
 function InGame.keypressed(key)
     if key == "escape" then
         gamestate:change("Pause")
+    elseif key == "f2" then
+        gamestate:change("GameOver")
     end
 
     player:keypressed(key)

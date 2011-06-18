@@ -79,6 +79,10 @@ function Drop:update(dt)
             self.def.onCollide(self)
         end
         
+        if self.def.sound then
+            TEsound.play(wavetable[self.def.sound],"drop", .7, math.random()*0.4 + 0.8 )
+        end
+        
         self.state = Drop.States.DIE
     end
 end

@@ -30,6 +30,11 @@ end
 
 function Weapon:shoot(dt,x, y, phi,dy,modifier)
     if self.state == Weapon.states.READY then
+    
+        if self.def.sound then
+            TEsound.play(wavetable[self.def.sound])
+        end
+    
         self:fireWeapon( dt, x, y, phi,dy,modifier )
         self.state = Weapon.states.COOLDOWN
         self.timer = 0

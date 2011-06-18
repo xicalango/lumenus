@@ -82,6 +82,11 @@ function Player:incMultiplier(x,y)
     self.scoreMultiplier.mult = self.scoreMultiplier.mult + 1
     self.scoreMultiplier.duration = 2
     
+    
+    if self.scoreMultiplier.mult > 1 then
+        TEsound.play(wavetable["beep"], "effect", nil, self.scoreMultiplier.mult/100 +0.5)
+    end
+    
     si:setMultiplier(x,y)
 end
 
@@ -247,6 +252,7 @@ function Player:update(dt)
         
         if self.scoreMultiplier.duration <= 0 then
             self.scoreMultiplier.mult = 0
+            TEsound.pitch("music", 1)
         end
     end
     
@@ -264,6 +270,8 @@ function Player:destroy()
     if self.invincible then 
         return
     end
+    
+    TEsound.play(wavetable["playerExplosion"])
 
     self.lives = self.lives - 1
     

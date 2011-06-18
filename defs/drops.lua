@@ -15,7 +15,8 @@ local drops = {
         
         onCollide = function(self)
             player:changeEnergy(self.amount)
-        end
+        end,
+        
     },
     
     life = {
@@ -36,7 +37,9 @@ local drops = {
             offset = {8,6}
         },
         
-        onCollide = junkCollide
+        onCollide = junkCollide,
+        
+        sound = "junk"
     },
     
     junk2 = {
@@ -45,7 +48,9 @@ local drops = {
             offset = {8,6}
         },
         
-        onCollide = junkCollide
+        onCollide = junkCollide,
+        sound = "junk"
+
     },
     
     junk3 = {
@@ -54,7 +59,10 @@ local drops = {
             offset = {8,6}
         },
         
-        onCollide = junkCollide
+        onCollide = junkCollide,
+        
+        sound = "junk"
+
     },
     
     junk4 = {
@@ -63,7 +71,10 @@ local drops = {
             offset = {8,6}
         },
         
-        onCollide = junkCollide
+        onCollide = junkCollide,
+        
+        sound = "junk"
+
     },
 }
 

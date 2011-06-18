@@ -10,6 +10,16 @@ function GameOver.load()
     
 end
 
+function GameOver.onActivation()
+    pcall(function()
+        GameOver.musicChannel = TEsound.playLooping("media/music/_GameOver.ogg","gomusic")
+    end)
+end
+
+function GameOver.onDeactivation()
+    TEsound.stop("gomusic")
+end
+
 function GameOver.draw()
 
     --gamestate:foreignCall("InGame","draw")

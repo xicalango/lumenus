@@ -27,6 +27,16 @@ function util.filter(tbl, filter)
     return result
 end
 
+function util.map(tbl, fn)
+    local result = {}
+    
+    for k,v in pairs(tbl) do
+        result[k] = fn(v,k)
+    end
+    
+    return result
+end
+
 function util.keycheck(needle,haystack) --only for small haystacks
 
     if type(haystack) == "table" then

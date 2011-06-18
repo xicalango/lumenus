@@ -16,6 +16,8 @@ Player = require("player.lua")
 Mob = require("mob.lua")
 Drop = require("drop.lua")
 
+require("lib/TESound.lua")
+
 --goo = require("goo/goo.lua")
 --anim = require("anim/anim.lua")
 
@@ -43,12 +45,53 @@ owner = {
     enemy = 1
 }
 
-function loadDefs()
+--[[wavetable = {
+    explosion = "media/sounds/explosion.wav",
+    junk = "media/sounds/collect.ogg",
+    laser1 = "media/sounds/laser1.wav",
+    playerExplosion = "media/sounds/playerExplosion.wav",
+    beep = "media/sounds/beep.wav",
+    rat = "media/sounds/rat.wav",
+    biglaser = "media/sounds/biglaser.ogg",
+}]]
 
+function buildWavetable()
+    wavetable = {}
+
+    local function insertWave(name,filename)
+        if wavetable[name] == nil then
+            wavetable[name] = "media/sounds/"..filename
+        else
+            local value = wavetable[name] 
+            wavetable[name] = {}
+            table.insert(wavetable[name],value)
+            table.insert(wavetable[name],"media/sounds/"..filename)
+        end
+    end
+    
+    local soundfiles = love.filesystem.enumerate("media/sounds")
+    
+
+    
+    for i,filename in ipairs(soundfiles) do
+        string.gsub(filename, "^(%a+)(%d*)%.(%w+)$", 
+            function(name,number,ext)
+                
+                insertWave(name,filename)
+                
+                if #number > 0 then
+                    insertWave(name..number,filename)
+                end
+            
+                
+            end)
+    end
 end
 
 function love.load()
     local states = require("states/states.lua")
+    
+    buildWavetable()
     
     gamestate = GameState.create(states)
     
@@ -82,6 +125,8 @@ function love.update(dt)
     oldmousey = love.mouse.getY()
 
     gamestate:update(dt) 
+    
+    TEsound.cleanup()
 end
 
 

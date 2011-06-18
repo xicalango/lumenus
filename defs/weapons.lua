@@ -11,7 +11,9 @@ local weapons = {
         
         energy = 50,
         
-        upgrade = "smallfast"
+        upgrade = "smallfast",
+        
+        sound = "laser",
     },
     
     smallfast = {
@@ -26,7 +28,9 @@ local weapons = {
         energy = 70,
         
         notInShop = true,
-        upgrade = "smallfastplus"
+        upgrade = "smallfastplus",
+        sound = "laser1",
+
     },
     
     random = {
@@ -48,6 +52,8 @@ local weapons = {
             end
             --return phi + (i-2)*20
         end,
+        
+        sound = "laser1",
  
     },
     
@@ -63,9 +69,11 @@ local weapons = {
     	energy = 70,
         
         upgrade = "gravitySplit",
+        
+        sound = "laser1",
     	
-	flyfn = function(dt,x,y,dx,dy,speed,dummy,self)
-	    self.dy = self.dy + dt
+        flyfn = function(dt,x,y,dx,dy,speed,dummy,self)
+            self.dy = self.dy + dt
             local xx,yy = util.move(dt,x,y,dx,dy,speed)
             
             return xx, yy
@@ -96,10 +104,12 @@ local weapons = {
         
         notInShop=true,
         upgrade = "gravitySplitPlus",
+        
+        sound = "laser1",
     	
-	flyfn = function(dt,x,y,dx,dy,speed,dummy,self)
+        flyfn = function(dt,x,y,dx,dy,speed,dummy,self)
 
-	    self.dy = self.dy + dt
+            self.dy = self.dy + dt
             local xx,yy = util.move(dt,x,y,dx,dy,speed)
             
             if self.dy >= 0 then
@@ -134,16 +144,18 @@ local weapons = {
     	energy = 70,
         
         notInShop=true,
+        
+        sound = "laser1",
     	
-	flyfn = function(dt,x,y,dx,dy,speed,dummy,self)
+        flyfn = function(dt,x,y,dx,dy,speed,dummy,self)
 
-	    self.dy = self.dy + dt
+            self.dy = self.dy + dt
             local xx,yy = util.move(dt,x,y,dx,dy,speed)
             
             if self.dy >= 0 then
             	self.state = 1 -- DIE
-            	currentmap:createShot( "line", x, y, -30, speed, self.owner )
-            	currentmap:createShot( "line", x, y,  30, speed, self.owner )
+            	currentmap:createShot( "lineb", x, y, -30, speed, self.owner )
+            	currentmap:createShot( "lineb", x, y,  30, speed, self.owner )
             end
             
             return xx, yy
@@ -172,11 +184,43 @@ local weapons = {
         
         energy = 100,
         
+        sound = "laser1",
+        
         notInShop = true
     },
     
-    vulcan = {
-        name = "Vulcan",
+    vulcan1 = {
+        name = "Vulcan 1",
+        shot = "vulcan",
+        shotCount = 1,
+        shotSpeed = 500,
+        repeatTime = 50,
+        
+        price = 50000,
+        
+        energy = 30,
+        
+        upgrade = "vulcan2"
+    },
+    
+    vulcan2 = {
+        name = "Vulcan 2",
+        shot = "vulcan",
+        shotCount = 1,
+        shotSpeed = 500,
+        repeatTime = 30,
+        
+        price = 50000,
+        
+        energy = 30,
+        
+        notInShop =true,
+        
+        upgrade = "vulcan3"
+    },
+    
+    vulcan3 = {
+        name = "Vulcan 3",
         shot = "vulcan",
         shotCount = 1,
         shotSpeed = 500,
@@ -184,7 +228,9 @@ local weapons = {
         
         price = 50000,
         
-        energy = 30
+        energy = 30,
+        
+        notInShop = true
     },
     
     sinus = {
@@ -197,6 +243,8 @@ local weapons = {
         price = 9000,
         
         energy = 10,
+        
+        sound = "laser1",
         
         flyfn = function(dt,x,y,dx,dy,speed)
             local xx,yy = util.move(dt,x,y,dx,dy,speed)
@@ -216,6 +264,8 @@ local weapons = {
         
         energy = 10,
         
+        sound = "laser1",
+        
         flyfn = function(dt,x,y,dx,dy,speed)
             local xx,yy = util.move(dt,x,y,dx,dy,speed)
             
@@ -229,6 +279,8 @@ local weapons = {
         shotCount = 2,
         shotSpeed = 200,
         repeatTime = 150,
+        
+        sound = "laser1",
         
         phifn = function(dt,_phi,phi,i,imax,x,y,modifier)
             if modifier then
@@ -251,6 +303,8 @@ local weapons = {
         shotCount = 3,
         shotSpeed = 200,
         repeatTime = 150,
+        
+        sound = "laser1",
         
         phifn = function(dt,_phi,phi,i,imax,x,y,modifier)
             if modifier then
@@ -277,6 +331,8 @@ local weapons = {
         shotSpeed = 200,
         repeatTime = 150,
         
+        sound = "laser1",
+        
         phifn = function(dt,_phi,phi,i,imax,x,y,modifier)
             if modifier then
                 return ((2*i-3)*5)
@@ -298,6 +354,8 @@ local weapons = {
         shotCount = 3,
         shotSpeed = 200,
         repeatTime = 150,
+        
+        sound = "laser1",
         
         phifn = function(dt,_phi,phi,i,imax,x,y,modifier)
             if modifier then
@@ -345,6 +403,8 @@ local weapons = {
         shotCount = 1,
         shotSpeed = 300,
         repeatTime = 100,
+        
+        sound = "laser1",
         
         phifn = function(dt,_phi,phi,i,imax,x,y)
             local mob = currentmap:getFirstMob()
@@ -417,7 +477,9 @@ local weapons = {
         
         price = 8000,
         
-        energy = 500
+        energy = 500,
+        
+        sound = "biglaser"
     }
 }
 
