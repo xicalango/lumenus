@@ -53,7 +53,7 @@ function InGame.load()
             return "media/music/" .. v
         end)
     
-    
+    TEsound.volume("music",.3)
 end
 
 function InGame.onStateChange(oldstate)

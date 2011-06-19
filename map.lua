@@ -12,7 +12,7 @@ function Map.create()
     
     self.createMobTimer = math.random()*2
     
-    self.playtime = 60
+    self.playtime = 90
     
     self.enemyTypes = {"vsmall"}
     
@@ -32,7 +32,7 @@ function Map:reset()
     self.shots = {}
     self.mobs = {}
     self.drops = {}
-    self.playtime = 60
+    self.playtime = 90
 end
 
 

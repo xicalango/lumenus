@@ -69,6 +69,11 @@ function Player.create()
         
     }
     
+    self.shotTimer = 0
+    self.shotCounter = 0
+    self.maxShotHits = 3
+    self.maxShotTime = 2
+    
     self:setModifier(false)
     
     return self
@@ -137,6 +142,9 @@ function Player:reset()
     
     self.invincible = true
     self.invincibleTimer = 3
+    
+    self.shotTimer = 0
+    self.shotCounter = 0
 end
 
 function Player:keypressed(key)
@@ -256,6 +264,20 @@ function Player:update(dt)
         end
     end
     
+    if self.shotTimer > 0 then
+        self.shotTimer = self.shotTimer - dt
+        
+        if self.shotTimer > 0 then       
+            local color = {0,0,0}
+            color[1] = (self.shotCounter/self.maxShotHits)*127 + 127
+            color[1] = color[1] * (self.shotTimer/self.maxShotTime)
+            color[3] = 255 - color[1]
+            self.ship.tintOverride = color
+        else
+            self.ship.tintOverride = nil
+        end
+    end
+    
 end
 
 function Player:damage(dmg)
@@ -263,7 +285,16 @@ function Player:damage(dmg)
         return
     end
 
-    self:destroy()
+    if self.shotTimer > 0 then
+        self.shotCounter = self.shotCounter + 1
+        self.shotTimer = self.maxShotTime
+        if self.shotCounter >= self.maxShotHits then
+            self:destroy()
+        end
+    else
+        self.shotCounter = 0
+        self.shotTimer = self.maxShotTime
+    end
 end
 
 function Player:destroy()

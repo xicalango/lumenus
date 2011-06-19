@@ -16,7 +16,7 @@ Player = require("player.lua")
 Mob = require("mob.lua")
 Drop = require("drop.lua")
 
-require("lib/TESound.lua")
+require("lib/TEsound.lua")
 
 --goo = require("goo/goo.lua")
 --anim = require("anim/anim.lua")
@@ -141,6 +141,8 @@ function love.keypressed(key)
         player:changeScore(100000,player.ship.x,player.ship.y)
     elseif key == "f5" then
         love.graphics.toggleFullscreen()
+    elseif key == "m" then
+        TEsound.volume("music",0)
     elseif key == "0" then
         player.energyRegain = player.energyRegain * 2
     elseif key == "9" then

@@ -14,7 +14,7 @@ local drops = {
         },
         
         onCollide = function(self)
-            player:changeEnergy(self.amount)
+            player:changeEnergy(100)
         end,
         
     },

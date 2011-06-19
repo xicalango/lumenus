@@ -42,7 +42,7 @@ function Ship:mountWeapon(pos,defstr)
 end
 
 function Ship:draw()
-    util.drawGraphic(self.graphics, self.x, self.y)
+    util.drawGraphic(self.graphics, self.x, self.y, nil, nil, nil, self.tintOverride)
 end
 
 function Ship:update(dt,flyfn)
