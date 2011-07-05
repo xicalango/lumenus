@@ -71,7 +71,7 @@ function Player.create()
     
     self.shotTimer = 0
     self.shotCounter = 0
-    self.maxShotHits = 3
+    self.maxShotHits = 1
     self.maxShotTime = 2
     
     self:setModifier(false)
@@ -145,6 +145,8 @@ function Player:reset()
     
     self.shotTimer = 0
     self.shotCounter = 0
+	
+	self.ship.tintOverride = nil
 end
 
 function Player:keypressed(key)
@@ -306,6 +308,7 @@ function Player:destroy()
 
     self.lives = self.lives - 1
     
+	si:doLightning()
     
     self:changeScore(-500,self.ship.x,self.ship.y)
     

@@ -117,6 +117,7 @@ function InGame.onActivation()
 end
 
 function InGame.onDeactivation()
+	love.graphics.setBackgroundColor( 0, 0, 0 )
     TEsound.pause("music")
 end
 

@@ -14,6 +14,7 @@ function GameOver.onActivation()
     pcall(function()
         GameOver.musicChannel = TEsound.playLooping("media/music/_GameOver.ogg","gomusic")
     end)
+	
 end
 
 function GameOver.onDeactivation()
