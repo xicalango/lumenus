@@ -20,8 +20,9 @@ function Player.create()
     setmetatable(self, Player)
     
     self.ship = Ship.create( graphics, owner.player )
-
-    self.ship:mountWeapon("center","small")
+	
+	self.supShips = {}
+	
     
     self.fireTrigger = false
     self.fireBlock = false
@@ -71,12 +72,23 @@ function Player.create()
     
     self.shotTimer = 0
     self.shotCounter = 0
-    self.maxShotHits = 1
+    self.maxShotHits = 0
     self.maxShotTime = 2
     
     self:setModifier(false)
     
     return self
+end
+
+function Player:addSupShip(offsetX, offsetY)
+	local supShip = Ship.create( self.ship.graphics, owner.player )
+
+	supShip.follow = self.ship
+	supShip.followDst.x = offsetX
+	supShip.followDst.y = offsetY
+	
+	table.insert(self.supShips, supShip)
+	table.insert(self.ship.followers, supShip)
 end
 
 function Player:getCollectRad()
@@ -98,9 +110,17 @@ end
 function Player:draw()
     if self.invincible then
         if framecounter % 2 ~= 0 then
+			for i,s in ipairs(self.supShips) do
+				s:draw()
+			end
+
             self.ship:draw()
         end
     else
+		for i,s in ipairs(self.supShips) do
+			s:draw()
+		end
+
         self.ship:draw()
     end
 end
@@ -189,7 +209,7 @@ function Player:setModifier(value)
             self.ship.handicap = 100 - 10 *(self.extras.focus.level-1)
         else
             self.ship.handicap = nil
-        end
+		end
     else
         self.mod = false
     end
@@ -213,6 +233,10 @@ function Player:update(dt)
     end
 
     self.ship:update(dt)
+	
+	for i,s in ipairs(self.supShips) do
+		s:update(dt)
+	end
         
     if self.ship.y + self.ship.graphics.offset[2] > 600 then
         self.ship.y = 600 - self.ship.graphics.offset[2]
@@ -220,6 +244,10 @@ function Player:update(dt)
     
     if not self.fireBlock and self.fireTrigger then
         local de = self.ship:shoot(dt, 0, self.mod, self.energy)
+		
+		for i,s in ipairs(self.supShips) do
+			s:shoot(dt, 0, self.mod)
+		end
         
         self.energyConsume = de/dt
         
@@ -277,6 +305,8 @@ function Player:update(dt)
             self.ship.tintOverride = color
         else
             self.ship.tintOverride = nil
+			self.shotTimer = 0
+			self.shotCounter = 0
         end
     end
     
@@ -287,16 +317,11 @@ function Player:damage(dmg)
         return
     end
 
-    if self.shotTimer > 0 then
-        self.shotCounter = self.shotCounter + 1
-        self.shotTimer = self.maxShotTime
-        if self.shotCounter >= self.maxShotHits then
-            self:destroy()
-        end
-    else
-        self.shotCounter = 0
-        self.shotTimer = self.maxShotTime
-    end
+	self.shotCounter = self.shotCounter + 1
+	self.shotTimer = self.maxShotTime
+	if self.shotCounter > self.maxShotHits then
+		self:destroy()
+	end
 end
 
 function Player:destroy()

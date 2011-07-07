@@ -96,6 +96,11 @@ end
 
 function ScoreIndicator:reset()
     self.scores = {}
+	self.lightning = {
+		color = {255,255,255},
+		duration = 0,
+		maxDuration = 1
+	}
 end
 
 function ScoreIndicator:add(score, x, y)

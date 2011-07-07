@@ -7,10 +7,7 @@ local InGame = {}
 InGame.__index = InGame
 
 function InGame.load()
-    player = Player.create()
-    player.ship.y = 500
-    player.ship.x = (borders.right-borders.left)/2
-    
+	player = Player:create()
     level = 1
     
     currentmap = Map.create()
@@ -84,6 +81,8 @@ function InGame.onStateChange(oldstate)
         player.ship.y = 500
         player.ship.x = (borders.right-borders.left)/2
         
+		player.ship:mountWeapon("center","small")
+		
         level = 1
         
         currentmap = Map.create()
