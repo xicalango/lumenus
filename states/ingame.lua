@@ -145,12 +145,13 @@ function InGame.draw()
     
     love.graphics.line(borders.left,0,borders.left,600)
     love.graphics.line(borders.right,0,borders.right,600)
-    
+--[[ 
     if player.mod then
         love.graphics.setColor( 0,255,255, 32 )
         love.graphics.line(borders.left,borders.itemGet, borders.right,borders.itemGet)
         love.graphics.setColor( 255,255,255 )
     end
+]]
 
 end
 
