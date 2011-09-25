@@ -10,8 +10,8 @@ InGame.__index = InGame
 function InGame.load()
 	player = Player:create()
     level = 1
-    
-    currentmap = Map.create()
+	
+    --currentmap = Map.create()
     
     InGame.gui = Gui.create(borders.right+1,0)
     
@@ -59,20 +59,13 @@ end
 function InGame.onStateChange(oldstate)
     if oldstate == "Shop" then
         level = level + 1
-        
-        if level == 3 then
-            table.insert(currentmap.enemyTypes, "small")
-        elseif level == 6 then
-            table.insert(currentmap.enemyTypes, "medium")
-        elseif level == 9 then
-            table.insert(currentmap.enemyTypes, "vsmallsin")
-        elseif level == 15 then
-            table.insert(currentmap.enemyTypes, "hard")
-        elseif level == 20 then
-            table.insert(currentmap.enemyTypes, "vhard")
-        end
-        
-        currentmap:reset()
+
+		if msm:getMap(level) == nil then
+			gamestate:change("GameOver")
+			return true
+		end
+		
+        currentmap = Map.create(msm:getMap(level))
 
         player:reset()
         
@@ -87,8 +80,8 @@ function InGame.onStateChange(oldstate)
 		player.ship:mountWeapon("center","small")
 		
         level = 1
-        
-        currentmap = Map.create()
+	
+		currentmap = Map.create(msm:getMap(level))
         
         explosionPS:stop()
         damagePS:stop()

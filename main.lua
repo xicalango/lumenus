@@ -16,6 +16,8 @@ Player = require("player.lua")
 Mob = require("mob.lua")
 Drop = require("drop.lua")
 
+MapsetManager = require("mapset.lua")
+
 require("lib/TEsound.lua")
 
 --goo = require("goo/goo.lua")
@@ -107,6 +109,8 @@ function love.load()
     shots = {}
     
     framecounter = 0
+	
+	msm = MapsetManager.create()
 end
 
 function love.draw()

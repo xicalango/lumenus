@@ -26,11 +26,7 @@ end
 function MainMenu.onActivation()
     MainMenu.mobs = {}
     
-    if currentmap then
-        MainMenu.enemyTypes = currentmap.enemyTypes
-    else
-        MainMenu.enemyTypes = {"vsmall"}
-    end
+	MainMenu.enemyTypes = {"dummy"}
     
     MainMenu.createMobTimer = 2
 end

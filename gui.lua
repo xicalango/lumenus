@@ -54,7 +54,7 @@ function Gui:draw()
     
     love.graphics.setColor( 255, 255, 255 )
     
-    linecounter = Gui.print( linecounter, "Level Duration: " .. math.ceil(currentmap.playtime), 10, 10)
+    linecounter = Gui.print( linecounter, "Framecounter: " .. currentmap.timeline.framecounter, 10, 10)
     
     linecounter = Gui.print( linecounter, "Left Weapon: " .. tostring(player.ship.weapons.left.weapon or ""), 10, 10 )
     linecounter = Gui.print( linecounter, "Center Weapon: " .. tostring(player.ship.weapons.center.weapon or ""), 10, 10 )

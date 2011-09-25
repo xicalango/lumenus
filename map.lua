@@ -1,8 +1,10 @@
 
+local TimelineCtrl = require("timeline.lua")
+
 local Map = {}
 Map.__index = Map
 
-function Map.create()
+function Map.create(mapDef)
     local self = {}
     setmetatable(self,Map)
     
@@ -13,6 +15,8 @@ function Map.create()
     self.createMobTimer = math.random()*2
     
     self.playtime = 90
+	
+	self.timeline = TimelineCtrl.create(mapDef.timeline)
     
     self.enemyTypes = {"vsmall"}
     
@@ -33,10 +37,14 @@ function Map:reset()
     self.mobs = {}
     self.drops = {}
     self.playtime = 90
+	self.timeline:reset()
 end
 
 
 function Map:update(dt)
+	
+	self.timeline:update(dt,self)
+
     for i,s in ipairs(self.shots) do
         s:update(dt)
         
@@ -62,21 +70,12 @@ function Map:update(dt)
         end
     end
 
-    self.createMobTimer = self.createMobTimer - dt
     
-    if self.createMobTimer <= 0 then
-        self.createMobTimer = math.random()*2
-        
-        self:createMob( util.takeRandom(self.enemyTypes) , math.random(borders.left, borders.right), -10, 1)
-    end
-    
-    self.playtime = self.playtime - dt
-    
-    if self.playtime < 0 then
-        gamestate:change("Shop")
 
-    end
-    
+end
+
+function Map:finish()
+	gamestate:change("Shop")
 end
 
 function Map:draw()
@@ -103,18 +102,24 @@ function Map:createShot( defstr, x, y, phi, v, owner, rspeed, flyfn )
     local newShot = Shot.create( defstr, x, y, dx, dy, v, owner, rspeed, math.rad(phi),flyfn )
         
     table.insert(self.shots, newShot)
+	
+	return newShot
 end
 
 function Map:createMob( defstr, x, y, dy )
     local newMob = Mob.create( defstr, x, y, dy )
 
     table.insert(self.mobs, newMob)
+	
+	return newMob
 end
 
 function Map:createDrop( defstr, x, y, dx, dy, speed, amount, tint, speedx )
     local newDrop = Drop.create(defstr, x, y, dx, dy, speed, amount, tint, speedx )
 
     table.insert(self.drops, newDrop)
+	
+	return newDrop
 end
 
 function Map:getFirstMob()
