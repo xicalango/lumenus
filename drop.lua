@@ -74,17 +74,19 @@ function Drop:update(dt)
         self.dx = -self.dx
     end
     
-    if player.ship:collides(self.x,self.y) then
-        if self.def.onCollide then
-            self.def.onCollide(self)
-        end
-        
-        if self.def.sound then
-            TEsound.play(wavetable[self.def.sound],"drop", .7, math.random()*0.4 + 0.8 )
-        end
-        
-        self.state = Drop.States.DIE
-    end
+	if not self.def.ignoresPlayer then
+		if player.ship:collides(self.x,self.y) then
+			if self.def.onCollide then
+				self.def.onCollide(self)
+			end
+			
+			if self.def.sound then
+				TEsound.play(wavetable[self.def.sound],"drop", .7, math.random()*0.4 + 0.8 )
+			end
+			
+			self.state = Drop.States.DIE
+		end
+	end
 end
 
 function Drop:draw()

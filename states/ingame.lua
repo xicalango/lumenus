@@ -2,6 +2,7 @@
 
 Gui = require("gui.lua")
 ScoreIndicator = require("scoreindicator.lua")
+Background = require("background.lua")
 
 local InGame = {}
 InGame.__index = InGame
@@ -39,6 +40,8 @@ function InGame.load()
 	damagePS:stop()
     
     si = ScoreIndicator.create()
+	
+	bg = Background.create()
     
     InGame.music = util.map(
         util.filter(love.filesystem.enumerate("media/music"),
@@ -130,9 +133,12 @@ function InGame.update(dt)
     damagePS:update(dt)
     
     si:update(dt)
+	
+	bg:update(dt)
 end
 
 function InGame.draw()
+	bg:draw()
     si:draw()
 
     player:draw()

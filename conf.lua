@@ -2,6 +2,7 @@
 
 function love.conf(t)
 	t.title = "Lumenus"
+	t.identity = "Lumenus"
     t.author = "Alexander Weld"
     t.console = true --for debuging
 
