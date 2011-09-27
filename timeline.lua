@@ -6,6 +6,8 @@ function TimelineCtrl.create(timeline)
 	setmetatable(self,TimelineCtrl)
 	
 	self.timeline = timeline
+
+	self.schedules = {}
 	
 	if not self.timeline.init then
 		self.timeline.init = function(ctrl)
@@ -22,14 +24,70 @@ function TimelineCtrl.create(timeline)
 	return self
 end
 
+function TimelineCtrl:onPlayerDeath(map)
+	self.framecounter = 0
+	self.runCondition = nil
+	self:clearSchedules()
+	
+	if self.timeline.onPlayerDeath then
+		self.timeline.onPlayerDeath(map,self)
+	end
+end
+
+function TimelineCtrl:addSchedule(name, delay, fn)
+	local newSchedule = {}
+	newSchedule.name = name
+	newSchedule.delay = delay
+	newSchedule.delayUnit = "second"
+	
+	if name:sub(1,1) == "$" then
+		newSchedule.delayUnit = "frame"
+	end
+	
+	newSchedule.fn = fn
+	
+	self.schedules[name] = newSchedule
+end
+
+function TimelineCtrl:clearSchedules()
+	self.schedules = {}
+end
+
+function TimelineCtrl:removeSchedule(name)
+	self.schedules[name] = nil
+end
+
 function TimelineCtrl:reset()
 	self.framecounter = 0
+	self.runCondition = nil
+	self:clearSchedules()
 	self.timeline.init(self)
 end
 
 function TimelineCtrl:update(dt,map)
 	if self.runCondition then
 		self.running = self.runCondition(dt)
+		if self.running then
+			self.runCondition = nil
+		end
+	end
+	
+	for k,s in pairs(self.schedules) do
+		if s.delayUnit == "second" then
+			s.delay = s.delay - dt
+		elseif s.delayUnit == "frame" then
+			s.delay = s.delay - 1
+		end
+		
+		if s.delay <= 0 then
+			local newTime = s.fn(map,self)
+			
+			if not newTime or newTime == 0  then
+				self.schedules[k] = nil
+			else
+				s.delay = newTime
+			end
+		end
 	end
 	
 	if self.running then

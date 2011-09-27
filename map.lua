@@ -16,7 +16,7 @@ function Map.create(mapDef)
     
     self.playtime = 90
 	
-	self.timeline = TimelineCtrl.create(mapDef.timeline)
+    self.timeline = TimelineCtrl.create(mapDef.timeline)
     
     self.enemyTypes = {"vsmall"}
     
@@ -30,6 +30,7 @@ function Map:onPlayerDeath()
     self.mobs = {}
     self.playtime = self.playtime + 10
     self.createMobTimer = 1 + math.random()
+    self.timeline:onPlayerDeath(self)
 end
 
 function Map:reset()
@@ -37,7 +38,7 @@ function Map:reset()
     self.mobs = {}
     self.drops = {}
     self.playtime = 90
-	self.timeline:reset()
+    self.timeline:reset()
 end
 
 

@@ -62,7 +62,7 @@ function InGame.onStateChange(oldstate)
 
 		if msm:getMap(level) == nil then
 			gamestate:change("GameOver")
-			return true
+			return false
 		end
 		
         currentmap = Map.create(msm:getMap(level))
