@@ -20,6 +20,8 @@ MapsetManager = require("mapset.lua")
 
 require("lib/TEsound.lua")
 
+scaled = false
+
 --goo = require("goo/goo.lua")
 --anim = require("anim/anim.lua")
 
@@ -114,6 +116,11 @@ function love.load()
 end
 
 function love.draw()
+    love.graphics.clear()
+    
+    if scaled then
+    	love.graphics.scale(.8, .8)
+    end
     
     gamestate:draw()
 end

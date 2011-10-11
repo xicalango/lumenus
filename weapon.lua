@@ -60,7 +60,8 @@ function Weapon:fireWeapon(dt, x,y,phi,dy,modifier)
             self.def.shotSpeed + (dy or 0), 
             self.owner,
             self.def.rspeed,
-            self.def.flyfn )
+            self.def.flyfn,
+            i )
     end
 end
 
