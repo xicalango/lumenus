@@ -3,7 +3,7 @@
 function love.conf(t)
 	t.title = "Lumenus"
     t.author = "Alexander Weld"
-    t.console = false --for debuging
+    t.console = true --for debuging
 
     t.modules.physics = false -- don't need that
 

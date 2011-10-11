@@ -27,6 +27,16 @@ function util.filter(tbl, filter)
     return result
 end
 
+function util.map(tbl, fn)
+    local result = {}
+    
+    for k,v in pairs(tbl) do
+        result[k] = fn(v,k)
+    end
+    
+    return result
+end
+
 function util.keycheck(needle,haystack) --only for small haystacks
 
     if type(haystack) == "table" then
@@ -51,6 +61,10 @@ function util.sign(v)
     else
         return 0
     end
+end
+
+function util.dir( fx, fy, tx, ty )
+	return util.sign(tx-fx), util.sign(ty-fy)
 end
 
 function util.move( dt, x, y, dx, dy, speedx, speedy )
@@ -115,50 +129,6 @@ function util.getVertices(x,y,graphic,border)
     vertices[4] = { x = x+offsetX, y = y+offsetY }
     
     return vertices
-end
-
-function util.drawSelectBorder(mob)
-    local offsetX = mob.def.graphic.offsetX*(mob.def.graphic.scaleX or 1)+5
-    local offsetY = mob.def.graphic.offsetY*(mob.def.graphic.scaleY or 1) +5
-    
-    local _r, _g, _b, _a = love.graphics.getColor( )
-    
-    --local br,bg,bb = 
-    
---    love.graphics.setColor( love.graphics.getBackgroundColor() )
-    love.graphics.setColor( 0, 200, 250, 255 )
-    
-    love.graphics.line( mob.x-offsetX, mob.y-offsetY+5, mob.x-offsetX, mob.y-offsetY, mob.x-offsetX+5, mob.y-offsetY )
-
-    love.graphics.line( mob.x+offsetX+1-5, mob.y-offsetY, mob.x+offsetX+1, mob.y-offsetY, mob.x+offsetX+1, mob.y-offsetY+5 )
-
-    love.graphics.line( mob.x-offsetX, mob.y+offsetY-5, mob.x-offsetX, mob.y+offsetY, mob.x-offsetX+5, mob.y+offsetY )
-
-    love.graphics.line( mob.x+offsetX+1-5, mob.y+offsetY-1, mob.x+offsetX+1, mob.y+offsetY-1, mob.x+offsetX+1, mob.y+offsetY-5-1 )
-
-    --love.graphics.line( mob.x-offsetX, mob.y-offsetY, mob.x-offsetX+5, mob.y-offsetY )
-    
-    --love.graphics.rectangle( "line", mob.x-offsetX, mob.y-offsetY, 2*offsetX+1, 2*offsetY+1 )
-
-    love.graphics.setColor( _r, _g, _b, _a )
-
-end
-
-function util.drawMobHealthBar(mob)
-    local offsetX = mob.def.graphic.offsetX*(mob.def.graphic.scaleX or 1)+5
-    local offsetY = mob.def.graphic.offsetY*(mob.def.graphic.scaleX or 1)+5
-    
-    local _r, _g, _b, _a = love.graphics.getColor( )
-    
-    local green = 255 * highlightmob.health/highlightmob.def.maxHealth 
-    local lineLength = (offsetX*2+1) * highlightmob.health/highlightmob.def.maxHealth 
-    
-    
-    love.graphics.setColor( 255-green, green, 0, 255 )
-    
-    love.graphics.rectangle( "fill", mob.x-offsetX, mob.y-offsetY-5-2, lineLength, 5 )
-    
-    love.graphics.setColor( _r, _g, _b, _a )
 end
 
 function util.configurePS( def )

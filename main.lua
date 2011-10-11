@@ -16,6 +16,8 @@ Player = require("player.lua")
 Mob = require("mob.lua")
 Drop = require("drop.lua")
 
+require("lib/TEsound.lua")
+
 scaled = false
 
 --goo = require("goo/goo.lua")
@@ -45,12 +47,53 @@ owner = {
     enemy = 1
 }
 
-function loadDefs()
+--[[wavetable = {
+    explosion = "media/sounds/explosion.wav",
+    junk = "media/sounds/collect.ogg",
+    laser1 = "media/sounds/laser1.wav",
+    playerExplosion = "media/sounds/playerExplosion.wav",
+    beep = "media/sounds/beep.wav",
+    rat = "media/sounds/rat.wav",
+    biglaser = "media/sounds/biglaser.ogg",
+}]]
 
+function buildWavetable()
+    wavetable = {}
+
+    local function insertWave(name,filename)
+        if wavetable[name] == nil then
+            wavetable[name] = "media/sounds/"..filename
+        else
+            local value = wavetable[name] 
+            wavetable[name] = {}
+            table.insert(wavetable[name],value)
+            table.insert(wavetable[name],"media/sounds/"..filename)
+        end
+    end
+    
+    local soundfiles = love.filesystem.enumerate("media/sounds")
+    
+
+    
+    for i,filename in ipairs(soundfiles) do
+        string.gsub(filename, "^(%a+)(%d*)%.(%w+)$", 
+            function(name,number,ext)
+                
+                insertWave(name,filename)
+                
+                if #number > 0 then
+                    insertWave(name..number,filename)
+                end
+            
+                
+            end)
+    end
 end
 
 function love.load()
     local states = require("states/states.lua")
+    
+    buildWavetable()
     
     gamestate = GameState.create(states)
     
@@ -87,6 +130,8 @@ function love.update(dt)
     oldmousey = love.mouse.getY()
 
     gamestate:update(dt) 
+    
+    TEsound.cleanup()
 end
 
 
@@ -101,6 +146,8 @@ function love.keypressed(key)
         player:changeScore(100000,player.ship.x,player.ship.y)
     elseif key == "f5" then
         love.graphics.toggleFullscreen()
+    elseif key == "m" then
+        TEsound.volume("music",0)
     elseif key == "0" then
         player.energyRegain = player.energyRegain * 2
     elseif key == "9" then

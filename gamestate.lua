@@ -32,30 +32,36 @@ function GameState:register( name, statedef )
 end
 
 --[[
--- Changes the state to the state given by name
+-- Schedule a state change to the state to the state given by name
+-- State will be changed on next call to GameState:update
 -- Calls onStateChange with the old state. When this method returns false, the state is not changed.
 --]]
 function GameState:change( name )
+    self.newState = name 
+end
+
+function GameState:_changeState(name)
+    if self.currentState.onDeactivation then self.currentState.onDeactivation() end
+
+    self.currentState = self.states[name]
+    self.currentStateName = name
+
+    if self.currentState.onActivation then self.currentState.onActivation() end
+end
+
+function GameState:_change()
+    name = self.newState
+    self.newState = nil
+    
     self.oldstate = self.currentStateName
 
     if self.states[name].onStateChange then
         if self.states[name].onStateChange(self.oldstate) then
-            if self.currentState.onDeactivation then self.currentState.onDeactivation() end
-        
-            self.currentState = self.states[name]
-            self.currentStateName = name
-        
-            if self.currentState.onActivation then self.currentState.onActivation() end
+            self:_changeState(name)
         end
     else
-        if self.currentState.onDeactivation then self.currentState.onDeactivation() end
-        
-        self.currentState = self.states[name]
-        self.currentStateName = name
-        
-        if self.currentState.onActivation then self.currentState.onActivation() end
-    end
-    
+        self:_changeState(name)
+    end 
 end
 
 function GameState:foreignCall( statename, callfn, ... )
@@ -63,6 +69,10 @@ function GameState:foreignCall( statename, callfn, ... )
 end
 
 function GameState:update(dt)
+    if self.newState ~= nil then
+        self:_change()
+    end
+    
     if self.currentState.update then self.currentState.update(dt) end
 end
 

@@ -20,6 +20,8 @@ Shop.extrasMenuItems = {
     {"Focus", "focus"},
     {"Energy", "energy"},
     {"Speed", "speed"},
+	{"Shield", "shield"},
+	{"Ship clone", "clone"},
     {"Life", "life"},
 }
 
@@ -28,12 +30,16 @@ Shop.settings = {
         focus = 5000,
         speed = 2000,
         life = 20000,
-        energy = 2
+        energy = 2,
+		shield = 10000,
+		clone = 1000000
     },
     
     energyFactor = 1.5,
     
-    maxEnergy = 20000
+    maxEnergy = 20000,
+	
+	maxShotHits = 2
 }
 
 local weapons = require('defs/weapons.lua')
@@ -149,6 +155,16 @@ function Shop.drawExtraInfo()
         end
     elseif Shop.selectedExtra == "life" then
         Shop.printPrice( math.floor(player.score/4) + Shop.settings.prices.life, 50, 300 )
+	elseif Shop.selectedExtra == "shield" then
+		love.graphics.print( "Current shield level: " .. player.maxShotHits, 50, 300)    
+
+        if player.maxShotHits < Shop.settings.maxShotHits then
+            love.graphics.print( "Next level: " .. player.maxShotHits+1, 50, 320)  
+            
+            Shop.printPrice( (player.maxShotHits+1)*Shop.settings.prices.shield, 50, 380 )
+        end
+	elseif Shop.selectedExtra == "clone" then
+		love.graphics.print( "Nee, heute nicht" , 50, 300)    
     end
 end
 
@@ -308,6 +324,17 @@ function Shop.keypressed(key)
                         player:changeScore(-(math.floor(player.score/4) + Shop.settings.prices.life))
                         player.lives = player.lives + 1
                     end
+					
+				elseif result.item.tag == "shield" then
+					if Shop.priceCheck((player.maxShotHits+1)*Shop.settings.prices.shield, "Shield") then
+						if player.maxShotHits == Shop.settings.maxShotHits then
+							Shop.message = { color = {255,0,0}, msg = "Max Shield reached!" }
+						else
+							player:changeScore(-(player.maxShotHits+1)*Shop.settings.prices.shield)
+                            player.maxShotHits = player.maxShotHits+1
+						end
+					end
+					
                 end
                 
                 Shop.selectedExtra = nil

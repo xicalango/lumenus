@@ -7,10 +7,7 @@ local InGame = {}
 InGame.__index = InGame
 
 function InGame.load()
-    player = Player.create()
-    player.ship.y = 500
-    player.ship.x = (borders.right-borders.left)/2
-    
+	player = Player:create()
     level = 1
     
     currentmap = Map.create()
@@ -43,6 +40,17 @@ function InGame.load()
     
     si = ScoreIndicator.create()
     
+    InGame.music = util.map(
+        util.filter(love.filesystem.enumerate("media/music"),
+            function(v)
+                return not string.match(v, "^_.*")
+            end),
+            
+        function(v)
+            return "media/music/" .. v
+        end)
+    
+    TEsound.volume("music",.3)
 end
 
 function InGame.onStateChange(oldstate)
@@ -73,6 +81,8 @@ function InGame.onStateChange(oldstate)
         player.ship.y = 500
         player.ship.x = (borders.right-borders.left)/2
         
+		player.ship:mountWeapon("center","small")
+		
         level = 1
         
         currentmap = Map.create()
@@ -82,6 +92,9 @@ function InGame.onStateChange(oldstate)
 
         InGame.gui.showScore = player.score
         
+        TEsound.stop("music")
+        InGame.musicChannel = nil
+        
         si:reset()
     end
     
@@ -89,9 +102,22 @@ function InGame.onStateChange(oldstate)
 end
 
 function InGame.onActivation()
+    TEsound.cleanup()
     love.mouse.setVisible(false)
 
     player:stop()
+    
+    if InGame.musicChannel == nil then
+        TEsound.playLooping(InGame.music,"music")
+        InGame.musicChannel = true
+    else
+        TEsound.resume("music")
+    end
+end
+
+function InGame.onDeactivation()
+	love.graphics.setBackgroundColor( 0, 0, 0 )
+    TEsound.pause("music")
 end
 
 function InGame.update(dt)
@@ -119,18 +145,21 @@ function InGame.draw()
     
     love.graphics.line(borders.left,0,borders.left,600)
     love.graphics.line(borders.right,0,borders.right,600)
-    
+--[[ 
     if player.mod then
         love.graphics.setColor( 0,255,255, 32 )
         love.graphics.line(borders.left,borders.itemGet, borders.right,borders.itemGet)
         love.graphics.setColor( 255,255,255 )
     end
+]]
 
 end
 
 function InGame.keypressed(key)
     if key == "escape" then
         gamestate:change("Pause")
+    elseif key == "f2" then
+        gamestate:change("GameOver")
     end
 
     player:keypressed(key)

@@ -84,12 +84,23 @@ function ScoreIndicator.create()
     else
         self.multiplier = AlphaMultiplierDisplay.create()
     end
+	
+	self.lightning = {
+		color = {255,255,255},
+		duration = 0,
+		maxDuration = 1
+	}
 
     return self
 end
 
 function ScoreIndicator:reset()
     self.scores = {}
+	self.lightning = {
+		color = {255,255,255},
+		duration = 0,
+		maxDuration = 1
+	}
 end
 
 function ScoreIndicator:add(score, x, y)
@@ -108,6 +119,10 @@ function ScoreIndicator:setMultiplier(x, y)
     end
 end
 
+function ScoreIndicator:doLightning()
+	self.lightning.duration = self.lightning.maxDuration
+end
+
 function ScoreIndicator:update(dt)
     for i,s in ipairs(self.scores) do
         s.x, s.y = util.move( dt, s.x, s.y, 0, -1, 100 )
@@ -117,6 +132,19 @@ function ScoreIndicator:update(dt)
             table.remove(self.scores,i)
         end
     end
+	
+	if self.lightning.duration >= 0 then
+		self.lightning.duration = self.lightning.duration - dt
+		
+		local color = 255 * self.lightning.duration/self.lightning.maxDuration
+		
+		love.graphics.setBackgroundColor( color, color, color )
+		
+		if self.lightning.duration < 0 then
+			self.lightning.duration = 0
+			love.graphics.setBackgroundColor( 0, 0, 0 )
+		end
+	end
 end
 
 function ScoreIndicator:draw()
