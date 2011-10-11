@@ -145,7 +145,7 @@ function love.keypressed(key)
 		love.event.push("q")
         return
     elseif key == "f10" then
-        currentmap.playtime = 0
+	gamestate:change("Shop")    
     elseif key =="f11" then
         player:changeScore(100000,player.ship.x,player.ship.y)
     elseif key == "f5" then
