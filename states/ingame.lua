@@ -168,5 +168,9 @@ function InGame.keyreleased(key)
     player:keyreleased(key)
 end
 
+function InGame.mousepressed(x,y,button)
+	print(x,y)
+end
+
 
 return InGame

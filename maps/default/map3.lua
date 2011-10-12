@@ -6,7 +6,6 @@ Map.music = nil
 Map.timeline = {}
 
 Map.timeline.init = function(ctrl)
-	print("init")
 
 	ctrl:addSchedule("createMonsters", math.random()*2, function(map,ctrl)
 		map:createMob( "vsmall", math.random(borders.left,borders.right), -10, 1 )

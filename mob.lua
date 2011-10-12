@@ -9,7 +9,7 @@ Mob.States = {
     DIE = 1
 }
 
-function Mob.create(defstr ,x, y, dy)
+function Mob.create(defstr ,x, y, dy, path)
     local self = {}
     setmetatable(self,Mob)
 
@@ -24,6 +24,8 @@ function Mob.create(defstr ,x, y, dy)
     
     self.ship.dx = 0
     self.ship.dy = dy
+	
+	self.path = path
     
     self.ship.speed = self.def.speed
     
@@ -63,9 +65,19 @@ function Mob:morph(defstr)
 end
 
 function Mob:update(dt)
-    self.ship:update(dt,self.def.flyfn)
-    --self.x, self.y = self.flyfn( dt, self.x, self.y, self.dx, self.dy, self.def.speed )
-
+	if self.path then
+		self.ship:update(dt,self.path:getFlyFn())
+		
+		if self.path:reachedNode(self.ship.x, self.ship.y) then
+            local nextNode = self.path:nextNode()
+            if nextNode == nil then
+                self.path = nil
+            end
+        end
+	else
+		self.ship:update(dt,self.def.flyfn)
+	end
+	
     if math.random(self.def.shotChance) == 1 then
         self.ship:shoot(dt, 180)
     end

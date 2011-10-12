@@ -18,6 +18,8 @@ Drop = require("drop.lua")
 
 MapsetManager = require("mapset.lua")
 
+Path = require("path.lua")
+
 require("lib/TEsound.lua")
 
 scaled = false
@@ -150,6 +152,8 @@ function love.keypressed(key)
         player:changeScore(100000,player.ship.x,player.ship.y)
     elseif key == "f5" then
         love.graphics.toggleFullscreen()
+	elseif key == "f6" then
+		love.mouse.setVisible(not love.mouse.isVisible())
     elseif key == "m" then
         TEsound.volume("music",0)
     elseif key == "0" then

@@ -107,8 +107,8 @@ function Map:createShot( defstr, x, y, phi, v, owner, rspeed, flyfn, i )
 	return newShot
 end
 
-function Map:createMob( defstr, x, y, dy )
-    local newMob = Mob.create( defstr, x, y, dy )
+function Map:createMob( defstr, x, y, dy, path )
+    local newMob = Mob.create( defstr, x, y, dy, path )
 
     table.insert(self.mobs, newMob)
 	

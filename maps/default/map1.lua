@@ -1,51 +1,53 @@
 local Map = {}
 
-local var = 0
-
 Map.name = "First map"
 Map.music = nil
 
 Map.timeline = {}
 
-Map.timeline[0] = function(map,ctrl)
-	ctrl:addSchedule("counter", 1, function(map,ctrl)
-		var = var + 1
-		print(ctrl.framecounter, var, ctrl.framecounter/var)
-		return 1
-	end)
-end
-
-Map.timeline[100] = function(map,ctrl) 
-	map:createMob( "vsmall", 10, -10, 1 )
-	map:createMob( "vsmall", 110, -10, 1 )
-end
-
-Map.timeline[150] = function(map,ctrl)
-	map:createMob( "vsmall", 210, -10, 1 )
-	map:createMob( "vsmall", 310, -10, 1 )
-end
-
-Map.timeline[2700] = function(map,ctrl) 
-	local boss = map:createMob( "vhard", 250, 10, 0 )
-	
-	Map.timeline.onPlayerDeath = function(map,ctrl) 
-		ctrl:goto(200) 
-		ctrl:start()
-	end
+Map.timeline[0] = function(map, ctrl)
+	local stopFc = false
 
 	ctrl:addSchedule("createMonsters", math.random()*2, function(map,ctrl)
 		map:createMob( "vsmall", math.random(borders.left,borders.right), -10, 1 )
 		return math.random()+1
 	end)
 	
+	ctrl:addSchedule("randomMonsers", 60, function(_map,_ctrl)
+		stopFc = true
+	end)
+	
 	ctrl:stopFramecounterUntil(function(dt)
-		return boss.state == Mob.States.DIE
+		return stopFc
 	end)
 	
 end
 
-Map.timeline[2701] = function(map,ctrl) 
+Map.timeline[1] = function(map, ctrl)
+	ctrl:removeSchedule("createMonsters")
+end
+
+Map.timeline[50] = function(map,ctrl) 
+	local mobs = {}
+
+	table.insert(mobs, map:createMob( "vsmall", 50, -10, 0, Path.create({{150, 100}}) ) )
+	table.insert(mobs, map:createMob( "vsmall", 100, -10, 0, Path.create({{100, 150}}) ) )
+	table.insert(mobs, map:createMob( "vsmall", 150, -10, 0, Path.create({{50, 100}}) ) )
+
+	table.insert(mobs, map:createMob( "vsmall", 200, -10, 0, Path.create({{300, 100}}) ) )
+	table.insert(mobs, map:createMob( "vsmall", 250, -10, 0, Path.create({{250, 150}}) ) )
+	table.insert(mobs, map:createMob( "vsmall", 300, -10, 0, Path.create({{200, 100}}) ) )
+	
+	table.insert(mobs, map:createMob( "vsmall", 350, -10, 0, Path.create({{450, 100}}) ) )
+	table.insert(mobs, map:createMob( "vsmall", 400, -10, 0, Path.create({{400, 150}}) ) )
+	table.insert(mobs, map:createMob( "vsmall", 450, -10, 0, Path.create({{350, 100}}) ) )
+
+	ctrl:stopFramecounterWhile(ctrl:mobTableWatcher(mobs))
+end
+
+Map.timeline[51] = function(map,ctrl) 
 	map:finish()
 end
+
 
 return Map

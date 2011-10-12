@@ -31,6 +31,8 @@ function TimelineCtrl:onPlayerDeath(map)
 	
 	if self.timeline.onPlayerDeath then
 		self.timeline.onPlayerDeath(map,self)
+	else
+		self.timeline.init(self)
 	end
 end
 
@@ -124,6 +126,28 @@ function TimelineCtrl:stopFramecounterWhile(condFn)
 	
 	self.runCondition = function(dt)
 		return not condFn(dt)
+	end
+end
+
+function TimelineCtrl:mobTableWatcher(mobs)
+	return function(dt)
+		local continue = false
+		
+		for i,v in ipairs(mobs) do
+			if v.state == Mob.States.FLY then
+				continue = true
+				break
+			end
+		end
+		
+		return continue
+	end
+end
+
+function TimelineCtrl:deathGoto(framecounter)
+	return function(map,ctrl) 
+		ctrl:goto(framecounter) 
+		ctrl:start()
 	end
 end
 
