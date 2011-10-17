@@ -1,4 +1,3 @@
-
 local weapons = {
     small = {
         name = "Small",
@@ -264,18 +263,12 @@ local weapons = {
         
         price = 9000,
         
-        energy = 10,
+        energy = 30,
         
         flyfn = function(dt,x,y,dx,dy,speed, speedy, self)
             local xx,yy = util.move(dt,x,y,dx,dy,speed)
             
-            local fn = math.sin
-            
-            if self.i == 2 then
-            	fn = math.cos
-            end
-            
-            return xx + fn(2*math.pi*0.005*y)*3, yy
+            return xx + math.sin(2*math.pi*0.005*y  -  (2*math.pi*(self.i-1)/2) )*3, yy
         end,
 		
 		upgrade = "sinusPlusPlus",
@@ -283,8 +276,8 @@ local weapons = {
 		notInShop = true
     },
 	
-	--[[sinusPlusPlus = {
-        name = "Sinus ++",
+	sinusPlusPlus = {
+        name = "Sinus++",
         shot = "lineb",
         shotCount = 3,
         shotSpeed = 300,
@@ -292,22 +285,39 @@ local weapons = {
         
         price = 9000,
         
-        energy = 10,
+        energy = 50,
         
         flyfn = function(dt,x,y,dx,dy,speed, speedy, self)
             local xx,yy = util.move(dt,x,y,dx,dy,speed)
             
-            local fn = math.sin
-            
-            if self.i == 2 then
-            	fn = math.cos
-            end
-            
-            return xx + fn(2*math.pi*0.005*y)*3, yy
+            return xx + math.sin(2*math.pi*0.005*y  -  (2*math.pi*(self.i-1)/3) )*3, yy
         end,
 		
+		upgrade = "sinusSharp",
+		
 		notInShop = true
-    },]]
+    },
+	
+	sinusSharp = {
+        name = "Sinus#",
+        shot = "lineb",
+        shotCount = 4,
+        shotSpeed = 300,
+        repeatTime = 50,
+        
+        price = 9000,
+        
+        energy = 100,
+        
+        flyfn = function(dt,x,y,dx,dy,speed, speedy, self)
+            local xx,yy = util.move(dt,x,y,dx,dy,speed)
+            
+            return xx + math.sin(2*math.pi*0.005*y  -  (2*math.pi*(self.i-1)/4) )*3, yy
+        end,
+		
+		
+		notInShop = true
+    },
     
     --[[sinus2 = {
         name = "Sinus 2",
