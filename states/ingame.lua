@@ -1,8 +1,8 @@
 -- (C) 2011 by Alexander Weld <alex.weld@gmx.net>
 
-Gui = require("gui.lua")
-ScoreIndicator = require("scoreindicator.lua")
-Background = require("background.lua")
+local Gui = require("gui.lua")
+local ScoreIndicator = require("scoreindicator.lua")
+local Background = require("background.lua")
 
 local InGame = {}
 InGame.__index = InGame
@@ -65,7 +65,7 @@ function InGame.onStateChange(oldstate)
 			return false
 		end
 		
-        currentmap = Map.create(msm:getMap(level))
+        currentmap = Map.create(msm:getMap(level),InGame.gui)
 
         player:reset()
         
@@ -81,7 +81,7 @@ function InGame.onStateChange(oldstate)
 		
         level = 1
 	
-		currentmap = Map.create(msm:getMap(level))
+		currentmap = Map.create(msm:getMap(level),InGame.gui)
         
         explosionPS:stop()
         damagePS:stop()

@@ -1,3 +1,5 @@
+local aux = require("mapaux.lua")
+
 local Map = {}
 
 Map.name = "First map"
@@ -13,9 +15,15 @@ Map.timeline[0] = function(map, ctrl)
 		return math.random()+1
 	end)
 	
-	ctrl:addSchedule("randomMonsers", 60, function(_map,_ctrl)
+	ctrl:addSchedule("randomMonsters", 10, function(_map,_ctrl)
 		stopFc = true
 	end)
+	
+	Map.gui = map:createGui( 
+		"textmv", 
+		"Time: ", 
+		function() return math.ceil(ctrl:getScheduleDelay("randomMonsters")),60 end
+		)
 	
 	ctrl:stopFramecounterUntil(function(dt)
 		return stopFc
@@ -24,6 +32,7 @@ Map.timeline[0] = function(map, ctrl)
 end
 
 Map.timeline[1] = function(map, ctrl)
+	map:removeGui( Map.gui )
 	ctrl:removeSchedule("createMonsters")
 end
 
@@ -41,8 +50,8 @@ Map.timeline[50] = function(map,ctrl)
 	table.insert(mobs, map:createMob( "vsmall", 350, -10, 0, Path.create({{450, 100}}) ) )
 	table.insert(mobs, map:createMob( "vsmall", 400, -10, 0, Path.create({{400, 150}}) ) )
 	table.insert(mobs, map:createMob( "vsmall", 450, -10, 0, Path.create({{350, 100}}) ) )
-
-	ctrl:stopFramecounterWhile(ctrl:mobTableWatcher(mobs))
+	
+	ctrl:stopFramecounterWhile(aux.mobTableWatcher(mobs))
 end
 
 Map.timeline[51] = function(map,ctrl) 

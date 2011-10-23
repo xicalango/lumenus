@@ -4,10 +4,12 @@ local TimelineCtrl = require("timeline.lua")
 local Map = {}
 Map.__index = Map
 
-function Map.create(mapDef)
+function Map.create(mapDef, gui)
     local self = {}
     setmetatable(self,Map)
     
+	self.gui = gui
+	
     self.shots = {}
     self.mobs = {}
     self.drops = {}
@@ -20,6 +22,9 @@ function Map.create(mapDef)
     
     self.enemyTypes = {"vsmall"}
     
+	self.gui:clearMapElements()
+
+	
     --self:createMob( "small", 100, -10, 1)
 
     return self
@@ -30,6 +35,7 @@ function Map:onPlayerDeath()
     self.mobs = {}
     self.playtime = self.playtime + 10
     self.createMobTimer = 1 + math.random()
+	self.gui:clearMapElements()
     self.timeline:onPlayerDeath(self)
 end
 
@@ -38,6 +44,7 @@ function Map:reset()
     self.mobs = {}
     self.drops = {}
     self.playtime = 90
+	self.gui:clearMapElements()
     self.timeline:reset()
 end
 
@@ -125,6 +132,14 @@ end
 
 function Map:getFirstMob()
     return self.mobs[#self.mobs]
+end
+
+function Map:createGui( typ, label, contentFn )
+	return self.gui:insertMapElement( typ, label, contentFn )
+end
+
+function Map:removeGui( n )
+	self.gui:removeMapElement(n)
 end
 
 return Map

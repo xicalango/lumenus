@@ -51,6 +51,14 @@ function TimelineCtrl:addSchedule(name, delay, fn)
 	self.schedules[name] = newSchedule
 end
 
+function TimelineCtrl:getScheduleDelay( name )
+	if self.schedules[name] then
+		return self.schedules[name].delay
+	else
+		return 0
+	end
+end
+
 function TimelineCtrl:clearSchedules()
 	self.schedules = {}
 end
@@ -129,26 +137,5 @@ function TimelineCtrl:stopFramecounterWhile(condFn)
 	end
 end
 
-function TimelineCtrl:mobTableWatcher(mobs)
-	return function(dt)
-		local continue = false
-		
-		for i,v in ipairs(mobs) do
-			if v.state == Mob.States.FLY then
-				continue = true
-				break
-			end
-		end
-		
-		return continue
-	end
-end
-
-function TimelineCtrl:deathGoto(framecounter)
-	return function(map,ctrl) 
-		ctrl:goto(framecounter) 
-		ctrl:start()
-	end
-end
 
 return TimelineCtrl
