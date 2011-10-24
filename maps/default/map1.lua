@@ -7,6 +7,8 @@ Map.music = nil
 
 Map.timeline = {}
 
+Map.gui = {}
+
 Map.timeline[0] = function(map, ctrl)
 	local stopFc = false
 
@@ -15,11 +17,11 @@ Map.timeline[0] = function(map, ctrl)
 		return math.random()+1
 	end)
 	
-	ctrl:addSchedule("randomMonsters", 10, function(_map,_ctrl)
+	ctrl:addSchedule("randomMonsters", 60, function(_map,_ctrl)
 		stopFc = true
 	end)
 	
-	Map.gui = map:createGui( 
+	Map.gui["time"] = map:createGui( 
 		"textmv", 
 		"Time: ", 
 		function() return math.ceil(ctrl:getScheduleDelay("randomMonsters")),60 end
@@ -32,24 +34,24 @@ Map.timeline[0] = function(map, ctrl)
 end
 
 Map.timeline[1] = function(map, ctrl)
-	map:removeGui( Map.gui )
+	map:removeGui( Map.gui["time"] )
 	ctrl:removeSchedule("createMonsters")
 end
 
 Map.timeline[50] = function(map,ctrl) 
 	local mobs = {}
 
-	table.insert(mobs, map:createMob( "vsmall", 50, -10, 0, Path.create({{150, 100}}) ) )
+--[[	table.insert(mobs, map:createMob( "vsmall", 50, -10, 0, Path.create({{150, 100}}) ) )
 	table.insert(mobs, map:createMob( "vsmall", 100, -10, 0, Path.create({{100, 150}}) ) )
-	table.insert(mobs, map:createMob( "vsmall", 150, -10, 0, Path.create({{50, 100}}) ) )
+	table.insert(mobs, map:createMob( "vsmall", 150, -10, 0, Path.create({{50, 100}}) ) )]]
 
 	table.insert(mobs, map:createMob( "vsmall", 200, -10, 0, Path.create({{300, 100}}) ) )
 	table.insert(mobs, map:createMob( "vsmall", 250, -10, 0, Path.create({{250, 150}}) ) )
 	table.insert(mobs, map:createMob( "vsmall", 300, -10, 0, Path.create({{200, 100}}) ) )
 	
-	table.insert(mobs, map:createMob( "vsmall", 350, -10, 0, Path.create({{450, 100}}) ) )
+--[[	table.insert(mobs, map:createMob( "vsmall", 350, -10, 0, Path.create({{450, 100}}) ) )
 	table.insert(mobs, map:createMob( "vsmall", 400, -10, 0, Path.create({{400, 150}}) ) )
-	table.insert(mobs, map:createMob( "vsmall", 450, -10, 0, Path.create({{350, 100}}) ) )
+	table.insert(mobs, map:createMob( "vsmall", 450, -10, 0, Path.create({{350, 100}}) ) )]]
 	
 	ctrl:stopFramecounterWhile(aux.mobTableWatcher(mobs))
 end
