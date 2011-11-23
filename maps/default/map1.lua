@@ -10,10 +10,13 @@ Map.timeline = {}
 Map.gui = {}
 
 Map.timeline[0] = function(map, ctrl)
+
 	local stopFc = false
 
 	ctrl:addSchedule("createMonsters", math.random()*2, function(map,ctrl)
-		map:createMob( "vsmall", math.random(borders.left,borders.right), -10, 1 )
+	    local x = math.random(borders.left,borders.right)
+	    
+		map:createMob( "vsmall", x, -10, 1 )
 		return math.random()+1
 	end)
 	

@@ -3,6 +3,16 @@
 util = {}
 util.__index = util
 
+function util.interpolateColor(colorFrom, colorTo, p)
+    local icolor = {}
+    
+    for i,v in ipairs(colorFrom) do
+        icolor[i] = (p * (colorFrom[i] - colorTo[i])) + colorTo[i]
+    end
+
+    return icolor
+end
+
 function util.takeRandom(tbl)
     return tbl[math.random(1,#tbl)]
 end

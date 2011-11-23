@@ -85,17 +85,20 @@ function ScoreIndicator.create()
         self.multiplier = AlphaMultiplierDisplay.create()
     end
 	
-	self.lightning = {
-		color = {255,255,255},
-		duration = 0,
-		maxDuration = 1
+    self.lightning = {
+	    color = {255,255,255},
+	    duration = 0,
+    	maxDuration = 1
 	}
+	
+	self.messages = {}
 
     return self
 end
 
 function ScoreIndicator:reset()
     self.scores = {}
+    self.messages = {}
 	self.lightning = {
 		color = {255,255,255},
 		duration = 0,
@@ -119,6 +122,25 @@ function ScoreIndicator:setMultiplier(x, y)
     end
 end
 
+function ScoreIndicator:displayMessage(text, x, y, duration, color, size)
+    local newMessage = {}
+    
+    newMessage.text = text
+    
+    if size then
+        newMessage.font = love.graphics.newFont(size)
+    else
+        newMessage.font = love.graphics.getFont() --insecure, what IS getFont()?
+    end
+    
+    newMessage.x = x or ((borders.right - borders.left) / 2) -( newMessage.font:getWidth(text)/2)
+    newMessage.y = y or borders.itemGet
+    newMessage.duration = duration or #text * 0.2
+    newMessage.color = color or {255,255,255}
+    
+    table.insert(self.messages, newMessage)
+end
+
 function ScoreIndicator:doLightning()
 	self.lightning.duration = self.lightning.maxDuration
 end
@@ -129,7 +151,24 @@ function ScoreIndicator:update(dt)
         s.life = s.life - dt
         
         if s.life < 0 then
-            table.remove(self.scores,i)
+            table.remove(self.scores, i)
+        end
+    end
+    
+    for i,m in ipairs(self.messages) do
+        if m.duration >= 0 then
+            m.duration = m.duration - dt
+            
+            if m.duration < 0 then
+                m.fadeOut = 1
+           end
+        else
+            m.fadeOut = m.fadeOut - dt
+           
+            if m.fadeOut < 0 then
+                table.remove(self.messages, i)
+            end
+            
         end
     end
 	
@@ -159,6 +198,25 @@ function ScoreIndicator:draw()
         love.graphics.setColor( color )
         love.graphics.print( tostring(s.score),s.x,s.y)
         love.graphics.setColor(255,255,255,255)
+    end
+    
+    for i,m in ipairs(self.messages) do
+    
+        local font = love.graphics.getFont()
+        
+        love.graphics.setFont(m.font)
+    
+        if m.fadeOut then
+            love.graphics.setColor( m.color[1], m.color[2], m.color[3], 255 * m.fadeOut )
+            love.graphics.print( m.text, m.x, m.y )
+            love.graphics.setColor(255,255,255,255)            
+        else
+            love.graphics.setColor( m.color )
+            love.graphics.print( m.text, m.x, m.y )
+            love.graphics.setColor(255,255,255,255)                 
+        end
+        
+        love.graphics.setFont(font)
     end
     
     if player.scoreMultiplier.mult > 1 then
