@@ -1,3 +1,4 @@
+--local util = require("util.lua")
 
 local Aux = {}
 Aux.__index = Aux
@@ -36,5 +37,36 @@ function Aux.deathGoto(framecounter)
 		ctrl:start()
 	end
 end
+
+function Aux.createRandomEnemiesTimeline(Map, enemiesList, levelDuration, delay)
+    delay = delay or 1
+
+    return function(map,ctrl)
+        local stopFc = false
+
+	    ctrl:addSchedule("createMonsters", math.random()*2, function(map,ctrl)
+	        local x = math.random(borders.left,borders.right)
+	        
+		    map:createMob( util.takeRandom(enemiesList), x, -10, 1 )
+		    return math.random()+delay
+	    end)
+	
+	    ctrl:addSchedule("randomMonsters", levelDuration, function(_map,_ctrl)
+		    stopFc = true
+	    end)
+	
+	    Map.gui["time"] = map:createGui( 
+		    "textmv", 
+		    "Time: ", 
+		    function() return math.ceil(ctrl:getScheduleDelay("randomMonsters")),levelDuration end
+		    )
+	
+	    ctrl:stopFramecounterUntil(function(dt)
+		    return stopFc
+	    end)
+
+    end
+end
+
 
 return Aux

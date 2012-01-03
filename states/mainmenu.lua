@@ -23,9 +23,9 @@ function MainMenu.load()
     MainMenu.mainMenu = Menu.create( 200, 180, "Main Menu", false, 100, 100 )
     MainMenu.mainMenu:addAll( MainMenu.mainMenuItems )
     
-    local mapsetMenuItems = Menu.makeMenuitems( msm.mapsets )
+    local mapsetMenuItems = Menu.makeMenuitemsAssoc( msm.mapsets, function(item,k) return k end, function(item,k) return k end )
     
-    MainMenu.mapSetsMenu = Menu.create( 200, 180, "", false, 100, 100 )
+    MainMenu.mapSetsMenu = Menu.create( 200, 180, "Mapsets", false, 100, 100 )
     MainMenu.mapSetsMenu:addAll( mapsetMenuItems, true )
 
     MainMenu.currentMenu = MainMenu.mainMenu    
@@ -72,6 +72,8 @@ function MainMenu.draw()
     
     MainMenu.currentMenu:draw()
     
+    love.graphics.setColor(255,255,255)
+    
     love.graphics.setFont(MainMenu.titleFont)
     
     love.graphics.print( "Enemu 3 : Lumenus", 80, 30 )
@@ -111,6 +113,14 @@ function MainMenu.keypressed(key)
             end
         end
     elseif MainMenu.currentMenu == MainMenu.mapSetsMenu then
+        if result then
+            if result ~= "abort" then
+                msm:setMapset(result.item.tag)
+            end
+            
+            MainMenu.currentMenu = MainMenu.mainMenu
+            MainMenu.currentMenu:moveSelect(0)
+        end
     end
 end
 

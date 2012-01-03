@@ -60,12 +60,14 @@ function InGame.onStateChange(oldstate)
     if oldstate == "Shop" then
         level = level + 1
 
-		if msm:getMap(level) == nil then
+        newMap = msm:getMap(level)
+
+		if newMap == nil then
 			gamestate:change("GameOver")
 			return false
 		end
 		
-        currentmap = Map.create(msm:getMap(level),InGame.gui)
+        currentmap = Map.create(newMap,InGame.gui)
 
         player:reset()
         

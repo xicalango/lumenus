@@ -95,6 +95,7 @@ function buildWavetable()
 end
 
 function love.load()
+
     local states = require("states/states.lua")
     
     buildWavetable()

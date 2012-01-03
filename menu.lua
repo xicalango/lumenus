@@ -73,7 +73,8 @@ end
 
 function Menu.makeMenuitemsAssoc( items, tagfn, titlefn )
     local result = {}
-    titlefn = titlefn or tostring
+    titlefn = titlefn or function(item,k) return tostring(k) end
+    tagfn = tagfn or function(item,k) return item end
     
     for k,item in pairs(items) do
         table.insert(result, {
