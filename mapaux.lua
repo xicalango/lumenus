@@ -2,6 +2,19 @@
 local Aux = {}
 Aux.__index = Aux
 
+function Aux.newMap(name, music)
+    local Map = {}
+    
+    Map.name = name
+    Map.music = music
+
+    Map.timeline = {}
+
+    Map.gui = {}
+    
+    return Map
+end
+
 function Aux.mobTableWatcher(mobs)
 	return function(dt)
 		local continue = false

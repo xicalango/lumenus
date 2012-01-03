@@ -18,6 +18,10 @@ function Map.create(mapDef, gui)
     
     self.playtime = 90
 	
+	self.def = mapDef
+	
+	self.name = mapDef.name
+	
     self.timeline = TimelineCtrl.create(mapDef.timeline)
     
     self.enemyTypes = {"vsmall"}

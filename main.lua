@@ -99,6 +99,8 @@ function love.load()
     
     buildWavetable()
     
+  	msm = MapsetManager.create()
+    
     gamestate = GameState.create(states)
     
     gamestate:change("MainMenu")
@@ -114,7 +116,7 @@ function love.load()
     
     framecounter = 0
 	
-	msm = MapsetManager.create()
+
 end
 
 function love.draw()

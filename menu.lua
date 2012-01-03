@@ -59,6 +59,7 @@ end
 function Menu.makeMenuitems( items, tagfn, titlefn )
     local result = {}
     titlefn = titlefn or tostring
+    tagfn = tagfn or function(t) return t end
     
     for i,item in ipairs(items) do
         table.insert(result, {

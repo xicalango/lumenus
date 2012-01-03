@@ -1,9 +1,9 @@
+local aux = require("mapaux.lua")
+
 local Map = {}
 
-Map.name = "First map"
-Map.music = nil
+Map.aux.newMap("Second Map")
 
-Map.timeline = {}
 
 Map.timeline[100] = function(map,ctrl) 
 	map:createMob( "vsmall", 10, -10, 1 )

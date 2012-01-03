@@ -70,6 +70,10 @@ function InGame.onStateChange(oldstate)
         player:reset()
         
         InGame.gui.showScore = player.score
+        
+        si:reset()
+        
+        si:displayMessage( currentmap.name )
 
         return true
     elseif oldstate == "GameOver" or oldstate == "MainMenu" then
@@ -92,6 +96,9 @@ function InGame.onStateChange(oldstate)
         InGame.musicChannel = nil
         
         si:reset()
+
+        si:displayMessage( currentmap.name )
+
     end
     
     return true

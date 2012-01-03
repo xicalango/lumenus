@@ -1,13 +1,6 @@
 local aux = require("mapaux.lua")
 
-local Map = {}
-
-Map.name = "First map"
-Map.music = nil
-
-Map.timeline = {}
-
-Map.gui = {}
+local Map = aux.newMap("First Map")
 
 Map.timeline[0] = function(map, ctrl)
 
@@ -39,6 +32,8 @@ end
 Map.timeline[1] = function(map, ctrl)
 	map:removeGui( Map.gui["time"] )
 	ctrl:removeSchedule("createMonsters")
+	
+	si:displayMessage( "Enemy swarm ahead!", nil, nil, nil, {255,0,0} )
 end
 
 Map.timeline[50] = function(map,ctrl) 
