@@ -4,13 +4,13 @@ local aux = require("mapaux.lua")
 local enemiesStack = {"small", "medium", "hard", "vsmallsin", "vhard"}
 
 local enemiesList = {"vsmall"}
-local levelDuration = 10
+local levelDuration = 60
 
 
 return function(level)
     local Map = aux.newMap("Level " .. tostring(level))
     
-    if level % 3 == 0 then
+    if level % 5 == 0 then
         newEnemy = enemiesStack[1]
         table.remove(enemiesStack,1)
         table.insert(enemiesList, newEnemy)
@@ -18,7 +18,7 @@ return function(level)
     
     Map.timeline = {}
     
-    if level % 3 == 0 then
+    if level % 5 == 0 then
         Map.timeline[0] = function(map,ctrl)
             si:displayMessage( "New enemy type!", nil, borders.itemGet + 20, nil, {255,32,32} )
             aux.createRandomEnemiesTimeline(Map, enemiesList, levelDuration)(map,ctrl)
