@@ -1,8 +1,6 @@
 local aux = require("mapaux.lua")
 
-local Map = {}
-
-Map.aux.newMap("Second Map")
+local Map = aux.newMap("Second Map")
 
 
 Map.timeline[100] = function(map,ctrl) 
