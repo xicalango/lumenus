@@ -151,7 +151,7 @@ function love.keypressed(key)
         return
     elseif key == "f10" then
 	gamestate:change("Shop")    
-    elseif key =="f11" then
+    elseif key =="f9" then
         player:changeScore(100000,player.ship.x,player.ship.y)
     elseif key == "f5" then
         love.graphics.toggleFullscreen()

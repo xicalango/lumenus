@@ -9,6 +9,9 @@ local levelDuration = 60
 
 return function(level)
     local Map = aux.newMap("Level " .. tostring(level))
+    if level == 1 then
+	enemiesList = {"vsmall"}
+    end 
     
     if level % 5 == 0 then
         newEnemy = enemiesStack[1]
