@@ -1,3 +1,4 @@
+-- (C) 2011 by Alexander Weld <alex.weld@gmx.net>
 
 local Background = {}
 Background.__index = Background

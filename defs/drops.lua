@@ -1,3 +1,4 @@
+-- (C) 2011 by Alexander Weld <alex.weld@gmx.net>
 
 local junkCollide = function(self)
     player:changeScore(self.amount,self.x,self.y)

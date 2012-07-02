@@ -1,3 +1,5 @@
+-- (C) 2011 by Alexander Weld <alex.weld@gmx.net>
+
 local MapSetManager = {}
 MapSetManager.__index = MapSetManager
 
@@ -6,7 +8,7 @@ function MapSetManager.create()
 	setmetatable(self,MapSetManager)
 	
 	self.mapsets = {}
-	self.current = "default"
+	self.current = "random"
 	
 	self:init()
 	
@@ -33,7 +35,7 @@ function MapSetManager:init()
 		self.mapsets[v] = mapset
 	end
 	
-	self.current = "default"
+	self.current = "random"
 	
 end
 
