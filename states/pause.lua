@@ -29,6 +29,11 @@ function Pause.draw()
     
     love.graphics.print( "Press ESC to resume.", x, love.graphics:getHeight()/2 + Pause.font:getHeight() )
 
+    x = (love.graphics:getWidth()/2) - love.graphics:getFont():getWidth("Press F12 to quit.")
+    
+    love.graphics.print( "Press F12 to quit.", x, love.graphics:getHeight()/2 + Pause.font:getHeight() + 15 )
+
+
 end
 
 function Pause.keypressed(key)
