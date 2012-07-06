@@ -11,16 +11,28 @@ Requirements
 Key bindings
 ============
 
-- a, Left Arrow Key	Move Left
-- d, Right Arrow Key	Move Right
-- w, Up Arrow Key	Move Up
-- s, Down Arrow Key	Move Down
-- Space Bar		Shoot
-- Shift			Modifier
-- Enter			Select Entry
-- Escape		Pause/Abort
-- F5			Toggle fullscreen
-- F9			Add 100000 credits
-- F10			End level
-- F12			Quit game
+- a, Left Arrow Key  
+	Move Left
+- d, Right Arrow Key  
+	Move Right
+- w, Up Arrow Key  
+	Move Up
+- s, Down Arrow Key  
+	Move Down
+- Space Bar  
+	Shoot
+- Shift  
+	Modifier/"Focus"
+- Enter  
+	Select Entry
+- Escape  
+	Pause/Abort
+- F5  
+	Toggle fullscreen
+- F9  
+	Add 100000 credits
+- F10  
+	End level
+- F12  
+	Quit game
 
