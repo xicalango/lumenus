@@ -1,6 +1,6 @@
 -- (C) 2011 by Alexander Weld <alex.weld@gmx.net>
 
-local weapons = require('defs/weapons.lua')
+local weapons = require('defs/weapons')
 
 local Weapon = {}
 Weapon.__index = Weapon

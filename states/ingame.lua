@@ -1,8 +1,8 @@
 -- (C) 2011 by Alexander Weld <alex.weld@gmx.net>
 
-local Gui = require("gui.lua")
-local ScoreIndicator = require("scoreindicator.lua")
-local Background = require("background.lua")
+local Gui = require("gui")
+local ScoreIndicator = require("scoreindicator")
+local Background = require("background")
 
 local InGame = {}
 InGame.__index = InGame
@@ -18,11 +18,11 @@ function InGame.load()
     explosionPS = love.graphics.newParticleSystem(love.graphics.newImage("media/ep.png"), 1000)
     explosionPS:setEmissionRate(100)
 	explosionPS:setSpeed(200, 200)
-	explosionPS:setGravity(0)
-	explosionPS:setSize(1, 1)
-	explosionPS:setColor(255, 0, 0, 255, 58, 0, 0, 0)
-	explosionPS:setLifetime(0.1)
-	explosionPS:setParticleLife(1)
+	explosionPS:setLinearAcceleration(0, 0, 0, 0)
+	explosionPS:setSizes(1, 1)
+	explosionPS:setColors(255, 0, 0, 255, 58, 0, 0, 0)
+	explosionPS:setEmitterLifetime(0.1)
+	explosionPS:setParticleLifetime(1)
 	explosionPS:setDirection(0)
 	explosionPS:setSpread(360)
 	explosionPS:stop()
@@ -30,11 +30,11 @@ function InGame.load()
     damagePS = love.graphics.newParticleSystem(love.graphics.newImage("media/ep.png"), 1000)
     damagePS:setEmissionRate(100)
 	damagePS:setSpeed(200, 200)
-	damagePS:setGravity(0)
-	damagePS:setSize(0.5, 0.5)
-	damagePS:setColor(0, 0, 0, 255, 58, 0, 0, 0)
-	damagePS:setLifetime(0.1)
-	damagePS:setParticleLife(0.5)
+	damagePS:setLinearAcceleration(0, 0, 0, 0)
+	damagePS:setSizes(0.5, 0.5)
+	damagePS:setColors(0, 0, 0, 255, 58, 0, 0, 0)
+	damagePS:setEmitterLifetime(0.1)
+	damagePS:setParticleLifetime(0.5)
 	damagePS:setDirection(0)
 	damagePS:setSpread(1)
 	damagePS:stop()
@@ -44,7 +44,7 @@ function InGame.load()
 	bg = Background.create()
     
     InGame.music = util.map(
-        util.filter(love.filesystem.enumerate("media/music"),
+        util.filter(love.filesystem.getDirectoryItems("media/music"),
             function(v)
                 return not string.match(v, "^_.*")
             end),

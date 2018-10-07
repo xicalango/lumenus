@@ -1,6 +1,6 @@
 -- (C) 2011 by Alexander Weld <alex.weld@gmx.net>
 
-local mobs = require('defs/mobs.lua')
+local mobs = require('defs/mobs')
 
 local Mob = {}
 Mob.__index = Mob
@@ -116,7 +116,7 @@ function Mob:damage(dmg,sx,sy)
     
     damagePS:setDirection(-math.pi/2)
     damagePS:setPosition(sx,sy)
-    damagePS:setColor( self.ship.graphics.tint[1], self.ship.graphics.tint[2], self.ship.graphics.tint[3], 255, self.ship.graphics.tint[1], self.ship.graphics.tint[2], self.ship.graphics.tint[3], 0 )
+    damagePS:setColors( self.ship.graphics.tint[1], self.ship.graphics.tint[2], self.ship.graphics.tint[3], 255, self.ship.graphics.tint[1], self.ship.graphics.tint[2], self.ship.graphics.tint[3], 0 )
     damagePS:start()
         
     player:changeScore(dmg)
@@ -129,7 +129,7 @@ function Mob:damage(dmg,sx,sy)
         player:incMultiplier(self.ship.x,self.ship.y)
         player:changeScore(self.def.score,sx,sy)
 
-        explosionPS:setColor( 
+        explosionPS:setColors( 
             self.ship.graphics.tint[1], self.ship.graphics.tint[2], self.ship.graphics.tint[3], 
             255, 255, 0, 0, 0 
             )

@@ -1,6 +1,6 @@
 -- (C) 2011 by Alexander Weld <alex.weld@gmx.net>
 
-local shots = require('defs/shots.lua')
+local shots = require('defs/shots')
 
 local Shot = {}
 Shot.__index = Shot

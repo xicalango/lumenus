@@ -1,6 +1,6 @@
 -- (C) 2011 by Alexander Weld <alex.weld@gmx.net>
 
-local TimelineCtrl = require("timeline.lua")
+local TimelineCtrl = require("timeline")
 
 local Map = {}
 Map.__index = Map
