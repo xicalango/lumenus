@@ -59,7 +59,7 @@ function Player.create()
         
     self.extras = {
         focus = {
-            level = 0,
+            level = 1,
             maxLevel = 3
         },
         
