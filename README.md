@@ -6,7 +6,7 @@ A simple [shmup](http://en.wikipedia.org/wiki/Shmup) written in Lua for the [Lov
 Requirements
 ============
 
-- Love 2D (Tested with version 0.7.2)
+- Love 2D (Tested with version 11.1)
 
 Key bindings
 ============
