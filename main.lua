@@ -1,38 +1,38 @@
 -- (C) 2011 by Alexander Weld <alex.weld@gmx.net>
 
-require("util.lua")
+require("util")
 
-Menu = require("menu.lua")
+Menu = require("menu")
 
-Shot = require("shot.lua")
-Weapon = require("weapon.lua")
+Shot = require("shot")
+Weapon = require("weapon")
 
-Map = require("map.lua")
+Map = require("map")
 
-GameState = require("gamestate.lua")
-Ship = require("ship.lua")
-Player = require("player.lua")
+GameState = require("gamestate")
+Ship = require("ship")
+Player = require("player")
 
-Mob = require("mob.lua")
-Drop = require("drop.lua")
+Mob = require("mob")
+Drop = require("drop")
 
-MapsetManager = require("mapset.lua")
+MapsetManager = require("mapset")
 
-Path = require("path.lua")
+Path = require("path")
 
-require("lib/TEsound.lua")
+require("lib/TEsound")
 
 scaled = false
 
---goo = require("goo/goo.lua")
---anim = require("anim/anim.lua")
+--goo = require("goo/goo")
+--anim = require("anim/anim")
 
 keyConfig = {
     left = {"a","left"},
     right = {"d","right"},
     up = {"w","up"},
     down = {"s","down"},
-    shoot = " ",
+    shoot = "space",
     next = "+",
     prev = "-",
     select = "return",
@@ -75,7 +75,7 @@ function buildWavetable()
         end
     end
     
-    local soundfiles = love.filesystem.enumerate("media/sounds")
+    local soundfiles = love.filesystem.getDirectoryItems("media/sounds")
     
 
     
@@ -96,7 +96,7 @@ end
 
 function love.load()
 
-    local states = require("states/states.lua")
+    local states = require("states/states")
     
     buildWavetable()
     
@@ -111,7 +111,6 @@ function love.load()
     
     love.graphics.setBlendMode("alpha")    
     love.graphics.setLineStyle("rough")
-    love.graphics.setColorMode("modulate")
     
     shots = {}
     
@@ -147,14 +146,14 @@ end
 function love.keypressed(key)
 
     if key == "f12" then
-		love.event.push("q")
+		love.event.push("quit")
         return
     elseif key == "f10" then
 	gamestate:change("Shop")    
     elseif key =="f9" then
         player:changeScore(100000,player.ship.x,player.ship.y)
     elseif key == "f5" then
-        love.graphics.toggleFullscreen()
+        love.window.setFullscreen( not love.window.getFullscreen(), "exclusive" )
 	elseif key == "f6" then
 		love.mouse.setVisible(not love.mouse.isVisible())
     elseif key == "m" then

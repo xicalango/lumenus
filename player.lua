@@ -337,9 +337,9 @@ function Player:destroy()
     
     self:changeScore(-500,self.ship.x,self.ship.y)
     
-    explosionPS:setColor( self.ship.graphics.tint[1], self.ship.graphics.tint[2], self.ship.graphics.tint[3], 255, 255, 0, 0, 0 )
+    explosionPS:setColors( self.ship.graphics.tint[1], self.ship.graphics.tint[2], self.ship.graphics.tint[3], 255, 255, 0, 0, 0 )
     explosionPS:setPosition(self.ship.x, self.ship.y)
-    explosionPS:setSize(1, 1)
+    explosionPS:setSizes(1, 1)
     explosionPS:start()
 
     self:reset()

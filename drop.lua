@@ -3,7 +3,7 @@
 local Drop = {}
 Drop.__index = Drop
 
-local drops = require("defs/drops.lua")
+local drops = require("defs/drops")
 
 Drop.States = {
     FLY = 0,

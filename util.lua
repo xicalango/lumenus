@@ -147,20 +147,20 @@ function util.configurePS( def )
     ps:setEmissionRate(def.emissionRate)
     
     if def.size ~= nil then
-    	ps:setSize( def.size[1], def.size[2] )
+    	ps:setSizes( def.size[1], def.size[2] )
     end
 
     
     if def.gravity ~= nil then
-        ps:setGravity(def.gravity)
+        ps:setLinearAcceleration(def.gravity)
     end
     
     if def.color ~= nil then
     
         if #def.color == 4 then
-            ps:setColor(def.color[1], def.color[2], def.color[3], def.color[4])
+            ps:setColors(def.color[1], def.color[2], def.color[3], def.color[4])
         elseif #def.color == 8 then
-            ps:setColor(def.color[1], def.color[2], def.color[3], def.color[4], def.color[5], def.color[6], def.color[7], def.color[8])
+            ps:setColors(def.color[1], def.color[2], def.color[3], def.color[4], def.color[5], def.color[6], def.color[7], def.color[8])
         end
     
     end

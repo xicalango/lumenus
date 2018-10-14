@@ -96,18 +96,18 @@ function MainMenu.keypressed(key)
                     gamestate:change("InGame")
                 elseif result.item.tag == "load" then
                 elseif result.item.tag == "fullscreen" then
-                    love.graphics.toggleFullscreen()
+                    love.window.setFullscreen( not love.window.getFullscreen(), "exclusive" )
                 elseif result.item.tag == "mapset" then
                     MainMenu.currentMenu = MainMenu.mapSetsMenu
                     MainMenu.currentMenu:moveSelect(0)
                 elseif result.item.tag == "exit" then
-                    love.event.push("q")
+                    love.event.push("quit")
                     return
                 elseif result.item.tag == "640x480" then
                 	if scaled then
-                		scaled = not love.graphics.setMode(800,600)
+                		scaled = not love.window.setMode(800,600)
                 	else
-                		scaled = love.graphics.setMode(640,480)
+                		scaled = love.window.setMode(640,480)
                 	end
                 end
             end

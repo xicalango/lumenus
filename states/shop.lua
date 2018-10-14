@@ -43,7 +43,7 @@ Shop.settings = {
 	maxShotHits = 2
 }
 
-local weapons = require('defs/weapons.lua')
+local weapons = require('defs/weapons')
 
 function Shop.load()
     Shop.font = love.graphics.newFont(12)

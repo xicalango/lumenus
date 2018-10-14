@@ -1,4 +1,4 @@
-local aux = require("mapaux.lua")
+local aux = require("mapaux")
 
 
 local enemiesStack = {"small", "medium", "hard", "vsmallsin", "vhard"}
